@@ -61,7 +61,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 1:
 		{
 			n_registros = 1000;
-			nombreArchivo = "Articulos.dat";
+			nombreArchivo = "./Data_files/Articulos.dat";
             struct infoArticulo articuloVacio = {0, {0}, {0}, 0, "", "", "", 0, 0};
             estructuraVacia = &articuloVacio;
             sizeEstructura = sizeof(articuloVacio);
@@ -70,7 +70,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 2:
 		{
 			n_registros = 100;
-			nombreArchivo = "Insumos.dat";
+			nombreArchivo = "./Data_files/Insumos.dat";
             struct infoInsumo insumoVacio = {0, {0}, 0, 0, "", {0}};
             estructuraVacia = &insumoVacio;
             sizeEstructura = sizeof(insumoVacio);
@@ -79,7 +79,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 3:
 		{
 			n_registros = 100;
-			nombreArchivo = "Proveedores.dat";
+			nombreArchivo = "./Data_files/Proveedores.dat";
             struct infoProveedor proveedorVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
             estructuraVacia = &proveedorVacio;
             sizeEstructura = sizeof(proveedorVacio);
@@ -88,7 +88,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 4:
 		{
 			n_registros = 100; //Temporal
-			nombreArchivo = "Mercados.dat";
+			nombreArchivo = "./Data_files/Mercados.dat";
             struct infoMercado mercadoVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
             estructuraVacia = &mercadoVacio;
             sizeEstructura = sizeof(mercadoVacio);
@@ -97,7 +97,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 5:
 		{
 			n_registros = 1000;
-			nombreArchivo = "Empleados.dat";
+			nombreArchivo = "./Data_files/Empleados.dat";
             struct infoEmpleado empleadoVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
             estructuraVacia = &empleadoVacio;
             sizeEstructura = sizeof(empleadoVacio);
