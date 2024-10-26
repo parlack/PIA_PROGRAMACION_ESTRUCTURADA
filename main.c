@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "Header_files/Validations.h"
-#include "Header_files/Estructuras_granja.h"
 
 main()
 {

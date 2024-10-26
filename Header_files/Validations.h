@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include <string.h>
+#include <ctype.h>
+#include ".\cbits\regex.h"
 #include "Estructuras_granja.h"
-
 
 bool isInRange(float value, float min, float max)
 {
@@ -115,11 +115,40 @@ bool isEmail(char *email)
 	return isValid;
 }
 
-bool isRFC(struct infoDatosPersonales *Datos)
+int lengthChar(char *Cadena)
 {
-	bool isValid = true;
-	
-	return isValid;
+	int i = 0;
+
+	while(Cadena[i] != '\0')
+		i++;
+
+	return i;
 }
 
 
+/*
+bool validarRFC(struct infoDatosPersonales *datos, char *rfc)
+{
+    char rfcGenerado[14];
+    sprintf(rfcGenerado, "%c%c%c%02d%02d%02d",
+            toupper(datos->apellidoPaterno[0]),
+            toupper(datos->apellidoMaterno[0]),
+            toupper(datos->nombres[0]),
+            datos->year % 100,
+            datos->month,
+            datos->day);
+
+    char regexPattern[50];
+    sprintf(regexPattern, "^%s[0-9A-Z]{3}$", rfcGenerado);
+
+    regex_t regex;
+    if (regcomp(&regex, regexPattern, REG_EXTENDED) != 0) {
+        return false;
+    }
+
+    bool isValid = (regexec(&regex, rfc, 0, NULL, 0) == 0);
+    regfree(&regex);
+
+    return isValid;
+}
+*/
