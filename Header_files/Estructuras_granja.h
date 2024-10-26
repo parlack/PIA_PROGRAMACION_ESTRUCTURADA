@@ -46,6 +46,19 @@ struct infoEmpleado
 	struct infoDireccion direccion;
 };
 
+struct infoVenta
+{
+	int claveMercado, claveArticulo, claveEmpleado, cantidad;
+	float precioTotal;
+	bool solicitaFactura;
+};
+
+struct infoCompra
+{
+	int claveProveedor, claveInsumo, cantidad;
+	float precioTotal;
+};
+
 bool inicializarArchivo(int numeroArchivo)
 {
     FILE *fPtr;
