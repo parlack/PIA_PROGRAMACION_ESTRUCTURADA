@@ -1,13 +1,16 @@
 #include <stdio.h>
+#include "Header_files/Validations.h"
+#include "Header_files/Estructuras_granja.h"
 
 main()
 {
 	int opcionMenuPrincipal;
+	FILE *filePtr;
 	
 	do
 	{
-		printf("\n\nMEN%c PRINCIPAL", 233);
-		printf("1 - Art%cculos\n");
+		printf("\n\n\tMEN%c PRINCIPAL\n\n", 233);
+		printf("1 - Art%cculos\n", 161);
 		printf("2 - Insumos\n");
 		printf("3 - Mercados\n");
 		printf("4 - Empleados\n");
@@ -17,8 +20,11 @@ main()
 		printf("8 - Control de Inventario\n");
 		printf("9 - Reportes\n");
 		printf("10 - SALIR\n");
+		printf("[ Ingresa una opci%cn ] ~ ", 162);
 		scanf("%d", &opcionMenuPrincipal);
-	} while(1 > 10);
+		
+		
+	} while( !isInRange((float)opcionMenuPrincipal, 1, 10) );
 	
 	while (opcionMenuPrincipal != 10)
 	{
@@ -30,10 +36,10 @@ main()
 				
 				if(inicializarArchivo(1))
 				{
-					if ((fPtr = fopen("./Data_files/Articulos.dat", "ab+")) == NULL)
+					if ((filePtr = fopen("./Data_files/Articulos.dat", "ab")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo\n");
 					else
-						leerArticulos(fPtr);
+						printf("Hola mundo");
 				}
 				else
 					printf("Error al abrir el archivo");
@@ -72,8 +78,8 @@ main()
 		
 		do
 		{
-			printf("\n\nMEN%c PRINCIPAL", 233);
-			printf("1 - Art%cculos\n");
+			printf("\n\n\tMEN%c PRINCIPAL\n\n", 233);
+			printf("1 - Art%cculos\n", 161);
 			printf("2 - Insumos\n");
 			printf("3 - Mercados\n");
 			printf("4 - Empleados\n");
@@ -83,7 +89,9 @@ main()
 			printf("8 - Control de Inventario\n");
 			printf("9 - Reportes\n");
 			printf("10 - SALIR\n");
+			printf("[ Ingresa una opci%cn ] ~ ", 162);
 			scanf("%d", &opcionMenuPrincipal);
-		} while(1 > 10);
+			
+		} while( !isInRange(opcionMenuPrincipal, 1, 10) );
 	}
 }

@@ -7,6 +7,12 @@ struct infoDireccion
     char calle[40], colonia[40], municipio[40], estado[40];
     int numero;
 };
+
+struct infoDatosPersonales
+{
+	int year, month, day;
+    char nombres[30], apellidoPaterno[30], apellidoMaterno[30], RFC[14], correo[50];
+};
     
 struct infoArticulo
 {
@@ -24,26 +30,26 @@ struct infoInsumo
 
 struct infoProveedor
 {
-    int clave, year, month, day;
-    char nombre[50], RFC[14], correo[50];
+    int clave;
+    struct infoDatosPersonales datosPersonales;
     float descuento;
     struct infoDireccion direccion;
 };
 
 struct infoMercado
 {
-    int clave, year, month, day;
-    char nombre[50], RFC[14], correo[50];
+    int clave;
+    struct infoDatosPersonales datosPersonales;
     float descuento;
     struct infoDireccion direccion;
 };
 
 struct infoEmpleado
 {
-    int clave, year, month, day;
-    char nombre[50], RFC[14], correo[50];
+    int clave;
+    struct infoDatosPersonales datosPersonales;
     float comision;
-	struct infoDireccion direccion;
+    struct infoDireccion direccion;
 };
 
 struct infoVenta
@@ -65,6 +71,7 @@ bool inicializarArchivo(int numeroArchivo)
     int i, n_registros;
     char *nombreArchivo;
     struct infoDireccion direccionVacia = {"", "", "", "", 0};
+    struct infoDatosPersonales datosVacios = {0, 0, 0, "", "", "", "", ""};
 
     void *estructuraVacia;
     size_t sizeEstructura = 0;
@@ -93,7 +100,7 @@ bool inicializarArchivo(int numeroArchivo)
 		{
 			n_registros = 100;
 			nombreArchivo = "./Data_files/Proveedores.dat";
-            struct infoProveedor proveedorVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
+            struct infoProveedor proveedorVacio = {0, datosVacios, 0, direccionVacia};
             estructuraVacia = &proveedorVacio;
             sizeEstructura = sizeof(proveedorVacio);
             break;
@@ -102,7 +109,7 @@ bool inicializarArchivo(int numeroArchivo)
 		{
 			n_registros = 100; //Temporal
 			nombreArchivo = "./Data_files/Mercados.dat";
-            struct infoMercado mercadoVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
+            struct infoMercado mercadoVacio = {0, datosVacios, 0, direccionVacia};
             estructuraVacia = &mercadoVacio;
             sizeEstructura = sizeof(mercadoVacio);
             break;
@@ -111,7 +118,7 @@ bool inicializarArchivo(int numeroArchivo)
 		{
 			n_registros = 1000;
 			nombreArchivo = "./Data_files/Empleados.dat";
-            struct infoEmpleado empleadoVacio = {0, 0, 0, 0, "", "", "", 0, direccionVacia};
+            struct infoEmpleado empleadoVacio = {0, datosVacios, 0, direccionVacia};
             estructuraVacia = &empleadoVacio;
             sizeEstructura = sizeof(empleadoVacio);
             break;

@@ -1,10 +1,11 @@
 #include <stdbool.h>
 #include <string.h>
+#include "Estructuras_granja.h"
 
 
-bool isInRange(float *value, float min, float max)
+bool isInRange(float value, float min, float max)
 {
-	return *value >= min && *value <= max;
+	return value >= min && value <= max;
 }
 
 bool isInCharRange(char *value, char min, char max)
@@ -114,6 +115,11 @@ bool isEmail(char *email)
 	return isValid;
 }
 
-
+bool isRFC(struct infoDatosPersonales *Datos)
+{
+	bool isValid = true;
+	
+	return isValid;
+}
 
 
