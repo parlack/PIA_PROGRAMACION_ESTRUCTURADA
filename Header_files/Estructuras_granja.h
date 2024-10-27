@@ -193,7 +193,7 @@ bool existeInsumo(int *key)
     return existe;
 }
 
-
+/*
 float obtenerCosto(int *Insumos)
 {
     FILE *archivoInsumos;
@@ -219,3 +219,4 @@ float obtenerCosto(int *Insumos)
     
     return costoTotal;
 }
+*/

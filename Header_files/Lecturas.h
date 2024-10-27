@@ -186,7 +186,7 @@ void lecturaArticulo(FILE *archivoArticulos)
         scanf("%c", &ingresarMas);
         
     } while (insumos < 10 && ingresarMas == 'S');
-    
+    /*
     Data.costoProduccion = obtenerCosto(Data.clavesInsumos);
 
     if ((archivoArticulos = fopen("./Data_files/Articulos.dat", "ab")) == NULL)
@@ -197,6 +197,7 @@ void lecturaArticulo(FILE *archivoArticulos)
         fwrite(&Data, sizeof(Data), 1, archivoArticulos);
         fclose(archivoArticulos);
     }
+    */
 }
 
 
