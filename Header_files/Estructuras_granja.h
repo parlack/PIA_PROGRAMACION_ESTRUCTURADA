@@ -26,7 +26,7 @@ struct infoInsumo
 {
 	int clave, clavesProveedores[10], puntoReorden, inventario;
 	char descripcion[50];
-	float precioSurtido[10];
+	float precioSurtido;
 };
 
 struct infoProveedor
@@ -193,7 +193,7 @@ bool existeInsumo(int *key)
     return existe;
 }
 
-/*
+
 float obtenerCosto(int *Insumos)
 {
     FILE *archivoInsumos;
@@ -219,4 +219,3 @@ float obtenerCosto(int *Insumos)
     
     return costoTotal;
 }
-*/

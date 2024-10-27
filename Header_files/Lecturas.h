@@ -3,12 +3,13 @@
 #include <stdbool.h>
 #include "Validations.h"
 
-bool lecturaArticulo(FILE *archivo)
+void lecturaArticulo(FILE *archivoArticulos)
 {
     struct infoArticulo Data;
     bool isValid;
     char ingresarMas, temporada[20];
-    int mercados = 0, insumos = 0, numeroTemporada;
+    int i, mercados = 0, insumos = 0, numeroTemporada;
+    Data.costoProduccion = 0;
 
     do
     {
@@ -168,7 +169,7 @@ bool lecturaArticulo(FILE *archivo)
         {
             printf("Ingrese la clave del insumo [ %d/10 insumos guardados] ~ ", insumos);
 
-            if(scanf("%d", &Data.clavesInsumos[insumos]) != 1) // FUNCION para ver que exista la clave del insumo
+            if(scanf("%d", &Data.clavesInsumos[insumos]) != 1 && !existeInsumo(&Data.clavesInsumos[insumos])) // FUNCION para ver que exista la clave del insumo
                 isValid = false;
             else    
                 isValid = true;
@@ -186,9 +187,21 @@ bool lecturaArticulo(FILE *archivo)
         
     } while (insumos < 10 && ingresarMas == 'S');
     
-    return true;
-    // FALTA CALCULAR COSTO DE PRODUCCION Y GUARDAR LA INFO EN EL ARCHIVO
+    Data.costoProduccion = obtenerCosto(Data.clavesInsumos);
+
+    if ((archivoArticulos = fopen("./Data_files/Articulos.dat", "ab")) == NULL)
+        printf("\nError al guardar la información en el archivo\n");
+    else
+    {
+        fseek(archivoArticulos, (Data.clave - 1) * sizeof(Data), SEEK_SET);
+        fwrite(&Data, sizeof(Data), 1, archivoArticulos);
+        fclose(archivoArticulos);
+    }
 }
+
+
+
+
  
 void LecturaEmpleado(FILE *archivo)
 {
