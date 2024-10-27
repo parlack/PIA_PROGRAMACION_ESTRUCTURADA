@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include <ctype.h>
-#include ".\cbits\regex.h"
+#include "./cbits/regex.h"
 #include "Estructuras_granja.h"
 
 bool isInRange(float value, float min, float max)
@@ -65,12 +65,12 @@ bool minStringLength(char *cadena, int minLength)
 
 //FALTA FUNCION: Existe registro en archivo
 
-bool moreThanZero(float *value, bool canBeEqual)
+bool moreThanZero(float value, bool canBeEqual)
 {
 	if(canBeEqual)
-		return *value >= 0;
+		return value >= 0;
 	else
-		return *value > 0;
+		return value > 0;
 }
 
 //FALTA FUNCION: Validar RFC

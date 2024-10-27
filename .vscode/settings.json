@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "lecturas.h": "c",
+        "validations.h": "c"
+    }
+}

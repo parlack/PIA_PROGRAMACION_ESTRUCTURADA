@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Header_files/Validations.h"
+#include "Header_files/Lecturas.h"
 
 main()
 {

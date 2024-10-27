@@ -17,7 +17,7 @@ struct infoDatosPersonales
     
 struct infoArticulo
 {
-	int clave, clavesMercado[10], clavesInsumos[10], inventario;
+	int clave, clavesMercados[10], clavesInsumos[10], inventario;
 	char descripcion[50], temporadaSiembra[20], temporadaCosecha[20];
 	float costoProduccion, precioVenta;
 };
@@ -147,4 +147,76 @@ bool inicializarArchivo(int numeroArchivo)
 }
 
 
+bool existeMercado(int *key)
+{
+    FILE *archivoMercados;
+    struct infoMercado mercadoActual;
+    bool existe;
 
+    if ((archivoMercados = fopen("./Data_files/Mercados.dat", "rb")) == NULL)
+        return false;
+    else
+    {
+        fseek(archivoMercados, (*key - 1) * sizeof(mercadoActual), SEEK_SET);
+        fread(&mercadoActual, sizeof(mercadoActual), 1, archivoMercados);
+
+        if(mercadoActual.clave == 0)
+            existe = false;
+        else
+            existe = true;
+        
+        fclose(archivoMercados);
+    }
+    return existe;
+}
+
+bool existeInsumo(int *key)
+{
+    FILE *archivoInsumos;
+    struct infoInsumo insumoActual;
+    bool existe;
+
+    if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+        return false;
+    else
+    {
+        fseek(archivoInsumos, (*key - 1) * sizeof(insumoActual), SEEK_SET);
+        fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+        if(insumoActual.clave == 0)
+            existe = false;
+        else
+            existe = true;
+
+        fclose(archivoInsumos);
+    }
+    return existe;
+}
+
+/*
+float obtenerCosto(int *Insumos)
+{
+    FILE *archivoInsumos;
+    struct infoInsumo insumoActual;
+    int i;
+    float costoTotal = 0;
+
+    if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+        return 0;
+    else
+    {
+        
+        while (*(Insumos + i) != 0)
+        {
+            fseek(archivoInsumos, (*(Insumos + i) - 1) * sizeof(insumoActual), SEEK_SET);
+            fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+            costoTotal += insumoActual.precioSurtido;
+        }
+
+        fclose(archivoInsumos);
+    }
+    
+    return costoTotal;
+}
+*/
