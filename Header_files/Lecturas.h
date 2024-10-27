@@ -15,12 +15,12 @@ void lecturaArticulo(FILE *archivoArticulos)
     {
         printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
         if (scanf("%d", &Data.clave) != 1 || !isInRange((float)Data.clave, 1, 1000))
+        {
             isValid = false;
+            printf("\nERROR: Clave de articulo invalida.\n");
+        }
         else
             isValid = true;
-        
-        if (!isValid)
-            printf("\nERROR: Clave de articulo invalida.\n");
 
     } while (!isValid);
 
@@ -49,12 +49,12 @@ void lecturaArticulo(FILE *archivoArticulos)
 
 
         if (scanf("%d", &numeroTemporada) != 1 || !isInRange((float)numeroTemporada, 1, 4))
+        {
             isValid = false;
+            printf("\nERROR: Numero invalido.\n");
+        }
         else
             isValid = true;
-        
-        if (!isValid)
-            printf("\nERROR: Numero invalido.\n");
 
     } while (!isValid);
     
@@ -86,12 +86,12 @@ void lecturaArticulo(FILE *archivoArticulos)
                 "[Ingresa el numero de la temporada] ~ ");
 
         if (scanf("%d", &numeroTemporada) != 1 || !isInRange((float)numeroTemporada, 1, 4))
+        {
             isValid = false;
+            printf("\nERROR: Numero invalido.\n");
+        }
         else
             isValid = true;
-        
-        if (!isValid)
-            printf("\nERROR: Numero invalido.\n");
 
     } while (!isValid);
     
@@ -117,12 +117,12 @@ void lecturaArticulo(FILE *archivoArticulos)
     {
         printf("\nInventario del articulo [Mayor o igual a 0] ~ ");
         if (scanf("%d", &Data.inventario) != 1 || !moreThanZero((float)Data.inventario, true))
+        {
             isValid = false;
+            printf("\nERROR: Cantidad invalida.\n");
+        }
         else
             isValid = true;
-        
-        if (!isValid)
-            printf("\nERROR: Cantidad invalida.\n");
 
     } while (!isValid);
 
@@ -130,12 +130,12 @@ void lecturaArticulo(FILE *archivoArticulos)
     {
         printf("\nPrecio de venta [Mayor a 0] ~ ");
         if (scanf("%f", &Data.precioVenta) != 1 || !moreThanZero(Data.precioVenta, true))
+        {
             isValid = false;
-        else
-            isValid = true;
-        
-        if (!isValid)
             printf("\nERROR: Clave de empleado invalida.\n");
+        }
+        else
+            isValid = true;          
 
     } while (!isValid);
 
@@ -146,12 +146,12 @@ void lecturaArticulo(FILE *archivoArticulos)
             printf("Ingrese la clave del mercado [ %d/10 mercados guardados] ~ ", mercados);
 
             if(scanf("%d", &Data.clavesMercados[mercados]) != 1 && !existeMercado(&Data.clavesMercados[mercados])) // FUNCION para ver que exista la clave del mercado
+            {
                 isValid = false;
+                printf("ERROR: Clave de mercado invalida.\t Ingrese la clave del mercado [ %d/10] ~ ", mercados);
+            }
             else    
                 isValid = true;
-            
-            if (!isValid)
-                printf("ERROR: Clave de mercado invalida.\t Ingrese la clave del mercado [ %d/10] ~ ", mercados);
 
         } while (!isValid);
         
@@ -170,13 +170,13 @@ void lecturaArticulo(FILE *archivoArticulos)
             printf("Ingrese la clave del insumo [ %d/10 insumos guardados] ~ ", insumos);
 
             if(scanf("%d", &Data.clavesInsumos[insumos]) != 1 && !existeInsumo(&Data.clavesInsumos[insumos])) // FUNCION para ver que exista la clave del insumo
+            {
                 isValid = false;
+                printf("ERROR: Clave de insumo invalida.\t Ingrese la clave del insumo [ %d/10] ~ ", insumos);
+            }
             else    
                 isValid = true;
-            
-            if (!isValid)
-                printf("ERROR: Clave de insumo invalida.\t Ingrese la clave del insumo [ %d/10] ~ ", insumos);
-
+                
         } while (!isValid);
 
         insumos++;
@@ -273,11 +273,74 @@ void lecturaEmpleado(FILE *archivo)
     do
     {
         printf("Ingrese el RFC del empleado[1 - 1000]: ");
-        scanf("%d", Data.datosPersonales.RFC);
+        scanf("%s", Data.datosPersonales.RFC);
 
 
     } while (!isInRange(Data.clave, 1, 1000));
 
+    do
+    {
+        printf("\nCorreo electronico del empleado[50 caracteres maximo] ~ ");
+        scanf("%50s", Data.datosPersonales.correo);
 
+        isValid = isEmail(Data.datosPersonales.correo);
+
+        if(!isValid)
+            printf("\nERROR: Correo electronico invalido.\n");
+
+    } while (!isValid);
+
+    do
+    {
+        printf("Comision del empleado [Entre 0 y 1] ~ ");
+
+        if(scanf("%1.2f", &Data.comision) != 1 || !isInRange(Data.comision, 0, 1))
+        {
+            printf("\nERROR: Comision invalida.\n");
+            isValid = false;
+        }
+        else
+            isValid = true;
+    } while (!isValid);
+
+    do
+    {
+        printf("Año de contratacion del empleado [formato YYYY] ~ ");
+        
+        if(scanf("%d", &Data.datosPersonales.year) != 1 || !isInRange(Data.datosPersonales.year, 1990, 2024))
+        {
+            printf("\nERROR: Año invalido.\n");
+            isValid = false;
+        }
+        else
+            isValid = true;
+    } while (!isValid);
+    
+    do
+    {
+        printf("Mes de contratacion [formato MM] ~ ");
+        
+        if(scanf("%d", &Data.datosPersonales.month) != 1 || !isInRange(Data.datosPersonales.month, 1, 12))
+        {
+            printf("\nERROR: Mes invalido.\n");
+            isValid = false;
+        }
+        else
+            isValid = true;
+    } while (!isValid);
+
+    do
+    {
+        printf("Dia de contratacion [formato dd] ~ ");
+        
+        if(scanf("%d", &Data.datosPersonales.day) != 1 || !isValidDate(&Data.datosPersonales.day, &Data.datosPersonales.month, &Data.datosPersonales.year))
+        {
+            printf("\nERROR: Año de contratacion invalido.\n");
+            isValid = false;
+        }
+        else
+            isValid = true;
+    } while (!isValid);
+    
 
 }
