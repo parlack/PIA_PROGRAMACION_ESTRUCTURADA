@@ -26,7 +26,7 @@ struct infoInsumo
 {
 	int clave, clavesProveedores[10], puntoReorden, inventario;
 	char descripcion[50];
-	float precioSurtido;
+	float precioSurtido[10];
 };
 
 struct infoProveedor
