@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "lecturas.h": "c",
-        "validations.h": "c"
+        "validations.h": "c",
+        "estructuras_granja.h": "c"
     }
 }

@@ -20,7 +20,7 @@ void lecturaArticulo(FILE *archivoArticulos)
             isValid = true;
         
         if (!isValid)
-            printf("\nERROR: Clave de empleado invalida.\n");
+            printf("\nERROR: Clave de articulo invalida.\n");
 
     } while (!isValid);
 
@@ -200,27 +200,33 @@ void lecturaArticulo(FILE *archivoArticulos)
     */
 }
 
-
-
-
- 
-void LecturaEmpleado(FILE *archivo)
+void lecturaEmpleado(FILE *archivo)
 {
     struct infoEmpleado Data;
     int distanciaCaracteres;
     bool isValid;
+
     do
     {
-        printf("Ingrese la clave del empleado[1 - 1000]: ");
-        scanf("%d", &Data.clave);
-    } while (!isInRange(Data.clave, 1, 1000));
+        printf("\nIngrese la clave del empleado [1 - 1000] ~ ");
+        if (scanf("%d", &Data.clave) != 1 || !isInRange((float)Data.clave, 1, 1000))
+            isValid = false;
+        else
+            isValid = true;
+        
+        if (!isValid)
+            printf("\nERROR: Clave de empleado invalida.\n");
+
+    } while (!isValid);
 
     do
     {
         do
         {
             printf("Ingrese los nombres del empleado (Sin apellidos): ");
-            scanf("%d", &Data.datosPersonales.nombres);
+            scanf("%s", &Data.datosPersonales.nombres);
+
+            if (Data.datosPersonales.nombres)
 
             isValid = isAlphabetic(Data.datosPersonales.nombres, false);
             if(!isValid) 
@@ -233,7 +239,7 @@ void LecturaEmpleado(FILE *archivo)
         do
         {
             printf("Ingrese apellido paterno del empleado: ");
-            scanf("%d", Data.datosPersonales.apellidoPaterno);
+            scanf("%s", Data.datosPersonales.apellidoPaterno);
 
             isValid =isAlphabetic(Data.datosPersonales.apellidoPaterno, false);
             if(!isValid)
@@ -243,7 +249,7 @@ void LecturaEmpleado(FILE *archivo)
         do
         {
             printf("Ingrese apellido materno del empleado: ");
-            scanf("%d", Data.datosPersonales.apellidoMaterno);
+            scanf("%s", Data.datosPersonales.apellidoMaterno);
             
             isValid =isAlphabetic(Data.datosPersonales.apellidoMaterno, false);
             if(!isValid)
@@ -272,6 +278,6 @@ void LecturaEmpleado(FILE *archivo)
 
     } while (!isInRange(Data.clave, 1, 1000));
 
-    
-    
+
+
 }
