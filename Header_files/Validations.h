@@ -1,11 +1,15 @@
 #include <stdbool.h>
 #include <ctype.h>
-#include "./cbits/regex.h"
 #include "Estructuras_granja.h"
 
-bool isInRange(float value, float min, float max)
+bool isInIntRange(int *value, int min, int max)
 {
-	return value >= min && value <= max;
+	return *value >= min && *value <= max;
+}
+
+bool isInFloatRange(float *value, float min, float max)
+{
+	return *value >= min && *value <= max;
 }
 
 bool isInCharRange(char *value, char min, char max)
@@ -49,7 +53,7 @@ bool isAlphabetic(char *charLine, bool isAlphaNumeric)
 	}
 	
 	return isValid;
-} 
+}
 
 bool minStringLength(char *cadena, int minLength)
 {	
@@ -65,12 +69,20 @@ bool minStringLength(char *cadena, int minLength)
 
 //FALTA FUNCION: Existe registro en archivo
 
-bool moreThanZero(float value, bool canBeEqual)
+bool intMoreThanZero(int *value, bool canBeEqual)
 {
 	if(canBeEqual)
-		return value >= 0;
+		return *value >= 0;
 	else
-		return value > 0;
+		return *value > 0;
+}
+
+bool floatMoreThanZero(float *value, bool canBeEqual)
+{
+	if(canBeEqual)
+		return *value >= 0;
+	else
+		return *value > 0;
 }
 
 //FALTA FUNCION: Validar RFC
@@ -96,28 +108,6 @@ bool isValidDate(int *day, int *month, int *year)
     }
 
     return *day >= 1 && *day <= daysInMonth;
-}
-
-
-bool isEmail(char *email)
-{
-    regex_t regex;
-    bool isValid;
-
-    // Definir el patrón para un correo electrónico
-    char *patron = "^[a-zA-Z-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]+$";
-
-
-    if (regcomp(&regex, patron, REG_EXTENDED) != 0) {
-        printf("Error al verificar el correo.\n");
-        return false;
-    }
-
-    isValid = regexec(&regex, email, 0, NULL, 0);
-
-    regfree(&regex);
-	
-	return isValid;
 }
 
 
@@ -177,29 +167,208 @@ bool existeInsumo(int *key)
     return existe;
 }
 
-/*
-bool validarRFC(struct infoDatosPersonales *datos, char *rfc)
+// Función para eliminar prefijos comunes en apellidos compuestos
+void limpiarApellido(char apellido[], char apellidoLimpio[]) 
 {
-    char rfcGenerado[14];
-    sprintf(rfcGenerado, "%c%c%c%02d%02d%02d",
-            toupper(datos->apellidoPaterno[0]),
-            toupper(datos->apellidoMaterno[0]),
-            toupper(datos->nombres[0]),
-            datos->year % 100,
-            datos->month,
-            datos->day);
+    char *prefijos[] = {"DE", "LA", "LAS", "LOS", "Y", "DEL"};
+    int num_prefijos = sizeof(prefijos) / sizeof(prefijos[0]), i, prefijoLen, j;
+    bool cambio;
+    char temp[30];
+    strcpy(temp, apellido);
 
-    char regexPattern[50];
-    sprintf(regexPattern, "^%s[0-9A-Z]{3}$", rfcGenerado);
+    // Convertir a mayúsculas para una comparación uniforme
+    for (i = 0; i < strlen(temp); i++)
+        temp[i] = toupper(temp[i]);
+    
 
-    regex_t regex;
-    if (regcomp(&regex, regexPattern, REG_EXTENDED) != 0) {
-        return false;
+    // Inicialmente copiar el apellido a apellidoLimpio
+    strcpy(apellidoLimpio, apellido);
+
+    // Iterar sobre los prefijos mientras se encuentren en el inicio
+    
+    do
+	{
+        cambio = false;
+        for (i = 0; i < num_prefijos && !cambio; i++) 
+		{
+            prefijoLen = strlen(prefijos[i]);
+            if (strncmp(temp, prefijos[i], prefijoLen) == 0) 
+			{
+                // Desplazar el apellido a la izquierda
+                strcpy(apellidoLimpio, apellidoLimpio + prefijoLen);
+                
+                // Eliminar espacio en blanco inicial si queda alguno
+                if (apellidoLimpio[0] == ' ') 
+                    memmove(apellidoLimpio, apellidoLimpio + 1, strlen(apellidoLimpio));
+                
+                
+                // Volver a copiar apellidoLimpio en temp para comparar en mayúsculas
+                strcpy(temp, apellidoLimpio);
+                for (j = 0; j < strlen(temp); j++) 
+                    temp[j] = toupper(temp[j]);
+                
+                cambio = true;  // Indicar que hubo un cambio y repetir
+            }
+        }
+    } while (cambio);
+}
+
+// Función para seleccionar el nombre correcto ignorando "José" o "María" si es necesario
+void seleccionarNombre(char nombre[], char nombreSeleccionado[]) 
+{
+    char *excepciones[] = {"MARIA", "JOSE", "MA.", "JUANA", "JUAN", "DE", "LA", "LAS", "LOS", "Y", "DEL"};
+    int num_excepciones = sizeof(excepciones) / sizeof(excepciones[0]), i, 
+    nombre_seleccionado;
+    char temp[30]; 
+    bool es_excepcion;
+    strcpy(temp, nombre);
+
+    // Convertir a mayúsculas para una comparación uniforme
+    for (i = 0; i < strlen(temp); i++) 
+        temp[i] = toupper(temp[i]);
+
+    // Dividir nombres si es un nombre compuesto
+    char *token = strtok(temp, " "); //Para dividir los nombre
+    nombre_seleccionado = false;
+
+    while (token != NULL && !nombre_seleccionado) 
+	{
+        es_excepcion = false;
+        for (i = 0; i < num_excepciones; i++) 
+            if (strcmp(token, excepciones[i]) == 0) 
+                es_excepcion = true;
+        
+
+        if (!es_excepcion) 
+		{
+            strcpy(nombreSeleccionado, token);
+            nombre_seleccionado = true;
+        }
+
+        token = strtok(NULL, " ");
     }
 
-    bool isValid = (regexec(&regex, rfc, 0, NULL, 0) == 0);
-    regfree(&regex);
-
-    return isValid;
+    // Si todos los nombres son excepciones, tomar el primer nombre completo
+    if (!nombre_seleccionado)
+        strcpy(nombreSeleccionado, strtok(nombre, " "));
 }
-*/
+
+bool validarRFC(struct infoDatosPersonales *datos) 
+{
+    char rfc[11], apellidoPLimpio[31], apellidoMLimpio[31], 
+    nombreSeleccionado[31];
+    int len, i;
+    bool vocal_encontrada, es_valido;
+
+    ///toupper el RFC en lectura
+    ///////Terminar la condicion para validar homoclave
+    i = 10;
+    while(i < 14 )
+    {
+        if(!(((*(datos->RFC + i) >= 'A' && *(datos->RFC + i) <= 'Z')   || 
+				(*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9')   || 
+				*(datos->RFC + i) == ' ')));
+            
+        i++;
+    }
+    
+    
+
+    // Limpiar los apellidos para eliminar prefijos innecesarios
+    limpiarApellido(datos->apellidoPaterno, apellidoPLimpio);
+    limpiarApellido(datos->apellidoMaterno, apellidoMLimpio);
+
+    // Seleccionar el nombre correcto
+    seleccionarNombre(datos->nombres, nombreSeleccionado);
+
+    // 1. Tomar la primera letra y vocal interna del apellido paterno
+    rfc[0] = toupper(apellidoPLimpio[0]);
+    len = strlen(apellidoPLimpio);
+    vocal_encontrada = false;
+    
+    // Asegurarse de que el apellido paterno tiene más de una letra
+    if (len > 1) 
+	{
+        i = 1;
+        while(!vocal_encontrada && i < len)
+        {
+            if(strchr("AEIOUaeiou", apellidoPLimpio[i]) != NULL)
+            {
+                rfc[1] = toupper(apellidoPLimpio[i]);
+                vocal_encontrada = true;
+            }
+
+            i++;
+        }
+    }
+    
+    // Si no se encuentra vocal interna o el apellido es muy corto, usar 'X'
+    if (!vocal_encontrada)
+        rfc[1] = 'X';
+
+    // 2. Tomar la primera letra del apellido materno
+    rfc[2] = toupper(apellidoMLimpio[0]);
+
+    // 3. Tomar la primera letra del nombre seleccionado
+    rfc[3] = toupper(nombreSeleccionado[0]);
+
+    // 4. Tomar el año, mes y día de nacimiento y añadirlos al RFC
+    sprintf(rfc + 4, "%02d%02d%02d", datos->year % 100, datos->month, datos->day);
+
+    // Asegurarse de que el RFC generado tenga una longitud de 10 para comparar
+    rfc[10] = '\0';
+
+    // Comparar los primeros 10 caracteres del RFC generado con el RFC original proporcionado
+    es_valido = (strncmp(rfc, datos->RFC, 10) == 0);
+
+    
+        
+    return es_valido;
+}
+
+
+bool esCorreoElectronico(char *correo)
+{
+    int i = 0;
+    bool arrobaEncontrada = false;
+    bool puntoEncontradoDespuesDeArroba = false;
+
+    
+    if (!(*correo >= 'A' && *correo <= 'Z') || 
+        (*correo >= 'a' && *correo <= 'z'))
+        return false;
+
+    while (*(correo + i) != '\0')
+    {
+        if (*(correo + i) == '@')
+        {
+            
+            if (arrobaEncontrada)
+                return false;
+            
+            arrobaEncontrada = true;
+
+            if (!(*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
+                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
+            {
+                return false;
+            }
+        }
+
+        if (arrobaEncontrada && *(correo + i) == '.')
+        {
+
+            if (!(*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
+                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
+            {
+                return false;
+            }
+            puntoEncontradoDespuesDeArroba = true;
+        }
+
+        i++;
+    }
+
+    return arrobaEncontrada && puntoEncontradoDespuesDeArroba;
+}
+

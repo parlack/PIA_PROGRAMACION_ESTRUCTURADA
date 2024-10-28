@@ -3,30 +3,29 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct infoDireccion
-{
-    char calle[40], colonia[40], municipio[40], estado[40];
-    int numero;
-};
-
 struct infoDatosPersonales
 {
-	int year, month, day;
-    char nombres[30], apellidoPaterno[30], apellidoMaterno[30], RFC[14], correo[50];
+	int year, month, day, numeroDomicilio;
+    char nombres[31],
+         apellidoPaterno[31],
+         apellidoMaterno[31],
+         RFC[14], correo[51],
+         calle[41], colonia[41],
+         municipio[41], estado[41];
 };
     
 struct infoArticulo
 {
-	int clave, clavesMercados[10], clavesInsumos[10], inventario;
-	char descripcion[50], temporadaSiembra[20], temporadaCosecha[20];
+	int clave, clavesMercados[11], clavesInsumos[11], inventario;
+	char descripcion[51], temporadaSiembra[21], temporadaCosecha[21];
 	float costoProduccion, precioVenta;
 };
 
 struct infoInsumo
 {
-	int clave, clavesProveedores[10], puntoReorden, inventario;
-	char descripcion[50];
-	float precioSurtido[10];
+	int clave, clavesProveedores[11], puntoReorden, inventario;
+	char descripcion[51];
+	float precioSurtido[11];
 };
 
 struct infoProveedor
@@ -34,7 +33,6 @@ struct infoProveedor
     int clave;
     struct infoDatosPersonales datosPersonales;
     float descuento;
-    struct infoDireccion direccion;
 };
 
 struct infoMercado
@@ -42,7 +40,6 @@ struct infoMercado
     int clave;
     struct infoDatosPersonales datosPersonales;
     float descuento;
-    struct infoDireccion direccion;
 };
 
 struct infoEmpleado
@@ -50,7 +47,6 @@ struct infoEmpleado
     int clave;
     struct infoDatosPersonales datosPersonales;
     float comision;
-    struct infoDireccion direccion;
 };
 
 struct infoVenta
@@ -71,11 +67,9 @@ bool inicializarArchivo(int numeroArchivo)
     FILE *fPtr;
     int i, n_registros;
     char *nombreArchivo;
-    struct infoDireccion direccionVacia = {"", "", "", "", 0};
-    struct infoDatosPersonales datosVacios = {0, 0, 0, "", "", "", "", ""};
-
+    struct infoDatosPersonales datosVacios = {0, 0, 0, 0,"", "", "", "", "", "", "", "", ""};
     void *estructuraVacia;
-    size_t sizeEstructura = 0;
+    size_t sizeEstructura;
 
     switch(numeroArchivo)
 	{
@@ -100,28 +94,28 @@ bool inicializarArchivo(int numeroArchivo)
         case 3:
 		{
 			n_registros = 100;
-			nombreArchivo = "./Data_files/Proveedores.dat";
-            struct infoProveedor proveedorVacio = {0, datosVacios, 0, direccionVacia};
-            estructuraVacia = &proveedorVacio;
-            sizeEstructura = sizeof(proveedorVacio);
-            break;
-        }
-        case 4:
-		{
-			n_registros = 100; //Temporal
 			nombreArchivo = "./Data_files/Mercados.dat";
-            struct infoMercado mercadoVacio = {0, datosVacios, 0, direccionVacia};
+            struct infoMercado mercadoVacio = {0, datosVacios, 0};
             estructuraVacia = &mercadoVacio;
             sizeEstructura = sizeof(mercadoVacio);
             break;
         }
-        case 5:
+        case 4:
 		{
 			n_registros = 1000;
 			nombreArchivo = "./Data_files/Empleados.dat";
-            struct infoEmpleado empleadoVacio = {0, datosVacios, 0, direccionVacia};
+            struct infoEmpleado empleadoVacio = {0, datosVacios, 0};
             estructuraVacia = &empleadoVacio;
             sizeEstructura = sizeof(empleadoVacio);
+            break;
+        }
+        case 5:
+		{
+			n_registros = 100;
+			nombreArchivo = "./Data_files/Proveedores.dat";
+            struct infoProveedor proveedorVacio = {0, datosVacios, 0};
+            estructuraVacia = &proveedorVacio;
+            sizeEstructura = sizeof(proveedorVacio);
             break;
         }
     }
@@ -145,6 +139,204 @@ bool inicializarArchivo(int numeroArchivo)
         return true;
     }
 }
+
+bool existeClave(int numeroArchivo, int *clave_buscar)
+{
+    FILE *fPtr;
+    char *nombreArchivo;
+    void *estructuraPtr;
+    size_t sizeEstructura;
+
+    switch(numeroArchivo)
+	{
+        case 1:
+		{
+            struct infoArticulo articulo;
+            estructuraPtr = &articulo;
+			nombreArchivo = "./Data_files/Articulos.dat";
+            sizeEstructura = sizeof(struct infoArticulo);
+            break;
+        }
+        case 2:
+		{
+            struct infoInsumo insumo;
+            estructuraPtr = &insumo;
+			nombreArchivo = "./Data_files/Insumos.dat";
+            sizeEstructura = sizeof(struct infoInsumo);
+            break;
+        }
+        case 3:
+		{
+            struct infoMercado mercado;
+            estructuraPtr = &mercado;
+			nombreArchivo = "./Data_files/Mercados.dat";
+            sizeEstructura = sizeof(struct infoMercado);
+            break;
+        }
+        case 4:
+		{
+            struct infoEmpleado empleado;
+            estructuraPtr = &empleado;
+			nombreArchivo = "./Data_files/Empleados.dat";
+            sizeEstructura = sizeof(struct infoEmpleado);
+            break;
+        }
+        case 5:
+		{
+            struct infoProveedor proveedor;
+            estructuraPtr = &proveedor;
+			nombreArchivo = "./Data_files/Proveedores.dat";
+            sizeEstructura = sizeof(struct infoProveedor);
+            break;
+        }
+    }
+
+    if((fPtr = fopen(nombreArchivo,"r")) == NULL)
+        return false;
+    else
+    {
+        fseek(fPtr, (*clave_buscar - 1) * sizeEstructura, SEEK_SET);
+
+        if(fread(estructuraPtr, sizeEstructura, 1, fPtr))
+        {
+            if(estructuraPtr->clave != 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+}
+
+/*
+bool IndicarHayRegistros(int numeroArchivo)
+{
+    FILE *archivoExistencias;
+    bool valorInicial = false, valorEnArchivo;
+
+    if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
+    {
+        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "w")) == NULL)
+            return false;
+        else
+        {
+            for(int i = 0; i < 7; i++)
+                fwrite(&valorInicial, sizeof(valorInicial), 1, archivoExistencias);
+            
+            fclose(archivoExistencias);
+        }
+    }
+    else
+        fclose(archivoExistencias);
+
+    if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb+")) == NULL)
+        return false;
+    else
+    {
+        fseek(archivoExistencias, (numeroArchivo - 1) * sizeof(bool), SEEK_SET);
+        fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
+
+        if (!valorEnArchivo)
+        {
+            valorEnArchivo = true;
+            fseek(archivoExistencias, (numeroArchivo - 1) * sizeof(bool), SEEK_SET);
+            fwrite(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
+        }
+        
+        fclose(archivoExistencias);
+        return true;
+    }
+}
+*/
+
+bool VerificarHayRegistros(int numeroArchivo)
+{
+    FILE *archivoAVerificar;
+    bool valorEnArchivo = false;
+    char *nombreArchivo;
+
+    switch(numeroArchivo)
+    {
+        case 1:
+            nombreArchivo = "./Data_files/Articulos.dat";
+            break;
+        case 2:
+            nombreArchivo = "./Data_files/Insumos.dat";
+            break;
+        case 3:
+            nombreArchivo = "./Data_files/Mercados.dat";
+            break;
+        case 4:
+            nombreArchivo = "./Data_files/Empleados.dat";
+            break;
+        case 5:
+            nombreArchivo = "./Data_files/Proveedores.dat";
+            break;
+    }
+    
+    if ((archivoAVerificar = fopen(nombreArchivo, "rb")) == NULL) 
+        return false;
+    else 
+        return true;
+}
+
+/*bool Modificar_VerArchivoExistencias(int numeroArchivo, bool modificar)
+{
+    FILE *archivoExistencias;
+    bool valorInicial = false, valorEnArchivo, existenRegistros;
+
+    if (modificar)
+    {
+        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
+        {
+            if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "w")) == NULL)
+                return false;
+            else
+            {
+                for(int i = 0; i < 7; i++)
+                    fwrite(&valorInicial, sizeof(valorInicial), 1, archivoExistencias);
+                
+                fclose(archivoExistencias);
+            }
+        }
+        else
+        {
+            fclose(archivoExistencias);
+        }
+
+        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb+")) == NULL)
+            return false;
+        else
+        {
+            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
+            fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
+
+            if (!valorEnArchivo)
+                valorEnArchivo = true;
+
+            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
+            fwrite(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
+
+            fclose(archivoExistencias);
+            return true;
+        }
+    }
+    else
+    {
+        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
+            return false;
+        else
+        {
+            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
+            fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
+            fclose(archivoExistencias);
+        }
+        return valorEnArchivo;
+    }
+}
+
+*/
 
 /*
 float obtenerCosto(int *Insumos)
