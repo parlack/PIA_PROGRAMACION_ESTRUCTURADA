@@ -338,30 +338,38 @@ bool VerificarHayRegistros(int numeroArchivo)
 
 */
 
-/*
-float obtenerCosto(int *Insumos)
+
+float obtenerCosto(int *Insumos, int *sizeInsumos)
 {
     FILE *archivoInsumos;
     struct infoInsumo insumoActual;
-    int i;
-    float costoTotal = 0;
+    int i = 0, j;
+    float costoTotal = 0, promedioCostoInsumo;
 
     if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
         return 0;
-    else
+ 
+    while (i < *sizeInsumos)
     {
-        
-        while (*(Insumos + i) != 0)
-        {
-            fseek(archivoInsumos, (*(Insumos + i) - 1) * sizeof(insumoActual), SEEK_SET);
-            fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+        j = 0;
+        promedioCostoInsumo = 0;
+        fseek(archivoInsumos, (*(Insumos + i) - 1) * sizeof(insumoActual), SEEK_SET);
+        fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
 
-            costoTotal += insumoActual.precioSurtido;
+        while (*(insumoActual.precioSurtido + j) != 0 && j < 10)
+        {
+            promedioCostoInsumo += *(insumoActual.precioSurtido + j);
+            j++;
         }
 
-        fclose(archivoInsumos);
+        promedioCostoInsumo /= j;
+        
+        costoTotal += promedioCostoInsumo;
+
+        i++;
     }
+
+    fclose(archivoInsumos);
     
     return costoTotal;
 }
-*/
