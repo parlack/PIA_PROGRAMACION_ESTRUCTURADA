@@ -435,7 +435,6 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
         else
             isInvalid = false;
-
         if (isInvalid)
             printf("\nERROR: Clave de empleado invalida.\n");
     } while (isInvalid);
@@ -447,19 +446,16 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("Ingrese los nombres del empleado (Sin apellidos): ");
             fflush(stdin);
             fgets(DatosEmpleado.datosPersonales.nombres, sizeof(DatosEmpleado.datosPersonales.nombres), stdin);
-
             isInvalid = !isAlphabetic(DatosEmpleado.datosPersonales.nombres, false);
             if (isInvalid)
                 printf("ERROR: Nombre invalido.(No ingresar caracteres especiales) \n");
         } while (isInvalid);
 
-        
         do
         {
             printf("Ingrese apellido paterno del empleado: ");
             fflush(stdin);
             fgets(DatosEmpleado.datosPersonales.apellidoPaterno, sizeof(DatosEmpleado.datosPersonales.apellidoPaterno), stdin);
-
             isInvalid = !isAlphabetic(DatosEmpleado.datosPersonales.apellidoPaterno, false);
             if (isInvalid)
                 printf("ERROR: Apellido paterno invalido.(No ingresar caracteres especiales) \n");
@@ -470,84 +466,74 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("Ingrese apellido materno del empleado: ");
             fflush(stdin);
             fgets(DatosEmpleado.datosPersonales.apellidoMaterno, sizeof(DatosEmpleado.datosPersonales.apellidoMaterno), stdin);
-
             isInvalid = !isAlphabetic(DatosEmpleado.datosPersonales.apellidoMaterno, false);
             if (isInvalid)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
         } while (isInvalid);
 
-        
         distanciaCaracteres = lengthChar(DatosEmpleado.datosPersonales.nombres) +
                               lengthChar(DatosEmpleado.datosPersonales.apellidoMaterno) +
                               lengthChar(DatosEmpleado.datosPersonales.apellidoPaterno);
-
         isInvalid = distanciaCaracteres <= 20;
         if (isInvalid)
             printf("ERROR: La distancia de caracteres es MENOR o IGUAL a 20. \n");
-
     } while (isInvalid);
-
-    // Validación de RFC del empleado (agregada por ti, se sugiere incluir una validación)
-    /*
-    do {
-        printf("Ingrese el RFC del empleado[1 - 1000]: ");
-        scanf("%s", DatosEmpleado.datosPersonales.RFC);
-    } while (!isInIntRange(&DatosEmpleado.clave, 1, 1000)); // Aquí necesitas lógica para validar RFC
-    */
 
     do
     {
         printf("\nCorreo electronico del empleado [50 caracteres maximo] ~ ");
         fgets(DatosEmpleado.datosPersonales.correo, sizeof(DatosEmpleado.datosPersonales.correo), stdin);
-
         isInvalid = !esCorreoElectronico(DatosEmpleado.datosPersonales.correo);
         if (isInvalid)
             printf("\nERROR: Correo electronico invalido.\n");
-
     } while (isInvalid);
 
     do
     {
         printf("Comision del empleado [Entre 0 y 1] ~ ");
-        if (scanf("%1.2f", &DatosEmpleado.comision) != 1 || !isInFloatRange(&DatosEmpleado.comision, 0, 1)) {
+        if (scanf("%1.2f", &DatosEmpleado.comision) != 1 || !isInFloatRange(&DatosEmpleado.comision, 0, 1))
+        {
             printf("\nERROR: Comision invalida.\n");
             isInvalid = true;
-        } else {
-            isInvalid = false;
         }
+        else
+            isInvalid = false;
     } while (isInvalid);
 
     do
     {
         printf("Año de contratacion del empleado [formato YYYY] ~ ");
-        if (scanf("%d", &DatosEmpleado.datosPersonales.year) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.year, 1990, 2024)) {
+        if (scanf("%d", &DatosEmpleado.datosPersonales.year) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.year, 1990, 2024))
+        {
             printf("\nERROR: Año invalido.\n");
             isInvalid = true;
-        } else {
-            isInvalid = false;
         }
+        else
+            isInvalid = false;
     } while (isInvalid);
 
     do
     {
         printf("Mes de contratacion [formato MM] ~ ");
-        if (scanf("%d", &DatosEmpleado.datosPersonales.month) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.month, 1, 12)) {
+        if (scanf("%d", &DatosEmpleado.datosPersonales.month) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.month, 1, 12))
+        {
             printf("\nERROR: Mes invalido.\n");
             isInvalid = true;
-        } else {
-            isInvalid = false;
         }
+        else
+            isInvalid = false;
     } while (isInvalid);
 
     do
     {
         printf("Dia de contratacion [formato dd] ~ ");
-        if (scanf("%d", &DatosEmpleado.datosPersonales.day) != 1 || !isValidDate(&DatosEmpleado.datosPersonales.day, &DatosEmpleado.datosPersonales.month, &DatosEmpleado.datosPersonales.year)) {
+        if (scanf("%d", &DatosEmpleado.datosPersonales.day) != 1 || !isValidDate(&DatosEmpleado.datosPersonales.day, &DatosEmpleado.datosPersonales.month, &DatosEmpleado.datosPersonales.year))
+        {
             printf("\nERROR: Día de contratación invalido.\n");
             isInvalid = true;
-        } else {
-            isInvalid = false;
         }
+        else
+            isInvalid = false;
     } while (isInvalid);
 
     printf("\n\n\tDOMICILIO DEL EMPLEADO");
@@ -565,12 +551,13 @@ void lecturaEmpleado(FILE *archivoEmpleados)
     do
     {
         printf("Numero [Entero mayor a 0] ~ ");
-        if (scanf("%d", &DatosEmpleado.datosPersonales.numeroDomicilio) != 1 || !intMoreThanZero(&DatosEmpleado.datosPersonales.numeroDomicilio, false)) {
+        if (scanf("%d", &DatosEmpleado.datosPersonales.numeroDomicilio) != 1 || !intMoreThanZero(&DatosEmpleado.datosPersonales.numeroDomicilio, false))
+        {
             isInvalid = true;
             printf("ERROR: Numero invalido.(Entero mayor a 0) \n");
-        } else {
-            isInvalid = false;
         }
+        else
+            isInvalid = false;
     } while (isInvalid);
 
     do
@@ -598,17 +585,15 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         printf("Estado del empleado: ");
         fflush(stdin);
         fgets(DatosEmpleado.datosPersonales.estado, sizeof(DatosEmpleado.datosPersonales.estado), stdin);
-        
         isInvalid = !isAlphabetic(DatosEmpleado.datosPersonales.estado, false);
-        
         if (isInvalid)
             printf("ERROR: Estado invalido.(No ingresar caracteres especiales) \n");
-        
     } while (isInvalid);
 
     fseek(archivoEmpleados, (DatosEmpleado.clave - 1) * sizeof(DatosEmpleado), SEEK_SET);
     fwrite(&DatosEmpleado, sizeof(DatosEmpleado), 1, archivoEmpleados);
 }
+
 
 
 void lecturaProveedor(FILE *archivoProveedores)
