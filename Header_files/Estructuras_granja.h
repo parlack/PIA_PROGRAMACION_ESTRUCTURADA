@@ -193,20 +193,28 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 
     if((fPtr = fopen(nombreArchivo,"r")) == NULL)
         return false;
-    else
-    {
-        fseek(fPtr, (*clave_buscar - 1) * sizeEstructura, SEEK_SET);
+    
+    fseek(fPtr, (*clave_buscar - 1) * sizeEstructura, SEEK_SET);
 
-        if(fread(estructuraPtr, sizeEstructura, 1, fPtr))
+    if(fread(estructuraPtr, sizeEstructura, 1, fPtr))
+    {
+        switch (numeroArchivo)
         {
-            if(estructuraPtr->clave != 0)
-                return true;
-            else
-                return false;
+            case 1:
+                return ((struct infoArticulo *)estructuraPtr)->clave != 0;
+            case 2:
+                return ((struct infoInsumo *)estructuraPtr)->clave != 0;
+            case 3:
+                return ((struct infoMercado *)estructuraPtr)->clave != 0;
+            case 4:
+                return ((struct infoEmpleado *)estructuraPtr)->clave != 0;
+            case 5:
+                return ((struct infoProveedor *)estructuraPtr)->clave != 0;
         }
-        else
-            return false;
     }
+    
+    fclose(fPtr);
+    return false;
 }
 
 /*
