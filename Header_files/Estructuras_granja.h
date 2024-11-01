@@ -44,7 +44,7 @@ struct infoMercado
 
 struct infoEmpleado
 {
-    int clave;
+    int clave, yearContratacion, monthContratacion, dayContratacion;
     struct infoDatosPersonales datosPersonales;
     float comision;
 };
@@ -104,7 +104,7 @@ bool inicializarArchivo(int numeroArchivo)
 		{
 			n_registros = 1000;
 			nombreArchivo = "./Data_files/Empleados.dat";
-            struct infoEmpleado empleadoVacio = {0, datosVacios, 0};
+            struct infoEmpleado empleadoVacio = {0, 0, 0, 0, datosVacios, 0};
             estructuraVacia = &empleadoVacio;
             sizeEstructura = sizeof(empleadoVacio);
             break;

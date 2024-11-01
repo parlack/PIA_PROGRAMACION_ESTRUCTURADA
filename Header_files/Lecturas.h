@@ -420,7 +420,7 @@ void lecturaInsumo(FILE *archivoInsumos)
 void lecturaMercado(FILE *archivoMercados)
 {
     struct infoMercado DatosMercado;
-    int distanciaCaracteres;
+    int distanciaCaracteres, i;
     bool isInvalid, fechaInvalida;
 
     printf("\n\n\t##### DATOS DE MERCADO #####");
@@ -550,6 +550,30 @@ void lecturaMercado(FILE *archivoMercados)
             printf("\nERROR: Fecha invalida.\n");
     } while (fechaInvalida);
 
+
+    do
+    {
+        printf("RFC: ~ ");
+        if (scanf("%d", &DatosMercado.datosPersonales.RFC) != 1 || !isAlphabetic(DatosMercado.datosPersonales.RFC, true))
+        {
+            printf("\nERROR: RFC INVALIDO.\n");
+            isInvalid = true;
+        }
+        else
+        {
+            for (i = 0; i < strlen(DatosMercado.datosPersonales.RFC); i++) 
+                 DatosMercado.datosPersonales.RFC[i] = toupper(DatosMercado.datosPersonales.RFC[i]);
+            if(validarRFC(&DatosMercado.datosPersonales))
+            {
+                isInvalid = false;
+                printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+            }
+            else
+                isInvalid = true;
+        }
+    } while (isInvalid);
+
+
     printf("\n\n##### DOMICILIO DEL MERCADO #####");
 
     do
@@ -611,7 +635,7 @@ void lecturaMercado(FILE *archivoMercados)
 void lecturaEmpleado(FILE *archivoEmpleados)
 {
     struct infoEmpleado DatosEmpleado;
-    int distanciaCaracteres;
+    int distanciaCaracteres, i;
     bool isInvalid, fechaInvalida;
 
     printf("\n\n\t##### DATOS DE EMPLEADO #####");
@@ -671,6 +695,81 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         if (isInvalid)
             printf("ERROR: La distancia de caracteres es MENOR o IGUAL a 20. \n");
     } while (isInvalid);
+
+
+    do
+    {        
+        printf("\n\n\t##### FECHA DE NACIMIENTO DEL EMPLEADO #####");
+
+        do
+        {
+            printf("Año [1990 - 2024] ~ ");
+            if (scanf("%d", &DatosEmpleado.datosPersonales.year) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.year, 1990, 2024))
+            {
+                printf("\nERROR: Anio invalido.\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+        } while (isInvalid);
+
+        do
+        {
+            printf("Mes [1- 12] ~ ");
+            if (scanf("%d", &DatosEmpleado.datosPersonales.month) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.month, 1, 12))
+            {
+                printf("\nERROR: Mes invalido.\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+        } while (isInvalid);
+
+        do
+        {
+            printf("Dia [1 - 31] ~ ");
+            if (scanf("%d", &DatosEmpleado.datosPersonales.day) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.day, 1, 31))
+            {
+                printf("\nERROR: Dia invalido.\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+        } while (isInvalid);
+
+        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.day, &DatosEmpleado.datosPersonales.month, &DatosEmpleado.datosPersonales.year);
+
+        if (fechaInvalida)
+            printf("\nERROR: Fecha invalida.\n");
+
+    } while (fechaInvalida);
+
+
+printf("\n\n##### RFC DEL EMPLEADO #####");
+
+    do
+    {
+        printf("RFC: ~ ");
+        if (scanf("%d", &DatosEmpleado.datosPersonales.RFC) != 1 || !isAlphabetic(DatosEmpleado.datosPersonales.RFC, true))
+        {
+            printf("\nERROR: RFC INVALIDO.\n");
+            isInvalid = true;
+        }
+        else
+        {
+            for (i = 0; i < strlen(DatosEmpleado.datosPersonales.RFC); i++) 
+                 DatosEmpleado.datosPersonales.RFC[i] = toupper(DatosEmpleado.datosPersonales.RFC[i]);
+            if(validarRFC(&DatosEmpleado.datosPersonales))
+            {
+                isInvalid = false;
+                printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+            }
+            else
+                isInvalid = true;
+        }
+    } while (isInvalid);
+
+
 
     printf("\n\n\t-------------------------------------------------------------\n");
 
@@ -802,7 +901,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 void lecturaProveedor(FILE *archivoProveedores)
 {
     struct infoProveedor DatosProveedor;
-    int distanciaCaracteres;
+    int distanciaCaracteres,i;
     bool isInvalid, fechaInvalida;
 
     printf("\n\n\t##### DATOS DE PROVEEDOR #####");
@@ -828,7 +927,7 @@ void lecturaProveedor(FILE *archivoProveedores)
             fflush(stdin);
             fgets(DatosProveedor.datosPersonales.nombres, sizeof(DatosProveedor.datosPersonales.nombres), stdin);
 
-            isInvalid = !isAlphabetic(Dato sProveedor.datosPersonales.nombres, false);
+            isInvalid = !isAlphabetic(DatosProveedor.datosPersonales.nombres, false);
 
             if (isInvalid)
                 printf("ERROR: Nombre invalido.(No ingresar caracteres especiales) \n");
@@ -935,6 +1034,31 @@ void lecturaProveedor(FILE *archivoProveedores)
             printf("\nERROR: Fecha invalida.\n");
 
     } while (fechaInvalida);
+    
+    printf("\n\n##### RFC DEL PROVEEDOR #####");
+
+    do
+    {
+        printf("RFC: ~ ");
+        if (scanf("%d", &DatosProveedor.datosPersonales.RFC) != 1 || !isAlphabetic(DatosProveedor.datosPersonales.RFC, true))
+        {
+            printf("\nERROR: RFC INVALIDO.\n");
+            isInvalid = true;
+        }
+        else
+        {
+            for (i = 0; i < strlen(DatosProveedor.datosPersonales.RFC); i++) 
+                 DatosProveedor.datosPersonales.RFC[i] = toupper(DatosProveedor.datosPersonales.RFC[i]);
+            if(validarRFC(&DatosProveedor.datosPersonales))
+            {
+                isInvalid = false;
+                printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+            }
+            else
+                isInvalid = true;
+        }
+    } while (isInvalid);
+
 
     printf("\n\n##### DOMICILIO DEL PROVEEDOR #####");
 
