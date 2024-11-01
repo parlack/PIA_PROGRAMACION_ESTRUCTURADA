@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
 #include "Estructuras_granja.h"
 
 bool isInIntRange(int *value, int min, int max)
@@ -87,12 +88,29 @@ bool floatMoreThanZero(float *value, bool canBeEqual)
 
 //FALTA FUNCION: Validar RFC
 
-bool isValidDate(int *day, int *month, int *year)
+bool validarFecha(int *day, int *month, int *year)
 {
     int daysInMonth;
+    time_t t = time(NULL);
+    struct tm *fechaActual = localtime(&t);
+
+    int anioActual = fechaActual->tm_year + 1900;
+    int mesActual = fechaActual->tm_mon + 1;
+    int diaActual = fechaActual->tm_mday;
+
+    if (*year < anioActual) {
+        return false;
+    } else if (*year == anioActual) {
+        if (*month < mesActual) {
+            return false;
+        } else if (*month == mesActual) {
+            if (*day < diaActual) {
+                return false;
+            }
+        }
+    }
 
     switch (*month) {
-    	
         case 2:
         	
             daysInMonth = (*year % 4 == 0 && (*year % 100 != 0 || *year % 400 == 0)) ? 29 : 28;
