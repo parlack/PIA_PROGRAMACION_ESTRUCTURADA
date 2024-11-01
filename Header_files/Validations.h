@@ -278,8 +278,6 @@ bool validarRFC(struct infoDatosPersonales *datos)
     int len, i;
     bool vocal_encontrada, es_valido;
 
-    ///toupper el RFC en lectura
-    ///////Terminar la condicion para validar homoclave
     i = 10;
     while(i < 14 )
     {
