@@ -5,7 +5,7 @@
 
 struct infoDatosPersonales
 {
-	int year, month, day, numeroDomicilio;
+	int yearBirth, monthBirth, dayBirth, numeroDomicilio;
     char nombres[31],
          apellidoPaterno[31],
          apellidoMaterno[31],
@@ -59,7 +59,7 @@ struct infoVenta
 struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad;
-	float precioTotal;
+	float totalDeCompra;
     bool entregado;
 };
 
@@ -243,10 +243,13 @@ bool VerificarHayRegistros(int numeroArchivo)
             break;
     }
     
-    if ((archivoAVerificar = fopen(nombreArchivo, "rb")) == NULL) 
+    if ((archivoAVerificar = fopen(nombreArchivo, "rb")) == NULL)
         return false;
-    else 
+    else
+    {
+        fclose(archivoAVerificar);
         return true;
+    }
 }
 
 float obtenerCosto(int *Insumos, int *sizeInsumos)

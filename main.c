@@ -7,7 +7,7 @@ main()
 	int opcionMenuPrincipal;
 	FILE *filePtr;
 	char agregarMas;
-	bool isValid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
+	bool isInvalid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
 
 	do
 	{
@@ -24,12 +24,12 @@ main()
 		printf("10 - SALIR\n");
 		printf("[ Ingresa una opci%cn ] ~ ", 162);
 		
-		isValid = scanf("%d", &opcionMenuPrincipal) == 1 && isInIntRange(&opcionMenuPrincipal, 1, 10);
+		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
-		if(!isValid)
+		if(isInvalid)
 			printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
 		
-	} while(!isValid);
+	} while(isInvalid);
 	
 	while (opcionMenuPrincipal != 10)
 	{
@@ -60,12 +60,12 @@ main()
 
 								agregarMas = tolower(agregarMas);
 
-								isValid = agregarMas == 's' || agregarMas == 'n';
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
 								
-								if (!isValid)
+								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
 								
-							} while (!isValid);
+							} while (isInvalid);
 						
 						} while (agregarMas == 's');
 						
@@ -110,12 +110,12 @@ main()
 
 								agregarMas = tolower(agregarMas);
 
-								isValid = agregarMas == 's' || agregarMas == 'n';
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
 								
-								if (!isValid)
+								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
 								
-							} while (!isValid);
+							} while (isInvalid);
 						
 						} while (agregarMas == 's');
 						
@@ -154,12 +154,12 @@ main()
 
 								agregarMas = tolower(agregarMas);
 
-								isValid = agregarMas == 's' || agregarMas == 'n';
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
 								
-								if (!isValid)
+								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
 								
-							} while (!isValid);
+							} while (isInvalid);
 						
 						} while (agregarMas == 's');
 						
@@ -192,12 +192,12 @@ main()
 
 								agregarMas = tolower(agregarMas);
 
-								isValid = agregarMas == 's' || agregarMas == 'n';
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
 								
-								if (!isValid)
+								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
 								
-							} while (!isValid);
+							} while (isInvalid);
 						
 						} while (agregarMas == 's');
 						
@@ -230,12 +230,12 @@ main()
 
 								agregarMas = tolower(agregarMas);
 
-								isValid = agregarMas == 's' || agregarMas == 'n';
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
 								
-								if (!isValid)
+								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
 								
-							} while (!isValid);
+							} while (isInvalid);
 						
 						} while (agregarMas == 's');
 						
@@ -311,7 +311,7 @@ main()
 					{
 						do
 						{
-							lecturaVentas(filePtr);
+							lecturaCompras(filePtr);
 							
                             do
 							{
@@ -367,11 +367,11 @@ main()
 			printf("10 - SALIR\n");
 			printf("[ Ingresa una opci%cn ] ~ ", 162);
 
-			isValid = scanf("%d", &opcionMenuPrincipal) == 1 && isInIntRange(&opcionMenuPrincipal, 1, 10);
+			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
-			if(!isValid)
+			if(isInvalid)
 				printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
 			
-		} while(!isValid);
+		} while(isInvalid);
 	}
 }

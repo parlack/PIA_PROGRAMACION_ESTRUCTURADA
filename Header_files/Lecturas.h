@@ -429,9 +429,10 @@ void lecturaMercado(FILE *archivoMercados)
     {
         printf("\nClave del mercado [1 - 100] ~ ");
         if (scanf("%d", &DatosMercado.clave) != 1 || !isInIntRange(&DatosMercado.clave, 1, 1000))
+        {
             isInvalid = true;
             printf("\nERROR: Clave de mercado invalida.\n");
-        else
+        }else
             isInvalid = false;
             
     } while (isInvalid);
@@ -511,7 +512,7 @@ void lecturaMercado(FILE *archivoMercados)
         do
         {
             printf("Año [1990 - 2024] ~ ");
-            if (scanf("%d", &DatosMercado.datosPersonales.year) != 1 || !isInIntRange(&DatosMercado.datosPersonales.year, 1990, 2024))
+            if (scanf("%d", &DatosMercado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.yearBirth, 1990, 2024))
             {
                 printf("\nERROR: Anio invalido.\n");
                 isInvalid = true;
@@ -523,7 +524,7 @@ void lecturaMercado(FILE *archivoMercados)
         do
         {
             printf("Mes [1- 12] ~ ");
-            if (scanf("%d", &DatosMercado.datosPersonales.month) != 1 || !isInIntRange(&DatosMercado.datosPersonales.month, 1, 12))
+            if (scanf("%d", &DatosMercado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.monthBirth, 1, 12))
             {
                 printf("\nERROR: Mes invalido.\n");
                 isInvalid = true;
@@ -535,7 +536,7 @@ void lecturaMercado(FILE *archivoMercados)
         do
         {
             printf("Dia [1 - 31] ~ ");
-            if (scanf("%d", &DatosMercado.datosPersonales.day) != 1 || !isInIntRange(&DatosMercado.datosPersonales.day, 1, 31))
+            if (scanf("%d", &DatosMercado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.dayBirth, 1, 31))
             {
                 printf("\nERROR: Dia invalido.\n");
                 isInvalid = true;
@@ -544,7 +545,7 @@ void lecturaMercado(FILE *archivoMercados)
                 isInvalid = false;
         } while (isInvalid);
 
-        fechaInvalida = !validarFecha(&DatosMercado.datosPersonales.day, &DatosMercado.datosPersonales.month, &DatosMercado.datosPersonales.year);
+        fechaInvalida = !validarFecha(&DatosMercado.datosPersonales.dayBirth, &DatosMercado.datosPersonales.monthBirth, &DatosMercado.datosPersonales.yearBirth);
 
         if (fechaInvalida)
             printf("\nERROR: Fecha invalida.\n");
@@ -704,7 +705,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Año [1990 - 2024] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.year) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.year, 1990, 2024))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.yearBirth, 1990, 2024))
             {
                 printf("\nERROR: Anio invalido.\n");
                 isInvalid = true;
@@ -716,7 +717,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Mes [1- 12] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.month) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.month, 1, 12))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.monthBirth, 1, 12))
             {
                 printf("\nERROR: Mes invalido.\n");
                 isInvalid = true;
@@ -728,7 +729,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Dia [1 - 31] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.day) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.day, 1, 31))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.dayBirth, 1, 31))
             {
                 printf("\nERROR: Dia invalido.\n");
                 isInvalid = true;
@@ -737,7 +738,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = false;
         } while (isInvalid);
 
-        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.day, &DatosEmpleado.datosPersonales.month, &DatosEmpleado.datosPersonales.year);
+        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.monthBirth, &DatosEmpleado.datosPersonales.yearBirth);
 
         if (fechaInvalida)
             printf("\nERROR: Fecha invalida.\n");
@@ -799,7 +800,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Año [1990 - 2024] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.year) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.year, 1990, 2024))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.yearBirth, 1990, 2024))
             {
                 printf("\nERROR: Anio invalido.\n");
                 isInvalid = true;
@@ -811,7 +812,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Mes [1- 12] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.month) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.month, 1, 12))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.monthBirth, 1, 12))
             {
                 printf("\nERROR: Mes invalido.\n");
                 isInvalid = true;
@@ -823,7 +824,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         do
         {
             printf("Dia [1 - 31] ~ ");
-            if (scanf("%d", &DatosEmpleado.datosPersonales.day) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.day, 1, 31))
+            if (scanf("%d", &DatosEmpleado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.dayBirth, 1, 31))
             {
                 printf("\nERROR: Dia invalido.\n");
                 isInvalid = true;
@@ -832,7 +833,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = false;
         } while (isInvalid);
 
-        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.day, &DatosEmpleado.datosPersonales.month, &DatosEmpleado.datosPersonales.year);
+        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.dayBirth);
 
         if (fechaInvalida)
             printf("\nERROR: Fecha invalida.\n");
@@ -993,7 +994,7 @@ void lecturaProveedor(FILE *archivoProveedores)
         do
         {
             printf("Año [1990 - 2024] ~ ");
-            if (scanf("%d", &DatosProveedor.datosPersonales.year) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.year, 1990, 2024))
+            if (scanf("%d", &DatosProveedor.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.yearBirth, 1990, 2024))
             {
                 printf("\nERROR: Anio invalido.\n");
                 isInvalid = true;
@@ -1005,7 +1006,7 @@ void lecturaProveedor(FILE *archivoProveedores)
         do
         {
             printf("Mes [1- 12] ~ ");
-            if (scanf("%d", &DatosProveedor.datosPersonales.month) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.month, 1, 12))
+            if (scanf("%d", &DatosProveedor.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.monthBirth, 1, 12))
             {
                 printf("\nERROR: Mes invalido.\n");
                 isInvalid = true;
@@ -1017,7 +1018,7 @@ void lecturaProveedor(FILE *archivoProveedores)
         do
         {
             printf("Dia [1 - 31] ~ ");
-            if (scanf("%d", &DatosProveedor.datosPersonales.day) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.day, 1, 31))
+            if (scanf("%d", &DatosProveedor.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.dayBirth, 1, 31))
             {
                 printf("\nERROR: Dia invalido.\n");
                 isInvalid = true;
@@ -1026,7 +1027,7 @@ void lecturaProveedor(FILE *archivoProveedores)
                 isInvalid = false;
         } while (isInvalid);
 
-        fechaInvalida = !validarFecha(&DatosProveedor.datosPersonales.day, &DatosProveedor.datosPersonales.month, &DatosProveedor.datosPersonales.year);
+        fechaInvalida = !validarFecha(&DatosProveedor.datosPersonales.dayBirth, &DatosProveedor.datosPersonales.monthBirth, &DatosProveedor.datosPersonales.yearBirth);
 
         if (fechaInvalida)
             printf("\nERROR: Fecha invalida.\n");
@@ -1119,8 +1120,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 void lecturaVentas(FILE *archivoVentas)
 {
     FILE *archivo_NuevoRegistro;
-    struct infoVentas DatosVentas;
-    int i;
+    struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
     char agregarMasArticulos, opcionRegistrar;
     float precioUnitario, subtotalPorArticulo;
@@ -1248,15 +1248,15 @@ void lecturaVentas(FILE *archivoVentas)
             if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 100))
             {
                 isInvalid = true;
-                printf("\nERROR: Clave de mercado invalida.\n");
+                printf("\nERROR: Clave de articulo invalida.\n");
             }
-            else if (!existeClave(3, &DatosVentas.claveArticulo))
+            else if (!existeClave(3, &DatosVentas.claveArticulo) || !verificarInventario(&DatosVentas.claveArticulo, 1, &precioUnitario))
             {
                 isInvalid = true;
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el articulo? [s/n]");
                     fflush(stdin);
                     scanf("%c", &opcionRegistrar);
 
@@ -1344,5 +1344,168 @@ void lecturaVentas(FILE *archivoVentas)
 
 void lecturaCompras(FILE *archivoCompras)
 {
-    printf("lol");
+    FILE *archivo_NuevoRegistro;
+    struct infoCompra DatosCompra;
+    bool isInvalid, opcionRegistrarInvalida;
+    char agregarMasInsumos, opcionRegistrar;
+    float precioUnitario, subtotalPorInsumo;
+    DatosCompra.totalDeCompra = 0;
+
+    time_t t = time(NULL);
+    struct tm *fechaActual = localtime(&t);
+
+    int anioActual = fechaActual->tm_year + 1900;
+    int mesActual = fechaActual->tm_mon + 1;
+    int diaActual = fechaActual->tm_mday;
+
+    do
+    {
+        printf("\nIngrese la clave del proveedor ~ ");
+        fflush(stdin);
+        
+        if(scanf("%d", &DatosCompra.claveProveedor) != 1 || !isInIntRange(&DatosCompra.claveProveedor, 1, 100))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de proveedor invalida.\n");
+        }
+        else if (!existeClave(5, &DatosCompra.claveProveedor))
+        {
+            isInvalid = true;
+
+            do
+            {
+                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n]");
+                fflush(stdin);
+                scanf("%c", &opcionRegistrar);
+
+                opcionRegistrar = tolower(opcionRegistrar);
+                opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                if (opcionRegistrarInvalida)
+                    printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+            } while (opcionRegistrarInvalida);
+            
+            if(opcionRegistrar == 's')
+            {
+                if((archivo_NuevoRegistro = fopen("./Data_files/Proveedores.dat","rb+")) == NULL)
+                    printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                else
+                {
+                    lecturaProveedor(archivo_NuevoRegistro);
+                    fclose(archivo_NuevoRegistro);
+
+                    if (existeClave(5, &DatosCompra.claveProveedor))
+                        isInvalid = false;
+                    else
+                        printf("\nLa clave ingresada y el proveedor registrado no coinciden.\n");
+                }
+            }
+        }
+        else    
+            isInvalid = false;
+
+    } while (isInvalid);
+
+    do
+    {
+        precioUnitario = 0;
+        subtotalPorInsumo = 0;
+
+        do
+        {
+            printf("\nIngrese la clave del insumo [1 - 1000] ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &DatosCompra.claveInsumo) != 1 || !isInIntRange(&DatosCompra.claveInsumo, 1, 100))
+            {
+                isInvalid = true;
+                printf("\nERROR: Clave de insumo invalida.\n");
+            }
+            else if (!existeClave(3, &DatosCompra.claveInsumo))
+            {
+                isInvalid = true;
+
+                do
+                {
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n]");
+                    fflush(stdin);
+                    scanf("%c", &opcionRegistrar);
+
+                    opcionRegistrar = tolower(opcionRegistrar);
+                    opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                    if(opcionRegistrarInvalida)
+                        printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+                } while(opcionRegistrarInvalida);
+                
+                if(opcionRegistrar == 's')
+                {
+                    if((archivo_NuevoRegistro = fopen("./Data_files/Articulos.dat","rb+")) == NULL)
+                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    else
+                    {
+                        lecturaArticulo(archivo_NuevoRegistro);
+
+                        fclose(archivo_NuevoRegistro);
+
+                        if(existeClave(1, &DatosCompra.claveInsumo))
+                            isInvalid = false;
+                        else
+                            printf("\nLa clave ingresada y el articulo registrado no coinciden, ingresala de nuevo.\n");
+                    }
+                }
+            }
+            else    
+                isInvalid = false;
+
+        } while (isInvalid);
+
+        do
+        {
+            printf("\nCantidad del producto [Mayor a 0] ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &DatosCompra.cantidad) != 1 || !intMoreThanZero(&DatosCompra.cantidad, false))
+            {
+                isInvalid = true;
+                printf("\nERROR: Cantidad invalida.\n");
+            } 
+            else if (!verificarInventario(&DatosCompra.claveInsumo, &DatosCompra.cantidad, &precioUnitario))
+            {
+                isInvalid = true;
+                printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
+            }
+            else
+                isInvalid = false;
+
+        } while (isInvalid);
+
+        subtotalPorArticulo = precioUnitario * DatosVentas.cantidad;
+
+        printf("\nPrecio unitario del articulo: %.2f\n", precioUnitario);
+        printf("Subtotal de este articulo: %.2f\n", subtotalPorArticulo);
+
+        DatosVentas.precioTotal += subtotalPorArticulo;
+
+        fprintf(archivoVentas, "#%d-%d", DatosVentas.claveArticulo, DatosVentas.cantidad);
+
+        do
+        {
+            printf("\nDesea agregar mas articulos a la venta? [s/n]");
+            fflush(stdin);
+            scanf("%c", &agregarMasArticulos);
+
+            if(agregarMasArticulos != 's' && agregarMasArticulos != 'n')
+            {
+                printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+
+        } while (isInvalid);
+        
+    } while (agregarMasArticulos == 's');
 }
