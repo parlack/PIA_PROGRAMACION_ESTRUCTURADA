@@ -287,7 +287,7 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
     return costoTotal;
 }
 
-bool verificarInventario(int *claveArticulo, int *cantidad, int *precio)
+bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool restarCantidad)
 {
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
@@ -310,8 +310,46 @@ bool verificarInventario(int *claveArticulo, int *cantidad, int *precio)
         else
         {
             *precio = articuloActual.costoProduccion;
+
+            if(restarCantidad)
+                articuloActual.inventario -= *cantidad;
+            
+            fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
+            fwrite(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
+            
             fclose(archivoArticulos);
             return true;
         }
+    }
+}
+
+bool esInsumoValido(int *claveProveedor, int *claveInsumo, int *precioUnitario)
+{
+    FILE *archivoInsumos;
+    int i;
+    struct infoInsumo insumoActual;
+
+    if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    {
+        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        return false;
+    }
+    else
+    {
+        fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(struct infoInsumo), SEEK_SET);
+        fread(&insumoActual, sizeof(struct infoInsumo), 1, archivoInsumos);
+
+        for(i = 0; i < 10 && insumoActual.proveedores[i] != 0; i++)
+        {
+            if(insumoActual.proveedores[i] == *claveProveedor && insumoActual.inventario >= 1)
+            {
+                *precioUnitario = insumoActual.precioSurtido[i];
+                fclose(archivoInsumos);
+                return true;
+            }
+        }
+
+        fclose(archivoInsumos);
+        return false;
     }
 }

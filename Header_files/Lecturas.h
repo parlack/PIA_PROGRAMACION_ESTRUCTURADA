@@ -1120,6 +1120,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 void lecturaVentas(FILE *archivoVentas)
 {
     FILE *archivo_NuevoRegistro;
+    int inventarioActual;
     struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
     char agregarMasArticulos, opcionRegistrar;
@@ -1132,55 +1133,6 @@ void lecturaVentas(FILE *archivoVentas)
     int anioActual = fechaActual->tm_year + 1900;
     int mesActual = fechaActual->tm_mon + 1;
     int diaActual = fechaActual->tm_mday;
-
-
-    do
-    {
-        printf("\nClave del mercado [1 - 100] ~ ");
-        if(scanf("%d", &DatosVentas.claveMercado) != 1 || !isInIntRange(&DatosVentas.claveMercado, 1, 100))
-        {
-            isInvalid = true;
-            printf("\nERROR: Clave de mercado invalida.\n");
-        }
-        else if (!existeClave(3, &DatosVentas.claveMercado))
-        {
-            isInvalid = true;
-
-            do
-            {
-                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
-                fflush(stdin);
-                scanf("%c", &opcionRegistrar);
-
-                opcionRegistrar = tolower(opcionRegistrar);
-                opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
-
-                if(opcionRegistrarInvalida)
-                    printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
-
-            } while(opcionRegistrarInvalida);
-            
-            if(opcionRegistrar == 's')
-            {
-                if((archivo_NuevoRegistro = fopen("./Data_files/Mercados.dat","rb+")) == NULL)
-                    printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                else
-                {
-                    lecturaMercado(archivo_NuevoRegistro);
-
-                    fclose(archivo_NuevoRegistro);
-
-                    if(existeClave(3, &DatosVentas.claveMercado))
-                        isInvalid = false;
-                    else
-                        printf("\nLa clave ingresada y el mercado registrado no coinciden, ingresala de nuevo.\n");
-                }
-            }
-        }
-        else    
-            isInvalid = false;
-            
-    } while (isInvalid);
 
     do
     {
@@ -1230,6 +1182,55 @@ void lecturaVentas(FILE *archivoVentas)
             
     } while (isInvalid);
 
+    do
+    {
+        printf("\nClave del mercado [1 - 100] ~ ");
+        if(scanf("%d", &DatosVentas.claveMercado) != 1 || !isInIntRange(&DatosVentas.claveMercado, 1, 100))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de mercado invalida.\n");
+        }
+        else if (!existeClave(3, &DatosVentas.claveMercado))
+        {
+            isInvalid = true;
+
+            do
+            {
+                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                fflush(stdin);
+                scanf("%c", &opcionRegistrar);
+
+                opcionRegistrar = tolower(opcionRegistrar);
+                opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                if(opcionRegistrarInvalida)
+                    printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+            } while(opcionRegistrarInvalida);
+            
+            if(opcionRegistrar == 's')
+            {
+                if((archivo_NuevoRegistro = fopen("./Data_files/Mercados.dat","rb+")) == NULL)
+                    printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                else
+                {
+                    lecturaMercado(archivo_NuevoRegistro);
+
+                    fclose(archivo_NuevoRegistro);
+
+                    if(existeClave(3, &DatosVentas.claveMercado))
+                        isInvalid = false;
+                    else
+                        printf("\nLa clave ingresada y el mercado registrado no coinciden, ingresala de nuevo.\n");
+                }
+            }
+        }
+        else    
+            isInvalid = false;
+            
+    } while (isInvalid);
+
+
     fprintf(archivoVentas, "%d-%d-%d-%d-%d", 
                             DatosVentas.claveMercado, 
                             DatosVentas.claveEmpleado,
@@ -1250,7 +1251,7 @@ void lecturaVentas(FILE *archivoVentas)
                 isInvalid = true;
                 printf("\nERROR: Clave de articulo invalida.\n");
             }
-            else if (!existeClave(3, &DatosVentas.claveArticulo) || !verificarInventario(&DatosVentas.claveArticulo, 1, &precioUnitario))
+            else if (!existeClave(1, &DatosVentas.claveArticulo) || !verificarInventario(&DatosVentas.claveArticulo, 1, &precioUnitario, false))
             {
                 isInvalid = true;
 
@@ -1300,7 +1301,7 @@ void lecturaVentas(FILE *archivoVentas)
                 isInvalid = true;
                 printf("\nERROR: Cantidad invalida.\n");
             } 
-            else if (!verificarInventario(&DatosVentas.claveArticulo, &DatosVentas.cantidad, &precioUnitario))
+            else if (!verificarInventario(&DatosVentas.claveArticulo, &DatosVentas.cantidad, &precioUnitario, true))
             {
                 isInvalid = true;
                 printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
@@ -1337,9 +1338,9 @@ void lecturaVentas(FILE *archivoVentas)
         
     } while (agregarMasArticulos == 's');
 
-    fprintf(archivoVentas, "$%f\n", DatosVentas.precioTotal);
+    fprintf(archivoVentas, "♥%f$", DatosVentas.precioTotal);
 
-    printf("PAGO TOTAL DE LA VENTA: %.2f", DatosVentas.precioTotal);
+    printf("\n----------------- PAGO TOTAL DE LA VENTA: %.2f\n", DatosVentas.precioTotal);
 }
 
 void lecturaCompras(FILE *archivoCompras)
@@ -1350,13 +1351,6 @@ void lecturaCompras(FILE *archivoCompras)
     char agregarMasInsumos, opcionRegistrar;
     float precioUnitario, subtotalPorInsumo;
     DatosCompra.totalDeCompra = 0;
-
-    time_t t = time(NULL);
-    struct tm *fechaActual = localtime(&t);
-
-    int anioActual = fechaActual->tm_year + 1900;
-    int mesActual = fechaActual->tm_mon + 1;
-    int diaActual = fechaActual->tm_mday;
 
     do
     {
@@ -1407,6 +1401,8 @@ void lecturaCompras(FILE *archivoCompras)
 
     } while (isInvalid);
 
+    fprintf(archivoCompras, "%d", DatosCompra.claveProveedor);
+
     do
     {
         precioUnitario = 0;
@@ -1422,7 +1418,7 @@ void lecturaCompras(FILE *archivoCompras)
                 isInvalid = true;
                 printf("\nERROR: Clave de insumo invalida.\n");
             }
-            else if (!existeClave(3, &DatosCompra.claveInsumo))
+            else if (!existeClave(2, &DatosCompra.claveInsumo))
             {
                 isInvalid = true;
 
@@ -1457,6 +1453,11 @@ void lecturaCompras(FILE *archivoCompras)
                     }
                 }
             }
+            else if (!esInsumoValido(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario))
+            {
+                isInvalid = true;
+                printf("\nEste insumo no tiene a este proveedor registrado.\n");
+            }
             else    
                 isInvalid = false;
 
@@ -1464,7 +1465,7 @@ void lecturaCompras(FILE *archivoCompras)
 
         do
         {
-            printf("\nCantidad del producto [Mayor a 0] ~ ");
+            printf("\nCantidad del insumo [Mayor a 0] ~ ");
             fflush(stdin);
 
             if(scanf("%d", &DatosCompra.cantidad) != 1 || !intMoreThanZero(&DatosCompra.cantidad, false))
@@ -1472,32 +1473,27 @@ void lecturaCompras(FILE *archivoCompras)
                 isInvalid = true;
                 printf("\nERROR: Cantidad invalida.\n");
             } 
-            else if (!verificarInventario(&DatosCompra.claveInsumo, &DatosCompra.cantidad, &precioUnitario))
-            {
-                isInvalid = true;
-                printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
-            }
             else
                 isInvalid = false;
 
         } while (isInvalid);
 
-        subtotalPorArticulo = precioUnitario * DatosVentas.cantidad;
+        subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
 
         printf("\nPrecio unitario del articulo: %.2f\n", precioUnitario);
-        printf("Subtotal de este articulo: %.2f\n", subtotalPorArticulo);
+        printf("Subtotal de este articulo: %.2f\n", subtotalPorInsumo);
 
-        DatosVentas.precioTotal += subtotalPorArticulo;
+        DatosCompra.totalDeCompra += subtotalPorInsumo;
 
-        fprintf(archivoVentas, "#%d-%d", DatosVentas.claveArticulo, DatosVentas.cantidad);
+        fprintf(archivoCompras, "#%d-%d", DatosCompra.claveInsumo, DatosCompra.cantidad);
 
         do
         {
-            printf("\nDesea agregar mas articulos a la venta? [s/n]");
+            printf("\nDesea agregar mas insumos a la compra? [s/n]");
             fflush(stdin);
-            scanf("%c", &agregarMasArticulos);
+            scanf("%c", &agregarMasInsumos);
 
-            if(agregarMasArticulos != 's' && agregarMasArticulos != 'n')
+            if(agregarMasInsumos != 's' && agregarMasInsumos != 'n')
             {
                 printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
                 isInvalid = true;
@@ -1507,5 +1503,9 @@ void lecturaCompras(FILE *archivoCompras)
 
         } while (isInvalid);
         
-    } while (agregarMasArticulos == 's');
+    } while (agregarMasInsumos == 's');
+
+    fprintf(archivoCompras, "♥%f$", DatosCompra.totalDeCompra);
+
+    printf("\n----------------- PAGO TOTAL DE LA COMPRA: %.2f\n", DatosCompra.totalDeCompra);
 }
