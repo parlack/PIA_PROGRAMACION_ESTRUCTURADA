@@ -32,7 +32,7 @@ struct infoProveedor
 {
     int clave;
     struct infoDatosPersonales datosPersonales;
-    float descuento;
+    float descuento, saldo;
 };
 
 struct infoMercado
@@ -59,8 +59,8 @@ struct infoVenta
 struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad;
-	float totalDeCompra;
     bool entregado;
+	float totalDeCompra;
 };
 
 bool inicializarArchivo(int numeroArchivo)
@@ -316,7 +316,7 @@ bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool re
             
             fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
             fwrite(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
-            
+
             fclose(archivoArticulos);
             return true;
         }

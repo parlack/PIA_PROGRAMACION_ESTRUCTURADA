@@ -1401,7 +1401,7 @@ void lecturaCompras(FILE *archivoCompras)
 
     } while (isInvalid);
 
-    fprintf(archivoCompras, "%d", DatosCompra.claveProveedor);
+    fprintf(archivoCompras, "%d-%d", DatosCompra.claveProveedor, 0);
 
     do
     {
