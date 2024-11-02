@@ -1230,10 +1230,9 @@ void lecturaVentas(FILE *archivoVentas)
             
     } while (isInvalid);
 
-    fprintf(archivoVentas, "%d-%d-%f-%d-%d-%d", 
+    fprintf(archivoVentas, "%d-%d-%d-%d-%d", 
                             DatosVentas.claveMercado, 
-                            DatosVentas.claveEmpleado, 
-                            DatosVentas.precioTotal,
+                            DatosVentas.claveEmpleado,
                             diaActual, mesActual, anioActual);
 
     do
