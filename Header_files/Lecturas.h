@@ -182,7 +182,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
                         fclose(archivo_NuevoRegistro);
 
-                        if(!existeClave(3, &DatosArticulo.clavesMercados[mercados]))
+                        if(existeClave(3, &DatosArticulo.clavesMercados[mercados]))
                             isInvalid = false;
                         else
                             printf("\nLa clave ingresada y el mercado registrado no coinciden.\n");
@@ -242,7 +242,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                         lecturaInsumo(archivo_NuevoRegistro);
                         fclose(archivo_NuevoRegistro);
 
-                        if(!existeClave(2, &DatosArticulo.clavesInsumos[insumos]))
+                        if(existeClave(2, &DatosArticulo.clavesInsumos[insumos]))
                             isInvalid = false;
                         else
                             printf("\nLa clave ingresada y el insumo registrado no coinciden.\n");
@@ -427,13 +427,13 @@ void lecturaMercado(FILE *archivoMercados)
 
     do
     {
-        printf("\nClave del mercado [1 - 1000] ~ ");
+        printf("\nClave del mercado [1 - 100] ~ ");
         if (scanf("%d", &DatosMercado.clave) != 1 || !isInIntRange(&DatosMercado.clave, 1, 1000))
             isInvalid = true;
+            printf("\nERROR: Clave de mercado invalida.\n");
         else
             isInvalid = false;
-        if (isInvalid)
-            printf("\nERROR: Clave de mercado invalida.\n");
+            
     } while (isInvalid);
 
     printf("\n\n\t----- NOMBRE COMPLETO DEL CLIENTE -----");
@@ -745,11 +745,13 @@ void lecturaEmpleado(FILE *archivoEmpleados)
     } while (fechaInvalida);
 
 
-printf("\n\n##### RFC DEL EMPLEADO #####");
+    printf("\n\n\t-------------------------------------------------------------\n");
+
+    printf("\n\n##### RFC DEL EMPLEADO #####");
 
     do
     {
-        printf("RFC: ~ ");
+        printf("RFC ~ ");
         if (scanf("%d", &DatosEmpleado.datosPersonales.RFC) != 1 || !isAlphabetic(DatosEmpleado.datosPersonales.RFC, true))
         {
             printf("\nERROR: RFC INVALIDO.\n");
@@ -768,10 +770,6 @@ printf("\n\n##### RFC DEL EMPLEADO #####");
                 isInvalid = true;
         }
     } while (isInvalid);
-
-
-
-    printf("\n\n\t-------------------------------------------------------------\n");
 
     do
     {
@@ -1116,4 +1114,236 @@ void lecturaProveedor(FILE *archivoProveedores)
 
     fseek(archivoProveedores, (DatosProveedor.clave - 1) * sizeof(DatosProveedor), SEEK_SET);
     fwrite(&DatosProveedor, sizeof(DatosProveedor), 1, archivoProveedores);
+}
+
+void lecturaVentas(FILE *archivoVentas)
+{
+    FILE *archivo_NuevoRegistro;
+    struct infoVentas DatosVentas;
+    int i;
+    bool isInvalid, opcionRegistrarInvalida;
+    char agregarMasArticulos, opcionRegistrar;
+    float precioUnitario, subtotalPorArticulo;
+    DatosVentas.precioTotal = 0;
+
+    time_t t = time(NULL);
+    struct tm *fechaActual = localtime(&t);
+
+    int anioActual = fechaActual->tm_year + 1900;
+    int mesActual = fechaActual->tm_mon + 1;
+    int diaActual = fechaActual->tm_mday;
+
+
+    do
+    {
+        printf("\nClave del mercado [1 - 100] ~ ");
+        if(scanf("%d", &DatosVentas.claveMercado) != 1 || !isInIntRange(&DatosVentas.claveMercado, 1, 100))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de mercado invalida.\n");
+        }
+        else if (!existeClave(3, &DatosVentas.claveMercado))
+        {
+            isInvalid = true;
+
+            do
+            {
+                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                fflush(stdin);
+                scanf("%c", &opcionRegistrar);
+
+                opcionRegistrar = tolower(opcionRegistrar);
+                opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                if(opcionRegistrarInvalida)
+                    printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+            } while(opcionRegistrarInvalida);
+            
+            if(opcionRegistrar == 's')
+            {
+                if((archivo_NuevoRegistro = fopen("./Data_files/Mercados.dat","rb+")) == NULL)
+                    printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                else
+                {
+                    lecturaMercado(archivo_NuevoRegistro);
+
+                    fclose(archivo_NuevoRegistro);
+
+                    if(existeClave(3, &DatosVentas.claveMercado))
+                        isInvalid = false;
+                    else
+                        printf("\nLa clave ingresada y el mercado registrado no coinciden, ingresala de nuevo.\n");
+                }
+            }
+        }
+        else    
+            isInvalid = false;
+            
+    } while (isInvalid);
+
+    do
+    {
+        printf("\nClave del empleado [1 - 1000] ~ ");
+        if(scanf("%d", &DatosVentas.claveEmpleado) != 1 || !isInIntRange(&DatosVentas.claveEmpleado, 1, 1000))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de empleado invalida.\n");
+        }
+        else if (!existeClave(4, &DatosVentas.claveEmpleado))
+        {
+            isInvalid = true;
+
+            do
+            {
+                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el empleado? [s/n]");
+                fflush(stdin);
+                scanf("%c", &opcionRegistrar);
+
+                opcionRegistrar = tolower(opcionRegistrar);
+                opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                if(opcionRegistrarInvalida)
+                    printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+            } while(opcionRegistrarInvalida);
+            
+            if(opcionRegistrar == 's')
+            {
+                if((archivo_NuevoRegistro = fopen("./Data_files/Empleados.dat","rb+")) == NULL)
+                    printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                else
+                {
+                    lecturaEmpleado(archivo_NuevoRegistro);
+
+                    fclose(archivo_NuevoRegistro);
+
+                    if(existeClave(4, &DatosVentas.claveEmpleado))
+                        isInvalid = false;
+                    else
+                        printf("\nLa clave ingresada y el empleado registrado no coinciden, ingresala de nuevo.\n");
+                }
+            }
+        }
+        else
+            isInvalid = false;
+            
+    } while (isInvalid);
+
+    fprintf(archivoVentas, "%d-%d-%f-%d-%d-%d", 
+                            DatosVentas.claveMercado, 
+                            DatosVentas.claveEmpleado, 
+                            DatosVentas.precioTotal,
+                            diaActual, mesActual, anioActual);
+
+    do
+    {
+        precioUnitario = 0;
+        subtotalPorArticulo = 0;
+
+        do
+        {
+            printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 100))
+            {
+                isInvalid = true;
+                printf("\nERROR: Clave de mercado invalida.\n");
+            }
+            else if (!existeClave(3, &DatosVentas.claveArticulo))
+            {
+                isInvalid = true;
+
+                do
+                {
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                    fflush(stdin);
+                    scanf("%c", &opcionRegistrar);
+
+                    opcionRegistrar = tolower(opcionRegistrar);
+                    opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+
+                    if(opcionRegistrarInvalida)
+                        printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+
+                } while(opcionRegistrarInvalida);
+                
+                if(opcionRegistrar == 's')
+                {
+                    if((archivo_NuevoRegistro = fopen("./Data_files/Articulos.dat","rb+")) == NULL)
+                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    else
+                    {
+                        lecturaArticulo(archivo_NuevoRegistro);
+
+                        fclose(archivo_NuevoRegistro);
+
+                        if(existeClave(1, &DatosVentas.claveArticulo))
+                            isInvalid = false;
+                        else
+                            printf("\nLa clave ingresada y el articulo registrado no coinciden, ingresala de nuevo.\n");
+                    }
+                }
+            }
+            else    
+                isInvalid = false;
+
+        } while (isInvalid);
+
+        do
+        {
+            printf("\nCantidad del producto [Mayor a 0] ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &DatosVentas.cantidad) != 1 || !intMoreThanZero(&DatosVentas.cantidad, false))
+            {
+                isInvalid = true;
+                printf("\nERROR: Cantidad invalida.\n");
+            } 
+            else if (!verificarInventario(&DatosVentas.claveArticulo, &DatosVentas.cantidad, &precioUnitario))
+            {
+                isInvalid = true;
+                printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
+            }
+            else
+                isInvalid = false;
+
+        } while (isInvalid);
+
+        subtotalPorArticulo = precioUnitario * DatosVentas.cantidad;
+
+        printf("\nPrecio unitario del articulo: %.2f\n", precioUnitario);
+        printf("Subtotal de este articulo: %.2f\n", subtotalPorArticulo);
+
+        DatosVentas.precioTotal += subtotalPorArticulo;
+
+        fprintf(archivoVentas, "#%d-%d", DatosVentas.claveArticulo, DatosVentas.cantidad);
+
+        do
+        {
+            printf("\nDesea agregar mas articulos a la venta? [s/n]");
+            fflush(stdin);
+            scanf("%c", &agregarMasArticulos);
+
+            if(agregarMasArticulos != 's' && agregarMasArticulos != 'n')
+            {
+                printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+
+        } while (isInvalid);
+        
+    } while (agregarMasArticulos == 's');
+
+    fprintf(archivoVentas, "$%f\n", DatosVentas.precioTotal);
+
+    printf("PAGO TOTAL DE LA VENTA: %.2f", DatosVentas.precioTotal);
+}
+
+void lecturaCompras(FILE *archivoCompras)
+{
+    printf("lol");
 }

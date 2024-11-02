@@ -7,7 +7,7 @@ main()
 	int opcionMenuPrincipal;
 	FILE *filePtr;
 	char agregarMas;
-	bool isValid, existeArchivo, hayInsumos, hayMercados, hayProveedores;
+	bool isValid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
 
 	do
 	{
@@ -249,11 +249,99 @@ main()
 			case 6:	// Ventas
 				
 				//VALIDAR QUE EXISTAN MERCADOS, ARTICULOS Y EMPLEADOS
-				
+				hayArticulos = VerificarHayRegistros(1);
+				hayMercados = VerificarHayRegistros(3);
+				hayEmpleados = VerificarHayRegistros(4);
+
+				if(hayArticulos && hayMercados && hayEmpleados)
+				{
+					if ((filePtr = fopen("./Data_files/Ventas.txt", "a+")) == NULL)
+                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    else
+					{
+						do
+						{
+							lecturaVentas(filePtr);
+							
+                            do
+							{
+								printf("Realizar otra venta? [s/n] ~ ");
+								fflush(stdin);
+								scanf("%c", &agregarMas);
+
+								agregarMas = tolower(agregarMas);
+
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								
+								if (isInvalid)
+									printf("Respuesta invalida [s/n].\n");
+								
+							} while (isInvalid);
+						
+						} while (agregarMas == 's');
+
+						fclose(filePtr);
+					}
+				}
+				else
+				{
+					printf("No fue posible abrir el archivo debido a:\n");
+					if(!hayArticulos)
+						printf("\t- No existen ARTICULOS guardados.\n");
+					
+					if(!hayMercados)
+						printf("\t- No existen MERCADOS guardados.\n");
+
+					if(!hayEmpleados)
+						printf("\t- No existen EMPLEADOS guardados.\n");
+				}
+
 				break;
 			case 7:	//Compras
 				
 				//VALIDAR QUE EXISTAN PROVEEDORES E INSUMOS
+				hayInsumos = VerificarHayRegistros(2);
+				hayProveedores = VerificarHayRegistros(5);
+
+				if(hayInsumos && hayProveedores)
+				{
+					if ((filePtr = fopen("./Data_files/Compras.txt", "a+")) == NULL)
+                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    else
+					{
+						do
+						{
+							lecturaVentas(filePtr);
+							
+                            do
+							{
+								printf("Realizar otra compra? [s/n] ~ ");
+								fflush(stdin);
+								scanf("%c", &agregarMas);
+
+								agregarMas = tolower(agregarMas);
+
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								
+								if (isInvalid)
+									printf("Respuesta invalida [s/n].\n");
+								
+							} while (isInvalid);
+						
+						} while (agregarMas == 's');
+
+						fclose(filePtr);
+					}
+				}
+				else
+				{
+					printf("No fue posible abrir el archivo debido a:\n");
+					if(!hayInsumos)
+						printf("\t- No existen INSUMOS guardados.\n");
+					
+					if(!hayProveedores)
+						printf("\t- No existen PROVEEDORES guardados.\n");
+				}
 				
 				break;
 			case 8:	//Control de Inventario

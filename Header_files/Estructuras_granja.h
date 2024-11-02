@@ -51,7 +51,7 @@ struct infoEmpleado
 
 struct infoVenta
 {
-	int claveMercado, claveArticulo, claveEmpleado, cantidad;
+	int claveMercado, claveArticulo, claveEmpleado, cantidad, year, month, day;
 	float precioTotal;
 	bool solicitaFactura;
 };
@@ -60,6 +60,7 @@ struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad;
 	float precioTotal;
+    bool entregado;
 };
 
 bool inicializarArchivo(int numeroArchivo)
@@ -217,47 +218,6 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
     return false;
 }
 
-/*
-bool IndicarHayRegistros(int numeroArchivo)
-{
-    FILE *archivoExistencias;
-    bool valorInicial = false, valorEnArchivo;
-
-    if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
-    {
-        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "w")) == NULL)
-            return false;
-        else
-        {
-            for(int i = 0; i < 7; i++)
-                fwrite(&valorInicial, sizeof(valorInicial), 1, archivoExistencias);
-            
-            fclose(archivoExistencias);
-        }
-    }
-    else
-        fclose(archivoExistencias);
-
-    if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb+")) == NULL)
-        return false;
-    else
-    {
-        fseek(archivoExistencias, (numeroArchivo - 1) * sizeof(bool), SEEK_SET);
-        fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
-
-        if (!valorEnArchivo)
-        {
-            valorEnArchivo = true;
-            fseek(archivoExistencias, (numeroArchivo - 1) * sizeof(bool), SEEK_SET);
-            fwrite(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
-        }
-        
-        fclose(archivoExistencias);
-        return true;
-    }
-}
-*/
-
 bool VerificarHayRegistros(int numeroArchivo)
 {
     FILE *archivoAVerificar;
@@ -288,64 +248,6 @@ bool VerificarHayRegistros(int numeroArchivo)
     else 
         return true;
 }
-
-/*bool Modificar_VerArchivoExistencias(int numeroArchivo, bool modificar)
-{
-    FILE *archivoExistencias;
-    bool valorInicial = false, valorEnArchivo, existenRegistros;
-
-    if (modificar)
-    {
-        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
-        {
-            if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "w")) == NULL)
-                return false;
-            else
-            {
-                for(int i = 0; i < 7; i++)
-                    fwrite(&valorInicial, sizeof(valorInicial), 1, archivoExistencias);
-                
-                fclose(archivoExistencias);
-            }
-        }
-        else
-        {
-            fclose(archivoExistencias);
-        }
-
-        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb+")) == NULL)
-            return false;
-        else
-        {
-            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
-            fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
-
-            if (!valorEnArchivo)
-                valorEnArchivo = true;
-
-            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
-            fwrite(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
-
-            fclose(archivoExistencias);
-            return true;
-        }
-    }
-    else
-    {
-        if((archivoExistencias = fopen("./Data_files/existenRegistros.dat", "rb")) == NULL)
-            return false;
-        else
-        {
-            fseek(archivoExistencias, numeroArchivo, SEEK_SET);
-            fread(&valorEnArchivo, sizeof(valorEnArchivo), 1, archivoExistencias);
-            fclose(archivoExistencias);
-        }
-        return valorEnArchivo;
-    }
-}
-
-*/
-
 
 float obtenerCosto(int *Insumos, int *sizeInsumos)
 {
@@ -380,4 +282,33 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
     fclose(archivoInsumos);
     
     return costoTotal;
+}
+
+bool verificarInventario(int *claveArticulo, int *cantidad, int *precio)
+{
+    FILE *archivoArticulos;
+    struct infoArticulo articuloActual;
+    
+    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
+    {
+        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        return false;
+    }
+    else
+    {
+        fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
+        fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
+
+        if (*cantidad > articuloActual.inventario)
+        {
+            fclose(archivoArticulos);
+            return false;
+        }
+        else
+        {
+            *precio = articuloActual.costoProduccion;
+            fclose(archivoArticulos);
+            return true;
+        }
+    }
 }
