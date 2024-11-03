@@ -27,7 +27,10 @@ main()
 		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
 		if(isInvalid)
+		{
+			fflush(stdin);
 			printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+		}
 		
 	} while(isInvalid);
 	
@@ -74,7 +77,7 @@ main()
 				}
 				else
 				{
-					printf("No fue posible abrir el archivo por las siguiente(s) razones:\n");
+					printf("\nNo fue posible abrir el archivo por las siguiente(s) razones:\n");
 					if(!existeArchivo)
 						printf("\t- ERROR EN EL ARCHIVO DE DATOS: \"Articulos.dat\".\n");
 					
@@ -124,7 +127,7 @@ main()
 				}
 				else
 				{
-					printf("No fue posible abrir el archivo por las siguiente(s) razones:\n");
+					printf("\nNo fue posible abrir el archivo por las siguiente(s) razones:\n");
 					if(!existeArchivo)
 						printf("\t- ERROR EN EL ARCHIVO DE DATOS: \"Insumos.dat\".\n");
 					
@@ -168,7 +171,7 @@ main()
 				}
 				else
 				{
-					printf("ERROR. No fue posible crear el archivo \"Mercados.dat\".\n");
+					printf("\nERROR. No fue posible crear el archivo \"Mercados.dat\".\n");
 				}
 				
 				break;
@@ -243,7 +246,7 @@ main()
 					}
 				}
 				else
-					printf("ERROR. No fue posible crear el archivo \"Proveedores.dat\".\n");
+					printf("\nERROR. No fue posible crear el archivo \"Proveedores.dat\".\n");
 
 				break;
 			case 6:	// Ventas
@@ -285,7 +288,7 @@ main()
 				}
 				else
 				{
-					printf("No fue posible abrir el archivo debido a:\n");
+					printf("\nNo fue posible abrir el archivo debido a:\n");
 					if(!hayArticulos)
 						printf("\t- No existen ARTICULOS guardados.\n");
 					
@@ -335,7 +338,7 @@ main()
 				}
 				else
 				{
-					printf("No fue posible abrir el archivo debido a:\n");
+					printf("\nNo fue posible abrir el archivo debido a:\n");
 					if(!hayInsumos)
 						printf("\t- No existen INSUMOS guardados.\n");
 					
@@ -370,7 +373,10 @@ main()
 			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
 			if(isInvalid)
+			{
+				fflush(stdin);
 				printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+			}
 			
 		} while(isInvalid);
 	}

@@ -68,7 +68,13 @@ bool minStringLength(char *cadena, int minLength)
 	return i >= minLength;
 }
 
-//FALTA FUNCION: Existe registro en archivo
+void retirarSaltoLinea(char *cadena)
+{
+    size_t longitud = strlen(cadena);
+    if (longitud > 0 && cadena[longitud - 1] == '\n') {
+        cadena[longitud - 1] = '\0';
+    }
+}
 
 bool intMoreThanZero(int *value, bool canBeEqual)
 {
@@ -86,8 +92,6 @@ bool floatMoreThanZero(float *value, bool canBeEqual)
 		return *value > 0;
 }
 
-//FALTA FUNCION: Validar RFC
-
 bool validarFecha(int *day, int *month, int *year)
 {
     int daysInMonth;
@@ -98,13 +102,13 @@ bool validarFecha(int *day, int *month, int *year)
     int mesActual = fechaActual->tm_mon + 1;
     int diaActual = fechaActual->tm_mday;
 
-    if (*year < anioActual) {
+    if (*year > anioActual) {
         return false;
     } else if (*year == anioActual) {
-        if (*month < mesActual) {
+        if (*month > mesActual) {
             return false;
         } else if (*month == mesActual) {
-            if (*day < diaActual) {
+            if (*day > diaActual) {
                 return false;
             }
         }
@@ -127,7 +131,6 @@ bool validarFecha(int *day, int *month, int *year)
 
     return *day >= 1 && *day <= daysInMonth;
 }
-
 
 int lengthChar(char *Cadena)
 {
@@ -329,7 +332,7 @@ bool validarRFC(struct infoDatosPersonales *datos)
     rfc[3] = toupper(nombreSeleccionado[0]);
 
     // 4. Tomar el año, mes y día de nacimiento y añadirlos al RFC
-    sprintf(rfc + 4, "%02d%02d%02d", datos->year % 100, datos->month, datos->day);
+    sprintf(rfc + 4, "%02d%02d%02d", datos->yearBirth % 100, datos->monthBirth, datos->dayBirth);
 
     // Asegurarse de que el RFC generado tenga una longitud de 10 para comparar
     rfc[10] = '\0';
@@ -342,43 +345,35 @@ bool validarRFC(struct infoDatosPersonales *datos)
     return es_valido;
 }
 
-
 bool esCorreoElectronico(char *correo)
 {
     int i = 0;
     bool arrobaEncontrada = false;
     bool puntoEncontradoDespuesDeArroba = false;
 
-    
-    if (!(*correo >= 'A' && *correo <= 'Z') || 
-        (*correo >= 'a' && *correo <= 'z'))
+    if (!((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))) 
         return false;
 
-    while (*(correo + i) != '\0')
+    while (correo[i] != '\0')
     {
-        if (*(correo + i) == '@')
+        if (correo[i] == '@')
         {
-            
             if (arrobaEncontrada)
                 return false;
             
             arrobaEncontrada = true;
 
-            if (!(*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
-                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
-            {
+            if (correo[i + 1] == '\0' || !((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
+                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z')))
                 return false;
-            }
         }
 
-        if (arrobaEncontrada && *(correo + i) == '.')
+        if (arrobaEncontrada && correo[i] == '.')
         {
-
-            if (!(*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
-                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
-            {
+            if (correo[i + 1] == '\0' || !((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
+                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z')))
                 return false;
-            }
+            
             puntoEncontradoDespuesDeArroba = true;
         }
 
@@ -387,4 +382,3 @@ bool esCorreoElectronico(char *correo)
 
     return arrobaEncontrada && puntoEncontradoDespuesDeArroba;
 }
-

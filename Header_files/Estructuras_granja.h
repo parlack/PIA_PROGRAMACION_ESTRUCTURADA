@@ -60,7 +60,7 @@ struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad;
     bool entregado;
-	float totalDeCompra;
+	float totalDeCompra, descuento;
 };
 
 bool inicializarArchivo(int numeroArchivo)
@@ -287,7 +287,7 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
     return costoTotal;
 }
 
-bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool restarCantidad)
+bool verificarInventario(int *claveArticulo, int cantidad, float *precio, bool restarCantidad)
 {
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
@@ -302,7 +302,7 @@ bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool re
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
         fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
 
-        if (*cantidad > articuloActual.inventario)
+        if (cantidad > articuloActual.inventario)
         {
             fclose(archivoArticulos);
             return false;
@@ -312,7 +312,7 @@ bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool re
             *precio = articuloActual.costoProduccion;
 
             if(restarCantidad)
-                articuloActual.inventario -= *cantidad;
+                articuloActual.inventario -= cantidad;
             
             fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
             fwrite(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
@@ -323,7 +323,7 @@ bool verificarInventario(int *claveArticulo, int *cantidad, int *precio, bool re
     }
 }
 
-bool esInsumoValido(int *claveProveedor, int *claveInsumo, int *precioUnitario)
+bool esInsumoValido(int *claveProveedor, int *claveInsumo, float *precioUnitario)
 {
     FILE *archivoInsumos;
     int i;
@@ -339,9 +339,9 @@ bool esInsumoValido(int *claveProveedor, int *claveInsumo, int *precioUnitario)
         fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(struct infoInsumo), SEEK_SET);
         fread(&insumoActual, sizeof(struct infoInsumo), 1, archivoInsumos);
 
-        for(i = 0; i < 10 && insumoActual.proveedores[i] != 0; i++)
+        for(i = 0; i < 10 && insumoActual.clavesProveedores[i] != 0; i++)
         {
-            if(insumoActual.proveedores[i] == *claveProveedor && insumoActual.inventario >= 1)
+            if(insumoActual.clavesProveedores[i] == *claveProveedor && insumoActual.inventario >= 1)
             {
                 *precioUnitario = insumoActual.precioSurtido[i];
                 fclose(archivoInsumos);
@@ -351,5 +351,48 @@ bool esInsumoValido(int *claveProveedor, int *claveInsumo, int *precioUnitario)
 
         fclose(archivoInsumos);
         return false;
+    }
+}
+
+void modificarSaldo(int *claveProveedor, float *monto)
+{
+    struct infoProveedor proveedorActual;
+    FILE *filePtr;
+
+    if((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
+    {
+        printf("Error al abrir el archivo. El saldo no se pudo reflejar.\n");
+    }
+    else
+    {
+        fseek(filePtr, (*claveProveedor - 1) * sizeof(proveedorActual), SEEK_SET);
+        fread(&proveedorActual, sizeof(proveedorActual), 1, filePtr);
+
+        proveedorActual.saldo += *monto;
+        
+        fseek(filePtr, (*claveProveedor - 1) * sizeof(proveedorActual), SEEK_SET);
+        fwrite(&proveedorActual, sizeof(proveedorActual), 1, filePtr);
+
+        fclose(filePtr);
+    }
+}
+
+float obtenerDescuento(int *claveProveedor)
+{
+    struct infoProveedor proveedorActual;
+    FILE *filePtr;
+
+    if((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
+    {
+        printf("Error al abrir el archivo. No se pudo obtener la informacion.\n");
+        return 0;
+    }
+    else
+    {
+        fseek(filePtr, (*claveProveedor - 1) * sizeof(proveedorActual), SEEK_SET);
+        fread(&proveedorActual, sizeof(proveedorActual), 1, filePtr);
+        fclose(filePtr);
+
+        return proveedorActual.descuento;
     }
 }
