@@ -430,7 +430,7 @@ void lecturaInsumo(FILE *archivoInsumos)
 
         do
         {
-            printf("\nIngresar información de otro proveedor? [ %d/10 proveedores guardados ] ~ ", proveedores);
+            printf("\nIngresar informacion de otro proveedor? [ %d/10 proveedores guardados ] (s/n) ~ ", proveedores);
             fflush(stdin);
 
             if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
@@ -561,7 +561,7 @@ void lecturaMercado(FILE *archivoMercados)
     } while (isInvalid);
 
 
-    printf("\n\n\t----- FECHA DE NACIMIENTO DEL CLIENTE -----");
+    printf("\n\n\t----- FECHA DE NACIMIENTO DEL CLIENTE -----\n");
 
     do
     {        
@@ -859,7 +859,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
     } while (isInvalid);
 
 
-    printf("\n\n\t----- FECHA DE NACIMIENTO DEL EMPLEADO -----");
+    printf("\n\n\t----- FECHA DE NACIMIENTO DEL EMPLEADO -----\n");
 
     do
     {        
@@ -941,7 +941,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
     } while (isInvalid);
 
 
-    printf("\n\n\t##### FECHA DE CONTRATACION DEL EMPLEADO #####");
+    printf("\n\n\t----- FECHA DE CONTRATACION DEL EMPLEADO -----\n");
 
     do
     {        
@@ -1125,10 +1125,10 @@ void lecturaProveedor(FILE *archivoProveedores)
 
     do
     {
-        printf("Clave del proveedor [1 - 1000] ~ ");
+        printf("Clave del proveedor [1 - 100] ~ ");
         fflush(stdin);
 
-        if (scanf("%d", &DatosProveedor.clave) != 1 || !isInIntRange(&DatosProveedor.clave, 1, 1000))
+        if (scanf("%d", &DatosProveedor.clave) != 1 || !isInIntRange(&DatosProveedor.clave, 1, 100))
         {
             printf("\nERROR: Clave de proveedor invalida.\n");
             isInvalid = true;
@@ -1209,7 +1209,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
     do
     {        
-        printf("\n\n\t----- FECHA DE NACIMIENTO DEL PROVEEDOR -----");
+        printf("\n\n\t----- FECHA DE NACIMIENTO DEL PROVEEDOR -----\n");
         do
         {
             printf("A%co [1950 - 2006] ~ ", 164);
@@ -1261,6 +1261,8 @@ void lecturaProveedor(FILE *archivoProveedores)
     
     printf("\n\n----- RFC DEL PROVEEDOR -----\n");
 
+    /*
+
     do
     {
         printf("\nRFC: ~ ");
@@ -1287,6 +1289,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
     } while (isInvalid);
 
+    */
 
     printf("\n\n----- DOMICILIO DEL PROVEEDOR -----\n");
 
@@ -1649,12 +1652,11 @@ void lecturaCompras(FILE *archivoCompras)
     bool isInvalid, opcionRegistrarInvalida;
     char agregarMasInsumos, opcionRegistrar;
     float precioUnitario, subtotalPorInsumo;
-    int insumosComprados = 0;
     DatosCompra.totalDeCompra = 0;
 
     do
     {
-        printf("\nIngrese la clave del proveedor ~ ");
+        printf("\nIngrese la clave del proveedor [1 - 100] ~ ");
         fflush(stdin);
         
         if(scanf("%d", &DatosCompra.claveProveedor) != 1 || !isInIntRange(&DatosCompra.claveProveedor, 1, 100))
@@ -1702,6 +1704,9 @@ void lecturaCompras(FILE *archivoCompras)
 
     } while (isInvalid);
 
+
+    fprintf(archivoCompras, "%d-%d#", DatosCompra.claveProveedor, 0);
+
     do
     {
         precioUnitario = 0;
@@ -1709,7 +1714,7 @@ void lecturaCompras(FILE *archivoCompras)
 
         do
         {
-            printf("\nIngrese la clave del insumo [1 - 1000] ~ ");
+            printf("\nIngrese la clave del insumo [1 - 100] ~ ");
             fflush(stdin);
 
             if(scanf("%d", &DatosCompra.claveInsumo) != 1 || !isInIntRange(&DatosCompra.claveInsumo, 1, 100))
@@ -1753,12 +1758,12 @@ void lecturaCompras(FILE *archivoCompras)
                     }
                 }
             }
-            else if (!esInsumoValido(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario))
+            else if (!esInsumoValido(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion))
             {
                 isInvalid = true;
                 printf("\nEste insumo no tiene a este proveedor registrado.\n");
             }
-            else    
+            else
                 isInvalid = false;
 
         } while (isInvalid);
@@ -1780,12 +1785,14 @@ void lecturaCompras(FILE *archivoCompras)
 
         subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
 
-        printf("\nPrecio unitario del articulo: %.2f\n", precioUnitario);
+        printf("\nDescripcion del articulo: %s\n", DatosCompra.descripcion);
+        printf("Precio unitario del articulo: %.2f\n", precioUnitario);
         printf("Subtotal de este articulo: %.2f\n", subtotalPorInsumo);
+        printf("\nSubtotal actual de la compra: $%.2f\n", DatosCompra.totalDeCompra);
 
         DatosCompra.totalDeCompra += subtotalPorInsumo;
 
-        fprintf(archivoCompras, "%d-%d", DatosCompra.claveInsumo, DatosCompra.cantidad);
+        fprintf(archivoCompras, "%s-%d-%d", DatosCompra.descripcion, DatosCompra.claveInsumo, DatosCompra.cantidad);
 
         do
         {
@@ -1807,16 +1814,18 @@ void lecturaCompras(FILE *archivoCompras)
         else
             fprintf(archivoCompras, "♥");
         
-        insumosComprados ++;
-        
     } while (agregarMasInsumos == 's');
 
+    printf("\nSubtotal de la compra: $%.2f", DatosCompra.totalDeCompra);
 
     DatosCompra.descuento = obtenerDescuento(&DatosCompra.claveProveedor);
-    DatosCompra.totalDeCompra *= (1 + DatosCompra.descuento);
-    modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra);
+    DatosCompra.totalDeCompra *= (1 - DatosCompra.descuento);
 
-    fprintf(archivoCompras, "-%d-%f$", DatosCompra.claveProveedor, DatosCompra.totalDeCompra);
+    printf("\nDescuento con este proveedor: %.2f", DatosCompra.descuento);
+    printf("\nTotal de la compra: $%.2f", DatosCompra.totalDeCompra);
+
+    modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
+
+    fprintf(archivoCompras, "%f$", DatosCompra.totalDeCompra);
     printf("\n----------------- PAGO TOTAL DE LA COMPRA: %.2f\n", DatosCompra.totalDeCompra);
-
 }
