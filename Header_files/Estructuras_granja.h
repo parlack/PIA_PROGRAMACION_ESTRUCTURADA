@@ -52,8 +52,8 @@ struct infoEmpleado
 struct infoVenta
 {
 	int claveMercado, claveArticulo, claveEmpleado, cantidad, year, month, day;
-	float precioTotal;
-	bool solicitaFactura;
+	float precioTotal, descuento;
+    char descripcion[51];
 };
 
 struct infoCompra
@@ -287,7 +287,7 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
     return costoTotal;
 }
 
-bool verificarInventario(int *claveArticulo, int cantidad, float *precio, bool restarCantidad)
+bool verificarInventario(int *claveArticulo, int cantidad, int *inventarioActual)
 {
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
@@ -302,24 +302,14 @@ bool verificarInventario(int *claveArticulo, int cantidad, float *precio, bool r
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
         fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
 
+        *inventarioActual = articuloActual.inventario;
+
+        fclose(archivoArticulos);
+
         if (cantidad > articuloActual.inventario)
-        {
-            fclose(archivoArticulos);
             return false;
-        }
         else
-        {
-            *precio = articuloActual.costoProduccion;
-
-            if(restarCantidad)
-                articuloActual.inventario -= cantidad;
-            
-            fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
-            fwrite(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
-
-            fclose(archivoArticulos);
             return true;
-        }
     }
 }
 
@@ -382,22 +372,111 @@ void modificarSaldo(int *claveProveedor, float *monto, const char modo)
     }
 }
 
-float obtenerDescuento(int *claveProveedor)
+float obtenerDescuento(int *clave, int numeroArchivo)
 {
-    struct infoProveedor proveedorActual;
+    FILE *filePtr;
+    const char *filename;
+    size_t structSize;
+    float descuento = 0;
+
+    if (numeroArchivo == 1)
+    {
+        filename = "./Data_files/Proveedores.dat";
+        structSize = sizeof(struct infoProveedor);
+    }
+    else if (numeroArchivo == 2)
+    {
+        filename = "./Data_files/Mercados.dat";
+        structSize = sizeof(struct infoMercado);
+    }
+    else
+    {
+        printf("Número de archivo no válido.\n");
+        return 0;
+    }
+
+
+    if ((filePtr = fopen(filename, "rb+")) == NULL)
+    {
+        printf("Error al abrir el archivo. No se pudo obtener la información.\n");
+        return 0;
+    }
+
+    fseek(filePtr, (*clave - 1) * structSize, SEEK_SET);
+
+    if (numeroArchivo == 1)
+    {
+        struct infoProveedor proveedorActual;
+        fread(&proveedorActual, structSize, 1, filePtr);
+        descuento = proveedorActual.descuento;
+    }
+    else
+    {
+        struct infoMercado mercadoActual;
+        fread(&mercadoActual, structSize, 1, filePtr);
+        descuento = mercadoActual.descuento;
+    }
+
+    fclose(filePtr);
+    return descuento;
+}
+
+float obtenerComision(int *clave)
+{
+    struct infoEmpleado empleadoActual;
     FILE *filePtr;
 
-    if((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
+    if((filePtr = fopen("./Data_files/Empleados.dat", "rb+")) == NULL)
     {
         printf("Error al abrir el archivo. No se pudo obtener la informacion.\n");
         return 0;
     }
     else
     {
-        fseek(filePtr, (*claveProveedor - 1) * sizeof(proveedorActual), SEEK_SET);
-        fread(&proveedorActual, sizeof(proveedorActual), 1, filePtr);
+        fseek(filePtr, (*clave - 1) * sizeof(empleadoActual), SEEK_SET);
+        fread(&empleadoActual, sizeof(empleadoActual), 1, filePtr);
         fclose(filePtr);
 
-        return proveedorActual.descuento;
+        return empleadoActual.comision;
+    }
+}
+
+void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
+{
+    FILE *archivoArticulos;
+    struct infoArticulo articuloActual;
+    
+    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
+        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+    else
+    {
+        fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
+        fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
+
+        *precio = articuloActual.costoProduccion;
+        strcpy(descripcion, articuloActual.descripcion);
+
+        fclose(archivoArticulos);
+    }
+}
+
+void restarInventario(int *claveArticulo, int *cantidad)
+{
+    FILE *archivoArticulos;
+    struct infoArticulo articuloActual;
+    
+    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
+        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+    else
+    {
+        fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
+        fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
+
+        articuloActual.inventario -= *cantidad;
+
+        fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
+        fwrite(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
+
+        fclose(archivoArticulos);
     }
 }

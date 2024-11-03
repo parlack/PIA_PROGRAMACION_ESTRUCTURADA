@@ -11,7 +11,7 @@ main()
 
 	do
 	{
-		printf("\tMEN%c PRINCIPAL\n\n", 233);
+		printf("\n\n\t\033[1;33mMEN%c PRINCIPAL\n\n", 233);
 		printf("1 - Art%cculos\n", 161);
 		printf("2 - Insumos\n");
 		printf("3 - Mercados\n");
@@ -22,7 +22,7 @@ main()
 		printf("8 - Control de Inventario\n");
 		printf("9 - Reportes\n");
 		printf("10 - SALIR\n");
-		printf("[ Ingresa una opci%cn ] ~ ", 162);
+		printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
 		
 		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
@@ -258,33 +258,34 @@ main()
 
 				if(hayArticulos && hayMercados && hayEmpleados)
 				{
-					if ((filePtr = fopen("./Data_files/Ventas.txt", "a+")) == NULL)
-                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    else
+					do
 					{
-						do
+						if ((filePtr = fopen("./Data_files/Ventas.txt", "a+")) == NULL)
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+						else
 						{
 							lecturaVentas(filePtr);
-							
-                            do
-							{
-								printf("Realizar otra venta? [s/n] ~ ");
-								fflush(stdin);
-								scanf("%c", &agregarMas);
-
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
-								
-								if (isInvalid)
-									printf("Respuesta invalida [s/n].\n");
-								
-							} while (isInvalid);
+							fclose(filePtr);
+						}
 						
-						} while (agregarMas == 's');
+						do
+						{
+							printf("Realizar otra venta? [s/n] ~ ");
+							fflush(stdin);
 
-						fclose(filePtr);
-					}
+							if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
+							{
+								printf("Respuesta invalida [s/n].\n");
+								isInvalid = true;
+							}
+							else
+								isInvalid = false;
+							
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
+
 				}
 				else
 				{
@@ -357,7 +358,7 @@ main()
 		
 		do
 		{
-			printf("\n\n\tMEN%c PRINCIPAL\n\n", 233);
+			printf("\n\n\t\033[1;33mMEN%c PRINCIPAL\n\n", 233);
 			printf("1 - Art%cculos\n", 161);
 			printf("2 - Insumos\n");
 			printf("3 - Mercados\n");
@@ -368,7 +369,7 @@ main()
 			printf("8 - Control de Inventario\n");
 			printf("9 - Reportes\n");
 			printf("10 - SALIR\n");
-			printf("[ Ingresa una opci%cn ] ~ ", 162);
+			printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
 
 			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
