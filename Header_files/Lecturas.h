@@ -173,7 +173,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n] ~ ");
                     fflush(stdin);
 
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
@@ -188,7 +188,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("./Data_files/Mercados.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Data_files/Mercados.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -244,7 +244,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
                     fflush(stdin);
 
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
@@ -259,7 +259,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("./Data_files/Insumos.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Data_files/Insumos.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -392,7 +392,7 @@ void lecturaInsumo(FILE *archivoInsumos)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n] ~ ");
                     fflush(stdin);
 
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
@@ -407,7 +407,7 @@ void lecturaInsumo(FILE *archivoInsumos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("./Data_files/Proveedores.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Data_files/Proveedores.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -1461,7 +1461,7 @@ void lecturaVentas(FILE *archivoVentas)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("./Data_files/Empleados.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Data_files/Empleados.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1512,7 +1512,7 @@ void lecturaVentas(FILE *archivoVentas)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("./Data_files/Mercados.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Data_files/Mercados.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1685,7 +1685,7 @@ void lecturaCompras(FILE *archivoCompras)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("./Data_files/Proveedores.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Data_files/Proveedores.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1728,7 +1728,7 @@ void lecturaCompras(FILE *archivoCompras)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
                     fflush(stdin);
                     
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
@@ -1743,11 +1743,11 @@ void lecturaCompras(FILE *archivoCompras)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("./Data_files/Articulos.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Data_files/Insumos.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
-                        lecturaArticulo(archivo_NuevoRegistro);
+                        lecturaInsumo(archivo_NuevoRegistro);
 
                         fclose(archivo_NuevoRegistro);
 
