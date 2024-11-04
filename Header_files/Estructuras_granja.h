@@ -421,7 +421,7 @@ float obtenerDescuento(int *clave, int numeroArchivo)
     return descuento;
 }
 
-float obtenerComision(int *clave)
+float obtenerComision(int *claveEmpleado)
 {
     struct infoEmpleado empleadoActual;
     FILE *filePtr;
@@ -433,7 +433,7 @@ float obtenerComision(int *clave)
     }
     else
     {
-        fseek(filePtr, (*clave - 1) * sizeof(empleadoActual), SEEK_SET);
+        fseek(filePtr, (*claveEmpleado - 1) * sizeof(empleadoActual), SEEK_SET);
         fread(&empleadoActual, sizeof(empleadoActual), 1, filePtr);
         fclose(filePtr);
 
@@ -460,7 +460,7 @@ void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
     }
 }
 
-void restarInventario(int *claveArticulo, int *cantidad)
+void restarInventarioArticulos(int *claveArticulo, int *cantidad)
 {
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;

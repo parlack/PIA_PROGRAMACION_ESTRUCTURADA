@@ -1434,8 +1434,6 @@ void lecturaVentas(FILE *archivoVentas)
     int mesActual = fechaActual->tm_mon + 1;
     int diaActual = fechaActual->tm_mday;
 
-    long inicioRegistro = ftell(archivo_NuevoRegistro);
-
     do
     {
         printf("\nClave del empleado [1 - 1000] ~ ");
@@ -1640,7 +1638,7 @@ void lecturaVentas(FILE *archivoVentas)
 
         fprintf(archivoVentas, "%d-%d", DatosVentas.claveArticulo, DatosVentas.cantidad);
 
-        restarInventario(&DatosVentas.claveArticulo, &DatosVentas.cantidad);
+        restarInventarioArticulos(&DatosVentas.claveArticulo, &DatosVentas.cantidad);
 
         do
         {
@@ -1753,7 +1751,7 @@ void lecturaCompras(FILE *archivoCompras)
     } while (isInvalid);
 
 
-    fprintf(archivoCompras, "%d-%d#", DatosCompra.claveProveedor, 0);
+    fprintf(archivoCompras, "%d-0#", DatosCompra.claveProveedor);
 
     do
     {
@@ -1860,7 +1858,7 @@ void lecturaCompras(FILE *archivoCompras)
         if(agregarMasInsumos == 's')
             fprintf(archivoCompras, "#");
         else
-            fprintf(archivoCompras, "♥");
+            fprintf(archivoCompras, "*");
         
     } while (agregarMasInsumos == 's');
 
@@ -1872,8 +1870,73 @@ void lecturaCompras(FILE *archivoCompras)
     printf("\nDescuento con este proveedor: %.2f", DatosCompra.descuento);
     printf("\nTotal de la compra: $%.2f", DatosCompra.totalDeCompra);
 
-    modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
+    modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '+');
 
     fprintf(archivoCompras, "%f$", DatosCompra.totalDeCompra);
     printf("\n----------------- PAGO TOTAL DE LA COMPRA: %.2f\n", DatosCompra.totalDeCompra);
+}
+
+void controlInventario(FILE *archivoCompras)
+{
+    struct infoCompra DatosCompra;
+    int i = 0;
+    int claveProveedorBuscado;
+    bool isInvalid, letreroImpreso = false;
+    char separador;
+
+    printf("\t----- CONTROL DE INVENTARIO ----- \n\n");
+
+    do
+    {
+        printf("\nIngrese la clave del proveedor [1 - 100] ~ ");
+        fflush(stdin);
+        
+        if(scanf("%d", &DatosCompra.claveProveedor) != 1 || !isInIntRange(&DatosCompra.claveProveedor, 1, 100))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de proveedor invalida.\n");
+        }
+        else if (!existeClave(5, &DatosCompra.claveProveedor))
+        {
+            isInvalid = true;
+            printf("\nERROR: La clave ingresada no esta registrada.\n");
+        }
+        else    
+            isInvalid = false;
+
+    } while (isInvalid);
+
+    while (fscanf(archivoCompras, "%d-%d%c", &claveProveedorBuscado, &DatosCompra.entregado, &separador) == 3)
+    {
+        if (DatosCompra.entregado == 0 && DatosCompra.claveProveedor == claveProveedorBuscado)
+        {
+            if (!letreroImpreso)
+            {
+                printf("\nCompras con entrega pendiente para el proveedor con clave: %d\n", DatosCompra.claveProveedor);
+                printf("\n| %15s | %15s | %50s | %15s |\n", "ID COMPRA", "INSUMO", "DESCRIPCION", "CANTIDAD");
+                printf(" ___________________________________________________________________________________________________________\n");
+                letreroImpreso = true;
+            }
+
+            
+            while (separador == '#')
+            {
+                if (fscanf(archivoCompras, "%[^-]-%d-%d%c", DatosCompra.descripcion, &DatosCompra.claveInsumo, &DatosCompra.cantidad, &separador) == 4)
+                {
+                    printf("| %15d | %15d | %50s | %15d |\n", i + 1, DatosCompra.claveInsumo, DatosCompra.descripcion, DatosCompra.cantidad);
+                }
+            }
+
+            
+            if (separador == '*')
+            {
+                fscanf(archivoCompras, "%f$", &DatosCompra.totalDeCompra);
+                printf("%80s: $%.2f\n", "TOTAL DE COMPRA", DatosCompra.totalDeCompra);
+                printf(" -----------------------------------------------------------------------------------------------------------\n");
+            }
+        }
+        i++;
+    }
+
+    //FALTA PEDIR AL CLIENTE LA CLAVE DE LA COMPRA DE LA CUAL QUIERE SEÑALAR LA ENTREGA
 }

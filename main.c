@@ -285,7 +285,6 @@ main()
 						} while (isInvalid);
 					
 					} while (agregarMas == 's');
-
 				}
 				else
 				{
@@ -309,33 +308,32 @@ main()
 
 				if(hayInsumos && hayProveedores)
 				{
-					if ((filePtr = fopen("./Data_files/Compras.txt", "a+")) == NULL)
-                        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    else
+					do
 					{
-						do
+						if ((filePtr = fopen("./Data_files/Compras.txt", "a+")) == NULL)
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+						else
 						{
 							lecturaCompras(filePtr);
+							fclose(filePtr);
+						}
 							
-                            do
+						do
+						{
+							printf("Realizar otra compra? [s/n] ~ ");
+							fflush(stdin);
+
+							if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
 							{
-								printf("Realizar otra compra? [s/n] ~ ");
-								fflush(stdin);
-								scanf("%c", &agregarMas);
-
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
-								
-								if (isInvalid)
-									printf("Respuesta invalida [s/n].\n");
-								
-							} while (isInvalid);
-						
-						} while (agregarMas == 's');
-
-						fclose(filePtr);
-					}
+								printf("Respuesta invalida [s/n].\n");
+								isInvalid = true;
+							}
+							else
+								isInvalid = false;
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -350,7 +348,33 @@ main()
 				break;
 			case 8:	//Control de Inventario
 				
-				//VALIDAR QUE EXISTAN COMPRAS
+				do
+				{
+					if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
+						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+					else
+					{
+						controlInventario(filePtr);
+						fclose(filePtr);
+					}
+						
+					do
+					{
+						printf("Agregar otra recepcion? [s/n] ~ ");
+						fflush(stdin);
+
+						if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
+						{
+							printf("Respuesta invalida [s/n].\n");
+							isInvalid = true;
+						}
+						else
+							isInvalid = false;
+						
+					} while (isInvalid);
+				
+				} while (agregarMas == 's');
+				
 				break;
 			case 9: //Reportes
 				break;

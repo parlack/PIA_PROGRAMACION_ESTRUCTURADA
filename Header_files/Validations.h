@@ -3,6 +3,7 @@
 #include <time.h>
 #include "Estructuras_granja.h"
 
+
 bool isInIntRange(int *value, int min, int max)
 {
 	return *value >= min && *value <= max;
