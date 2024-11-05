@@ -4,7 +4,7 @@
 
 main()
 {
-	int opcionMenuPrincipal;
+	int opcionMenuPrincipal, opcionMenuReporte;
 	FILE *filePtr;
 	char agregarMas;
 	bool isInvalid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
@@ -249,7 +249,7 @@ main()
 					printf("\nERROR. No fue posible crear el archivo \"Proveedores.dat\".\n");
 
 				break;
-			case 6:	// Ventas
+			case 6:	// Ventas 				//TERMINAR FACTURA
 				
 				//VALIDAR QUE EXISTAN MERCADOS, ARTICULOS Y EMPLEADOS
 				hayArticulos = VerificarHayRegistros(1);
@@ -377,6 +377,30 @@ main()
 				
 				break;
 			case 9: //Reportes
+
+				do
+				{
+					printf("\n\n\t\033[1;33mMEN%c DE REPORTES\n\n", 233);
+					printf("a - Listado de art%cculos\n", 161);
+					printf("b - Total de venta por fecha\n");
+					printf("c - Total de venta por art%cculo\n", 161);
+					printf("d - Listado de artículos a solicitar\n");
+					printf("e - Saldos por pagar\n");
+					printf("f - C%clculo de comisiones\n", 131);
+					printf("g - Compras pendientes de recepci%cn\n", 162);
+					printf("h - Salir\n");
+					printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+
+					isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
+				
+					if(isInvalid)
+					{
+						fflush(stdin);
+						printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+					}
+				
+				} while(isInvalid);
+				
 				break;
 		}
 		

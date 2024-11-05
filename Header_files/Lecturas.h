@@ -616,7 +616,6 @@ void lecturaMercado(FILE *archivoMercados)
     
     printf("\n\n----- RFC DEL CLIENTE -----\n");
 
-    /*
     do
     {
         printf("\nRFC: ~ ");
@@ -642,8 +641,6 @@ void lecturaMercado(FILE *archivoMercados)
         }
 
     } while (isInvalid);
-    */
-
 
     printf("\n\n----- DOMICILIO DEL CLIENTE -----\n");
 
@@ -916,7 +913,6 @@ void lecturaEmpleado(FILE *archivoEmpleados)
     
     printf("\n\n----- RFC DEL EMPLEADO -----\n");
 
-    /*
     do
     {
         printf("\nRFC: ~ ");
@@ -942,8 +938,6 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         }
 
     } while (isInvalid);
-    
-    */
 
     printf("\n\n\t----- FECHA DE CONTRATACION DEL EMPLEADO -----\n");
 
@@ -1265,8 +1259,6 @@ void lecturaProveedor(FILE *archivoProveedores)
     
     printf("\n\n----- RFC DEL PROVEEDOR -----\n");
 
-    /*
-
     do
     {
         printf("\nRFC: ~ ");
@@ -1292,8 +1284,6 @@ void lecturaProveedor(FILE *archivoProveedores)
         }
 
     } while (isInvalid);
-
-    */
 
     printf("\n\n----- DOMICILIO DEL PROVEEDOR -----\n");
 
@@ -1605,6 +1595,7 @@ void lecturaVentas(FILE *archivoVentas)
 
         } while (isInvalid);
 
+        //TOTAL DE VENTAS POR ARTICULO
         do
         {
             printf("\nCantidad del producto [Mayor a 0] ~ ");
@@ -1658,7 +1649,7 @@ void lecturaVentas(FILE *archivoVentas)
         if(agregarMasArticulos == 's')
             fprintf(archivoVentas, "#");
         else
-            fprintf(archivoVentas, "♥");
+            fprintf(archivoVentas, "*");
         
     } while (agregarMasArticulos == 's');
 
@@ -1831,9 +1822,9 @@ void lecturaCompras(FILE *archivoCompras)
 
         subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
 
-        printf("\nDescripcion del articulo: %s\n", DatosCompra.descripcion);
-        printf("Precio unitario del articulo: %.2f\n", precioUnitario);
-        printf("Subtotal de este articulo: %.2f\n", subtotalPorInsumo);
+        printf("\nDescripcion del insumo: %s\n", DatosCompra.descripcion);
+        printf("Precio unitario del insumo: %.2f\n", precioUnitario);
+        printf("Subtotal de este insumo: %.2f\n", subtotalPorInsumo);
         printf("\nSubtotal actual de la compra: $%.2f\n", DatosCompra.totalDeCompra);
 
         DatosCompra.totalDeCompra += subtotalPorInsumo;

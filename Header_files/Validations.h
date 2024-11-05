@@ -72,9 +72,9 @@ bool minStringLength(char *cadena, int minLength)
 void retirarSaltoLinea(char *cadena)
 {
     size_t longitud = strlen(cadena);
-    if (longitud > 0 && cadena[longitud - 1] == '\n') {
+
+    if (longitud > 0 && cadena[longitud - 1] == '\n') 
         cadena[longitud - 1] = '\0';
-    }
 }
 
 bool intMoreThanZero(int *value, bool canBeEqual)
