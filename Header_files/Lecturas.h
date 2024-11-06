@@ -923,7 +923,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (fgets(DatosEmpleado.datosPersonales.RFC, sizeof(DatosEmpleado.datosPersonales.RFC), stdin) != NULL)
         {
-            retirarSaltoLinea(DatosEmpleado.datosPersonales.RFC);
+            
             for (i = 0; i < strlen(DatosEmpleado.datosPersonales.RFC); i++) 
                 DatosEmpleado.datosPersonales.RFC[i] = toupper(DatosEmpleado.datosPersonales.RFC[i]);
             if(validarRFC(&DatosEmpleado.datosPersonales))
@@ -951,7 +951,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("A%co [1990 - 2024] ~ ", 164);
             fflush(stdin);
 
-            if (scanf("%d", &DatosEmpleado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.yearBirth, 1990, 2024))
+            if (scanf("%d", &DatosEmpleado.yearContratacion) != 1 || !isInIntRange(&DatosEmpleado.yearContratacion, 1990, 2024))
             {
                 printf("\nERROR: A%co invalido.\n", 164);
                 isInvalid = true;
@@ -965,7 +965,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("Mes [1- 12] ~ ");
             fflush(stdin);
 
-            if (scanf("%d", &DatosEmpleado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.monthBirth, 1, 12))
+            if (scanf("%d", &DatosEmpleado.monthContratacion) != 1 || !isInIntRange(&DatosEmpleado.monthContratacion, 1, 12))
             {
                 printf("\nERROR: Mes invalido.\n");
                 isInvalid = true;
@@ -979,7 +979,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("Dia [1 - 31] ~ ");
             fflush(stdin);
 
-            if (scanf("%d", &DatosEmpleado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.dayBirth, 1, 31))
+            if (scanf("%d", &DatosEmpleado.dayContratacion) != 1 || !isInIntRange(&DatosEmpleado.dayContratacion, 1, 31))
             {
                 printf("\nERROR: Dia invalido.\n");
                 isInvalid = true;
@@ -988,7 +988,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = false;
         } while (isInvalid);
 
-        fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.dayBirth);
+        fechaInvalida = !validarFecha(&DatosEmpleado.dayContratacion, &DatosEmpleado.monthContratacion, &DatosEmpleado.yearContratacion);
 
         if (fechaInvalida)
             printf("\nERROR: Fecha invalida.\n");
@@ -1417,7 +1417,7 @@ void lecturaVentas(FILE *archivoVentas)
     struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
     char agregarMasArticulos, opcionRegistrar, generarFactura;
-    float precioUnitario, subtotalPorArticulo;
+    float precioUnitario, subtotalPorArticulo, porcentajeComision;
     DatosVentas.precioTotal = 0;
 
     time_t t = time(NULL);
@@ -1658,11 +1658,13 @@ void lecturaVentas(FILE *archivoVentas)
 
     DatosVentas.descuento = obtenerDescuento(&DatosVentas.claveMercado, 2);
     DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
+    porcentajeComision = obtenerComision(&DatosVentas.claveEmpleado);
+    DatosVentas.comision *= porcentajeComision;
 
     printf("\nDescuento con este proveedor: %.2f", DatosVentas.descuento);
     printf("\nTotal de la venta: $%.2f", DatosVentas.precioTotal);
 
-    fprintf(archivoVentas, "%f$", DatosVentas.precioTotal);
+    fprintf(archivoVentas, "%f~%f$", DatosVentas.precioTotal, DatosVentas.comision);
 
     printf("\n----------------- PAGO TOTAL DE LA VENTA: %.2f\n", DatosVentas.precioTotal);
 
@@ -1821,7 +1823,7 @@ void lecturaCompras(FILE *archivoCompras)
 
         subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
 
-        obtenerDatosInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion)
+        obtenerDatosInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion);
 
         printf("\nDescripcion del insumo: %s\n", DatosCompra.descripcion);
         printf("Precio unitario del insumo: %.2f\n", precioUnitario);

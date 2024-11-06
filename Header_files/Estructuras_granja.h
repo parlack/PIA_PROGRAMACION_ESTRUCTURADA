@@ -52,7 +52,7 @@ struct infoEmpleado
 struct infoVenta
 {
 	int claveMercado, claveArticulo, claveEmpleado, cantidad, year, month, day;
-	float precioTotal, descuento;
+	float precioTotal, descuento, comision;
     char descripcion[51];
 };
 
@@ -199,10 +199,9 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 
     if(fread(estructuraPtr, sizeEstructura, 1, fPtr))
     {
+    	fclose(fPtr);
         switch (numeroArchivo)
         {
-            fclose(fPtr);
-            
             case 1:
                 return ((struct infoArticulo *)estructuraPtr)->clave != 0;
             case 2:

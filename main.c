@@ -421,13 +421,19 @@ main()
 
 							break;
 						case 'd':
-
+							
 							break;
 						case 'e':
 
 							break;
 						case 'f':
-
+							if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+							else
+							{
+								calculoDeComision(filePtr);
+								fclose(filePtr);
+							}
 							break;
 						case 'g':
 						    if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)

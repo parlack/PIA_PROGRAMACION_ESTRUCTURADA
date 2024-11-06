@@ -340,6 +340,7 @@ bool validarRFC(struct infoDatosPersonales *datos)
 
     // Comparar los primeros 10 caracteres del RFC generado con el RFC original proporcionado
     es_valido = (strncmp(rfc, datos->RFC, 10) == 0);
+    printf("\n%s %s\n", datos->RFC, rfc);
 
     
         

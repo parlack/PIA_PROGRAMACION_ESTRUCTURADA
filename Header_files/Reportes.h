@@ -53,6 +53,45 @@ void ReporteArticulos(FILE *archivoArticulos)
 
 }
 
+void calculoDeComision(FILE *archivoEmpleados)
+{
+    FILE *archivoVentas;
+    struct infoEmpleado DatosEmpleado;
+    float totalPorEmpleado, monto;
+    int claveEmpleadoVenta;
+    int i;
+
+    if ((archivoVentas = fopen("Data_files/Ventas.txt", "r")) == NULL)
+        printf("Error al calcular las comisiones de los empleados.\n");
+    else
+    {
+        printf("\nTOTAL DE COMISIONES POR EMPLEADO\n\n");
+        printf("| %15s | %-15s |\n", "ID EMPLEADO", "COMISION");
+        printf("-------------------------------------\n");
+
+        for (i = 0; i < 1000; i++)
+        {
+            totalPorEmpleado = 0;
+            fread(&DatosEmpleado, sizeof(struct infoEmpleado), 1, archivoEmpleados);
+
+            if (DatosEmpleado.comision != 0)
+            {
+                while(fscanf(archivoVentas, "%*[^-]-%d-%*[^~]~%f", &claveEmpleadoVenta, &monto) == 2)
+                    if (DatosEmpleado.clave == claveEmpleadoVenta)
+                        totalPorEmpleado += monto;
+                
+                if (totalPorEmpleado != 0)
+                {
+                    printf("| %15d | $%-15.3f|\n", DatosEmpleado.clave, totalPorEmpleado);
+                }
+                rewind(archivoVentas);
+            }
+        }
+
+        fclose(archivoVentas);
+    }
+}
+
 void comprasConRecepcionPendiente(FILE *archivoCompras)
 {
     struct infoCompra DatosCompra;
