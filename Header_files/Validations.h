@@ -62,9 +62,7 @@ int stringLength(char *cadena)
 	int i = 0;
 	
 	while(*(cadena + i) != '\0')
-	{
 		i++;
-	}
 	
 	return i;
 }
@@ -108,22 +106,24 @@ bool validarFecha(int *day, int *month, int *year)
     int mesActual = fechaActual->tm_mon + 1;
     int diaActual = fechaActual->tm_mday;
 
-    if (*year > anioActual) {
+    if (*year > anioActual) 
         return false;
-    } else if (*year == anioActual) {
-        if (*month > mesActual) {
+    else if (*year == anioActual)
+    {
+        if (*month > mesActual)
             return false;
-        } else if (*month == mesActual) {
-            if (*day > diaActual) {
+        else if (*month == mesActual) 
+        {
+            if (*day > diaActual)
                 return false;
-            }
         }
     }
 
-    switch (*month) {
+    switch (*month) 
+    {
         case 2:
         	
-            daysInMonth = (*year % 4 == 0 && (*year % 100 != 0 || *year % 400 == 0)) ? 29 : 28;
+            daysInMonth = (*year % 4 == 0 && *year % 100 != 0 || *year % 400 == 0) ? 29 : 28;
             break;
             
         case 4: case 6: case 9: case 11:
@@ -131,21 +131,16 @@ bool validarFecha(int *day, int *month, int *year)
             daysInMonth = 30;
             break;
             
-        default:
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
             daysInMonth = 31;
+            break;
+        
+        default:
+            return false;
+            break;
     }
 
     return *day >= 1 && *day <= daysInMonth;
-}
-
-int lengthChar(char *Cadena)
-{
-	int i = 0;
-
-	while(Cadena[i] != '\0')
-		i++;
-
-	return i;
 }
 
 bool existeMercado(int *key)

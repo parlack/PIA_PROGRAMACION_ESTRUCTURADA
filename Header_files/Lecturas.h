@@ -550,9 +550,9 @@ void lecturaMercado(FILE *archivoMercados)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
         } while (isInvalid);
 
-        distanciaCaracteres = lengthChar(DatosMercado.datosPersonales.nombres) +
-                              lengthChar(DatosMercado.datosPersonales.apellidoMaterno) +
-                              lengthChar(DatosMercado.datosPersonales.apellidoPaterno) + 2;
+        distanciaCaracteres = stringLength(DatosMercado.datosPersonales.nombres) +
+                              stringLength(DatosMercado.datosPersonales.apellidoMaterno) +
+                              stringLength(DatosMercado.datosPersonales.apellidoPaterno) + 2;
         isInvalid = distanciaCaracteres <= 20;
 
         if (isInvalid)
@@ -846,9 +846,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
         } while (isInvalid);
 
-        distanciaCaracteres = lengthChar(DatosEmpleado.datosPersonales.nombres) +
-                              lengthChar(DatosEmpleado.datosPersonales.apellidoMaterno) +
-                              lengthChar(DatosEmpleado.datosPersonales.apellidoPaterno) + 2;
+        distanciaCaracteres = stringLength(DatosEmpleado.datosPersonales.nombres) +
+                              stringLength(DatosEmpleado.datosPersonales.apellidoMaterno) +
+                              stringLength(DatosEmpleado.datosPersonales.apellidoPaterno) + 2;
 
         isInvalid = distanciaCaracteres <= 20;
 
@@ -1194,9 +1194,9 @@ void lecturaProveedor(FILE *archivoProveedores)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
         } while (isInvalid);
 
-        distanciaCaracteres = lengthChar(DatosProveedor.datosPersonales.nombres) +
-                              lengthChar(DatosProveedor.datosPersonales.apellidoMaterno) +
-                              lengthChar(DatosProveedor.datosPersonales.apellidoPaterno) + 2;
+        distanciaCaracteres = stringLength(DatosProveedor.datosPersonales.nombres) +
+                              stringLength(DatosProveedor.datosPersonales.apellidoMaterno) +
+                              stringLength(DatosProveedor.datosPersonales.apellidoPaterno) + 2;
 
         isInvalid = distanciaCaracteres <= 20;
 
