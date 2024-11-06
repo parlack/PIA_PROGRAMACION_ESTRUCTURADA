@@ -309,7 +309,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 void lecturaInsumo(FILE *archivoInsumos)
 {
     FILE *archivo_NuevoRegistro;
-    struct infoInsumo DatosInsumo;
+    struct infoInsumo DatosInsumo = {0, {0}, 0, 0, "", {0}};
     bool isInvalid, opcionRegistrarInvalida;
     char ingresarMas, opcionRegistrar;
     int i, proveedores = 0;

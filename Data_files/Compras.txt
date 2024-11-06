@@ -1,1 +1,1 @@
-20-0#Semillas de girasol-1-2#Granos de maiz-2-1*300.000000$10-0#Semillas de girasol-1-2#Semillas de calabaza-2-1*300.000000$
+1-0#Insumo1 prueba-1-2*300.000000$2-1#Insumo2 prueba-2-2*300.000000$

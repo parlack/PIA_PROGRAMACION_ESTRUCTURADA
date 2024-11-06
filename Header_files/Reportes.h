@@ -53,6 +53,91 @@ void ReporteArticulos(FILE *archivoArticulos)
 
 }
 
+void insumosPorSolicitar(FILE *archivoInsumos)
+{
+    FILE *archivoCompras;
+    struct infoInsumo DatosInsumo;
+    struct infoCompra DatosCompra;
+    int i, j;
+    bool insumoEncontrado, letreroImpreso = false;
+    char separador;
+
+
+    if ((archivoCompras = fopen("Data_files/Compras.txt", "r")) == NULL)
+        printf("Error al calcular las comisiones de los empleados.\n");
+    else
+    {
+        for (i = 0; i < 100; i++)
+        {
+            insumoEncontrado = false;
+            fseek(archivoInsumos, i * sizeof(struct infoInsumo), SEEK_SET);
+            fread(&DatosInsumo, sizeof(struct infoInsumo), 1, archivoInsumos);
+            if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
+            {
+                while (fscanf(archivoCompras, "%d-%d%c", 
+                            &DatosCompra.claveProveedor, 
+                            &DatosCompra.entregado, 
+                            &separador) == 3 
+                            && insumoEncontrado == false)
+                {
+                    //printf(" %15d | %15d |\n", DatosCompra.claveProveedor, DatosCompra.entregado);
+                    if (DatosCompra.entregado == 0)
+                    {   
+                        while (separador == '#')
+                        {
+                            fscanf(archivoCompras, "%[^-]-%d-%d%c", 
+                                DatosCompra.descripcion, 
+                                &DatosCompra.claveInsumo, 
+                                &DatosCompra.cantidad, 
+                                &separador);
+                            if (DatosCompra.claveInsumo == DatosInsumo.clave)
+                            {
+                                insumoEncontrado = true;
+                            }
+                        }
+
+                        fscanf(archivoCompras, "%*f$");
+                    }
+                }
+                
+                if (!insumoEncontrado)
+                {
+                    if(!letreroImpreso)
+                    {
+                        printf("\n##### ARTICULOS A SOLICITAR #####\n\n");
+                        printf("| %15s | %15s | %15s |\n", "CLAVE INSUMO", "DESCRIPCION", "PROVEEDORES");
+                        printf("-------------------------------------------------------\n");
+                        letreroImpreso = true;
+                    }
+                    printf("| %15s | %15d |", DatosInsumo.descripcion, DatosInsumo.clave);
+
+                    j = 0;
+                    while(j < 10 && DatosInsumo.clavesProveedores[j] != 0)
+                    {
+                        if (DatosInsumo.clavesProveedores[j] != 0)
+                            printf(" %15d |", DatosInsumo.clavesProveedores[j]);
+                        else
+                            printf(" %15s |", " ");
+
+                        j++;
+                    }
+                    printf("\n");
+                }
+
+                rewind(archivoCompras);
+            }
+        }
+
+        if(!letreroImpreso)
+        {
+            printf("\n----- Busqueda realizada -----");
+            printf("\n##### NO HAY ARTICULOS A SOLICITAR #####\n");
+        }
+
+        fclose(archivoCompras);
+    }
+}
+
 void calculoDeComision(FILE *archivoEmpleados)
 {
     FILE *archivoVentas;

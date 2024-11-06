@@ -421,7 +421,13 @@ main()
 
 							break;
 						case 'd':
-							
+							if ((filePtr = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Insumos.\n");
+							else
+							{
+								insumosPorSolicitar(filePtr);
+								fclose(filePtr);
+							}
 							break;
 						case 'e':
 
