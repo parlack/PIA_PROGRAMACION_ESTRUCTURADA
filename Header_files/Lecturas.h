@@ -13,6 +13,7 @@ void lecturaProveedor(FILE *);
 void lecturaArticulo(FILE *archivoArticulos)
 {
     FILE *archivo_NuevoRegistro;
+    struct infoArticulo voidArticulo = {0, {0}, {0}, 0, "", "", "", 0, 0};
     struct infoArticulo DatosArticulo;
     bool isInvalid, opcionRegistrarInvalida;
     char ingresarMas, opcionRegistrar;
@@ -20,6 +21,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
     do
     {
+        DatosArticulo = voidArticulo;
         printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
         fflush(stdin);
 
@@ -214,7 +216,7 @@ void lecturaArticulo(FILE *archivoArticulos)
         {
             printf("\nIngresar información de otro mercado? [ %d/10 mercados guardados ] ~ ", mercados);
             fflush(stdin);
-
+            
             if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
             {
                 isInvalid = true;
@@ -224,7 +226,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 isInvalid = false;
         } while (isInvalid);
         
-    } while (mercados < 10 && ingresarMas == 'S');
+    } while (mercados < 10 && ingresarMas == 's');
 
     do
     {
@@ -1881,12 +1883,12 @@ void controlInventario(FILE *archivoCompras)
         printf("\nIngrese la clave del proveedor [1 - 100] ~ ");
         fflush(stdin);
         
-        if(scanf("%d", &DatosCompra.claveProveedor) != 1 || !isInIntRange(&DatosCompra.claveProveedor, 1, 100))
+        if(scanf("%d", &claveProveedorBuscado) != 1 || !isInIntRange(&claveProveedorBuscado, 1, 100))
         {
             isInvalid = true;
             printf("\nERROR: Clave de proveedor invalida.\n");
         }
-        else if (!existeClave(5, &DatosCompra.claveProveedor))
+        else if (!existeClave(5, &claveProveedorBuscado))
         {
             isInvalid = true;
             printf("\nERROR: La clave ingresada no esta registrada.\n");
@@ -1896,7 +1898,7 @@ void controlInventario(FILE *archivoCompras)
 
     } while (isInvalid);
 
-    while (fscanf(archivoCompras, "%d-%d%c", &claveProveedorBuscado, &DatosCompra.entregado, &separador) == 3)
+    while (fscanf(archivoCompras, "%d-%d%c", &DatosCompra.claveProveedor, &DatosCompra.entregado, &separador) == 3)
     {
         if (DatosCompra.entregado == 0 && DatosCompra.claveProveedor == claveProveedorBuscado)
         {

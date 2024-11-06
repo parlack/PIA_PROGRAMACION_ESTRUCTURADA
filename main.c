@@ -406,7 +406,7 @@ main()
 					switch(opcionMenuReporte)
 					{
 						case 'a':
-							if ((filePtr = fopen("./Data_files/Articulos.dat", "r")) == NULL)
+							if ((filePtr = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
 							else
 							{
@@ -430,7 +430,13 @@ main()
 
 							break;
 						case 'g':
-
+						    if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+							else
+							{
+								comprasConRecepcionPendiente(filePtr);
+								fclose(filePtr);
+							}
 							break;
 					
 
