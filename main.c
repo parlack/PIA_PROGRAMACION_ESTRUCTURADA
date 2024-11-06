@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "Header_files/Lecturas.h"
-
+#include "Header_files/Reportes.h"
 main()
 {
 	int opcionMenuPrincipal;
@@ -407,7 +406,13 @@ main()
 					switch(opcionMenuReporte)
 					{
 						case 'a':
-							
+							if ((filePtr = fopen("./Data_files/Articulos.dat", "r")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+							else
+							{
+								ReporteArticulos(filePtr);
+								fclose(filePtr);
+							}
 							break;
 						case 'b':
 
@@ -431,11 +436,8 @@ main()
 
 					}
 					
-					
-					
 					do
 					{
-						fflush(stdin);
 						printf("\n\n\t\033[1;33mMEN%c DE REPORTES\n\n", 233);
 						printf("a - Listado de art%cculos\n", 161);
 						printf("b - Total de venta por fecha\n");
@@ -447,8 +449,8 @@ main()
 						printf("h - Salir\n");
 						printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
 						fflush(stdin);
-						isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(opcionMenuReporte, 'a', 'h');
-					
+						isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
+									
 						if(isInvalid)
 						{
 							fflush(stdin);
