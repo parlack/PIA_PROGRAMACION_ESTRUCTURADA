@@ -13,6 +13,7 @@ void lecturaProveedor(FILE *);
 void lecturaArticulo(FILE *archivoArticulos)
 {
     FILE *archivo_NuevoRegistro;
+    struct infoArticulo voidArticulo = {0, {0}, {0}, 0, "", "", "", 0, 0};
     struct infoArticulo DatosArticulo;
     bool isInvalid, opcionRegistrarInvalida;
     char ingresarMas, opcionRegistrar;
@@ -20,6 +21,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
     do
     {
+        DatosArticulo = voidArticulo;
         printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
         fflush(stdin);
 
@@ -214,7 +216,7 @@ void lecturaArticulo(FILE *archivoArticulos)
         {
             printf("\nIngresar información de otro mercado? [ %d/10 mercados guardados ] ~ ", mercados);
             fflush(stdin);
-
+            
             if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
             {
                 isInvalid = true;
@@ -224,7 +226,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 isInvalid = false;
         } while (isInvalid);
         
-    } while (mercados < 10 && ingresarMas == 'S');
+    } while (mercados < 10 && ingresarMas == 's');
 
     do
     {
