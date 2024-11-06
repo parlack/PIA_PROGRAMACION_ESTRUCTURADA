@@ -311,7 +311,7 @@ int inventarioRestante(int *claveArticulo)
     }
 }
 
-bool esInsumoValido(int *claveProveedor, int *claveInsumo, float *precioUnitario, char *descripcion)
+bool verificarProveedorInsumo(int *claveProveedor, int *claveInsumo)
 {
     FILE *archivoInsumos;
     int i;
@@ -327,19 +327,56 @@ bool esInsumoValido(int *claveProveedor, int *claveInsumo, float *precioUnitario
         fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(struct infoInsumo), SEEK_SET);
         fread(&insumoActual, sizeof(struct infoInsumo), 1, archivoInsumos);
 
-        for(i = 0; i < 10 && insumoActual.clavesProveedores[i] != 0; i++)
+        i = 0;
+
+        while(i < 10 && insumoActual.clavesProveedores[i] != 0)
         {
-            if(insumoActual.clavesProveedores[i] == *claveProveedor && insumoActual.inventario >= 1)
+            if(insumoActual.clavesProveedores[i] == *claveProveedor)
             {
-                *precioUnitario = insumoActual.precioSurtido[i];
-                strcpy(descripcion, insumoActual.descripcion);
                 fclose(archivoInsumos);
                 return true;
             }
+
+            i++;
         }
 
         fclose(archivoInsumos);
         return false;
+    }
+}
+
+void obtenerDatosInsumo(int *claveProveedor, int *claveInsumo, float *precioUnitario, char *descripcion)
+{
+    FILE *archivoInsumos;
+    int i;
+    struct infoInsumo insumoActual;
+
+    if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    {
+        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+    }
+    else
+    {
+        fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(struct infoInsumo), SEEK_SET);
+        fread(&insumoActual, sizeof(struct infoInsumo), 1, archivoInsumos);
+
+        i = 0;
+
+        while(i < 10 && insumoActual.clavesProveedores[i] != 0)
+        {
+            if(insumoActual.clavesProveedores[i] == *claveProveedor)
+            {
+                *precioUnitario = insumoActual.precioSurtido[i];
+                strcpy(descripcion, insumoActual.descripcion);
+                fclose(archivoInsumos);
+                return;
+            }
+
+            i++;
+        }
+
+        fclose(archivoInsumos);
+        return;
     }
 }
 

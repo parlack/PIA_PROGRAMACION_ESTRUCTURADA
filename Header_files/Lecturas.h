@@ -1476,8 +1476,6 @@ void lecturaVentas(FILE *archivoVentas)
             
     } while (isInvalid);
 
-    
-
     do
     {
         printf("\nClave del mercado [1 - 100] ~ ");
@@ -1657,7 +1655,7 @@ void lecturaVentas(FILE *archivoVentas)
     printf("\nSubtotal de la venta: $%.2f", DatosVentas.precioTotal);
 
     DatosVentas.descuento = obtenerDescuento(&DatosVentas.claveMercado, 2);
-    DatosVentas.precioTotal *= (1 - DatosVentas.descuento);
+    DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
 
     printf("\nDescuento con este proveedor: %.2f", DatosVentas.descuento);
     printf("\nTotal de la venta: $%.2f", DatosVentas.precioTotal);
@@ -1747,8 +1745,6 @@ void lecturaCompras(FILE *archivoCompras)
 
     do
     {
-        precioUnitario = 0;
-        subtotalPorInsumo = 0;
 
         do
         {
@@ -1796,7 +1792,7 @@ void lecturaCompras(FILE *archivoCompras)
                     }
                 }
             }
-            else if (!esInsumoValido(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion))
+            else if (!verificarProveedorInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo))
             {
                 isInvalid = true;
                 printf("\nEste insumo no tiene a este proveedor registrado.\n");
@@ -1822,6 +1818,8 @@ void lecturaCompras(FILE *archivoCompras)
         } while (isInvalid);
 
         subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
+
+        obtenerDatosInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion)
 
         printf("\nDescripcion del insumo: %s\n", DatosCompra.descripcion);
         printf("Precio unitario del insumo: %.2f\n", precioUnitario);
@@ -1857,7 +1855,7 @@ void lecturaCompras(FILE *archivoCompras)
     printf("\nSubtotal de la compra: $%.2f", DatosCompra.totalDeCompra);
 
     DatosCompra.descuento = obtenerDescuento(&DatosCompra.claveProveedor, 1);
-    DatosCompra.totalDeCompra *= (1 - DatosCompra.descuento);
+    DatosCompra.totalDeCompra *= 1 - DatosCompra.descuento;
 
     printf("\nDescuento con este proveedor: %.2f", DatosCompra.descuento);
     printf("\nTotal de la compra: $%.2f", DatosCompra.totalDeCompra);
