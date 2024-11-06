@@ -47,9 +47,55 @@ void ReporteArticulos(FILE *archivoArticulos)
             printf("\n");
             articulosimpresos++;
         }
-
     }
 
 
 
+}
+
+void comprasConRecepcionPendiente(FILE *archivoCompras)
+{
+    struct infoCompra DatosCompra;
+    int i = 0;
+    int resultados = 0;
+    bool isInvalid, letreroImpreso = false;
+    char separador;
+
+    while (fscanf(archivoCompras, "%d-%d%c", &DatosCompra.claveProveedor, &DatosCompra.entregado, &separador) == 3)
+    {
+        if (DatosCompra.entregado == 0)
+        {
+            if (!letreroImpreso)
+            {
+                printf("\nCOMPRAS CON RECEPCION PENDIENTE\n");
+                printf("\n| %15s | %15s | %50s | %15s |\n", "ID COMPRA", "INSUMO", "DESCRIPCION", "CANTIDAD");
+                printf(" ___________________________________________________________________________________________________________\n");
+                letreroImpreso = true;
+            }
+
+            
+            while (separador == '#')
+            {
+                if (fscanf(archivoCompras, "%[^-]-%d-%d%c", DatosCompra.descripcion, &DatosCompra.claveInsumo, &DatosCompra.cantidad, &separador) == 4)
+                {
+                    printf("| %15d | %15d | %50s | %15d |\n", i + 1, DatosCompra.claveInsumo, DatosCompra.descripcion, DatosCompra.cantidad);
+                }
+            }
+
+            
+            if (separador == '*')
+            {
+                fscanf(archivoCompras, "%f$", &DatosCompra.totalDeCompra);
+                printf("%80s: $%.2f\n", "TOTAL DE COMPRA", DatosCompra.totalDeCompra);
+                printf(" -----------------------------------------------------------------------------------------------------------\n");
+            }
+            resultados++;
+        }
+        i++;
+    }
+
+    if(letreroImpreso)
+        printf("\nResultados: %d\n", resultados);
+    else
+        printf("\nNo hay resultados para esta busqueda. \n");
 }

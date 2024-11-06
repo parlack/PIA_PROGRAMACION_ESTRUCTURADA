@@ -430,7 +430,13 @@ main()
 
 							break;
 						case 'g':
-
+						    if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+							else
+							{
+								comprasConRecepcionPendiente(filePtr);
+								fclose(filePtr);
+							}
 							break;
 					
 
