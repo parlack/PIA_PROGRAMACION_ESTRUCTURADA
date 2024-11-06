@@ -57,7 +57,7 @@ bool isAlphabetic(char *charLine, bool isAlphaNumeric)
 	return isValid;
 }
 
-bool minStringLength(char *cadena, int minLength)
+int stringLength(char *cadena)
 {	
 	int i = 0;
 	
@@ -66,12 +66,17 @@ bool minStringLength(char *cadena, int minLength)
 		i++;
 	}
 	
-	return i >= minLength;
+	return i;
+}
+
+bool minStringLength(char *cadena, int minLength)
+{	
+	return stringLength(cadena) >= minLength;
 }
 
 void retirarSaltoLinea(char *cadena)
 {
-    size_t longitud = strlen(cadena);
+    size_t longitud = stringLength(cadena);
 
     if (longitud > 0 && cadena[longitud - 1] == '\n') 
         cadena[longitud - 1] = '\0';
@@ -199,7 +204,7 @@ void limpiarApellido(char apellido[], char apellidoLimpio[])
     strcpy(temp, apellido);
 
     // Convertir a mayúsculas para una comparación uniforme
-    for (i = 0; i < strlen(temp); i++)
+    for (i = 0; i < stringLength(temp); i++)
         temp[i] = toupper(temp[i]);
     
 
@@ -213,7 +218,7 @@ void limpiarApellido(char apellido[], char apellidoLimpio[])
         cambio = false;
         for (i = 0; i < num_prefijos && !cambio; i++) 
 		{
-            prefijoLen = strlen(prefijos[i]);
+            prefijoLen = stringLength(prefijos[i]);
             if (strncmp(temp, prefijos[i], prefijoLen) == 0) 
 			{
                 // Desplazar el apellido a la izquierda
@@ -221,12 +226,12 @@ void limpiarApellido(char apellido[], char apellidoLimpio[])
                 
                 // Eliminar espacio en blanco inicial si queda alguno
                 if (apellidoLimpio[0] == ' ') 
-                    memmove(apellidoLimpio, apellidoLimpio + 1, strlen(apellidoLimpio));
+                    memmove(apellidoLimpio, apellidoLimpio + 1, stringLength(apellidoLimpio));
                 
                 
                 // Volver a copiar apellidoLimpio en temp para comparar en mayúsculas
                 strcpy(temp, apellidoLimpio);
-                for (j = 0; j < strlen(temp); j++) 
+                for (j = 0; j < stringLength(temp); j++) 
                     temp[j] = toupper(temp[j]);
                 
                 cambio = true;  // Indicar que hubo un cambio y repetir
@@ -246,7 +251,7 @@ void seleccionarNombre(char nombre[], char nombreSeleccionado[])
     strcpy(temp, nombre);
 
     // Convertir a mayúsculas para una comparación uniforme
-    for (i = 0; i < strlen(temp); i++) 
+    for (i = 0; i < stringLength(temp); i++) 
         temp[i] = toupper(temp[i]);
 
     // Dividir nombres si es un nombre compuesto
@@ -303,7 +308,7 @@ bool validarRFC(struct infoDatosPersonales *datos)
 
     // 1. Tomar la primera letra y vocal interna del apellido paterno
     rfc[0] = toupper(apellidoPLimpio[0]);
-    len = strlen(apellidoPLimpio);
+    len = stringLength(apellidoPLimpio);
     vocal_encontrada = false;
     
     // Asegurarse de que el apellido paterno tiene más de una letra
