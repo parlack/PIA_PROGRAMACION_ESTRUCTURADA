@@ -4,9 +4,9 @@
 
 main()
 {
-	int opcionMenuPrincipal, opcionMenuReporte;
+	int opcionMenuPrincipal;
 	FILE *filePtr;
-	char agregarMas;
+	char agregarMas, opcionMenuReporte;
 	bool isInvalid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
 
 	do
@@ -390,9 +390,9 @@ main()
 					printf("g - Compras pendientes de recepci%cn\n", 162);
 					printf("h - Salir\n");
 					printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
-
-					isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
-				
+					fflush(stdin);
+					isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
+								
 					if(isInvalid)
 					{
 						fflush(stdin);
@@ -400,6 +400,63 @@ main()
 					}
 				
 				} while(isInvalid);
+
+				while(opcionMenuReporte != 'h')
+				{
+					
+					switch(opcionMenuReporte)
+					{
+						case 'a':
+							
+							break;
+						case 'b':
+
+							break;
+						case 'c':
+
+							break;
+						case 'd':
+
+							break;
+						case 'e':
+
+							break;
+						case 'f':
+
+							break;
+						case 'g':
+
+							break;
+					
+
+					}
+					
+					
+					
+					do
+					{
+						fflush(stdin);
+						printf("\n\n\t\033[1;33mMEN%c DE REPORTES\n\n", 233);
+						printf("a - Listado de art%cculos\n", 161);
+						printf("b - Total de venta por fecha\n");
+						printf("c - Total de venta por art%cculo\n", 161);
+						printf("d - Listado de artículos a solicitar\n");
+						printf("e - Saldos por pagar\n");
+						printf("f - C%clculo de comisiones\n", 131);
+						printf("g - Compras pendientes de recepci%cn\n", 162);
+						printf("h - Salir\n");
+						printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+						fflush(stdin);
+						isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(opcionMenuReporte, 'a', 'h');
+					
+						if(isInvalid)
+						{
+							fflush(stdin);
+							printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+						}
+					
+					} while(isInvalid);
+				}
 				
 				break;
 		}
