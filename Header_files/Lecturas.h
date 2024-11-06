@@ -292,6 +292,7 @@ void lecturaArticulo(FILE *archivoArticulos)
             }
             else
                 isInvalid = false;
+            
         } while (isInvalid);
         
     } while (insumos < 10 && ingresarMas == 's');
@@ -1585,7 +1586,7 @@ void lecturaVentas(FILE *archivoVentas)
                     }
                 }
             }
-            else if(!verificarInventario(&DatosVentas.claveArticulo, 1, &inventarioActual))
+            else if(inventarioRestante(&DatosVentas.claveArticulo) == 0)
             {
                 isInvalid = true;
                 printf("\nEl inventario actual de este articulo esta vacio.\n");
@@ -1606,7 +1607,7 @@ void lecturaVentas(FILE *archivoVentas)
                 isInvalid = true;
                 printf("\nERROR: Cantidad invalida.\n");
             } 
-            else if (!verificarInventario(&DatosVentas.claveArticulo, DatosVentas.cantidad, &inventarioActual))
+            else if (inventarioActual = inventarioRestante(&DatosVentas.claveArticulo) < DatosVentas.cantidad)
             {
                 isInvalid = true;
                 printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
@@ -1791,7 +1792,7 @@ void lecturaCompras(FILE *archivoCompras)
                         if(existeClave(2, &DatosCompra.claveInsumo))
                             isInvalid = false;
                         else
-                            printf("\nLa clave ingresada y el articulo registrado no coinciden, ingresala de nuevo.\n");
+                            printf("\nLa clave ingresada y el insumo registrado no coinciden, ingresala de nuevo.\n");
                     }
                 }
             }

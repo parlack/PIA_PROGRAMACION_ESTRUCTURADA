@@ -201,6 +201,8 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
     {
         switch (numeroArchivo)
         {
+            fclose(fPtr);
+            
             case 1:
                 return ((struct infoArticulo *)estructuraPtr)->clave != 0;
             case 2:
@@ -252,7 +254,7 @@ bool VerificarHayRegistros(int numeroArchivo)
     }
 }
 
-float obtenerCosto(int *Insumos, int *sizeInsumos)
+float obtenerCosto(int *Insumos, int *numeroInsumos)
 {
     FILE *archivoInsumos;
     struct infoInsumo insumoActual;
@@ -261,11 +263,12 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
 
     if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
         return 0;
- 
-    while (i < *sizeInsumos)
+    
+    while (i < *numeroInsumos)
     {
         j = 0;
         promedioCostoInsumo = 0;
+        
         fseek(archivoInsumos, (*(Insumos + i) - 1) * sizeof(insumoActual), SEEK_SET);
         fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
 
@@ -287,7 +290,7 @@ float obtenerCosto(int *Insumos, int *sizeInsumos)
     return costoTotal;
 }
 
-bool verificarInventario(int *claveArticulo, int cantidad, int *inventarioActual)
+int inventarioRestante(int *claveArticulo)
 {
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
@@ -295,21 +298,16 @@ bool verificarInventario(int *claveArticulo, int cantidad, int *inventarioActual
     if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
     {
         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-        return false;
+        return 0;
     }
     else
     {
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
         fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
 
-        *inventarioActual = articuloActual.inventario;
-
         fclose(archivoArticulos);
 
-        if (cantidad > articuloActual.inventario)
-            return false;
-        else
-            return true;
+        return articuloActual.inventario;
     }
 }
 
