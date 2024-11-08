@@ -67,7 +67,7 @@ bool inicializarArchivo(int numeroArchivo)
 {
     FILE *fPtr;
     int i, n_registros;
-    char *nombreArchivo;
+    const char *nombreArchivo;
     struct infoDatosPersonales datosVacios = {0, 0, 0, 0,"", "", "", "", "", "", "", "", ""};
     void *estructuraVacia;
     size_t sizeEstructura;
@@ -144,7 +144,7 @@ bool inicializarArchivo(int numeroArchivo)
 bool existeClave(int numeroArchivo, int *clave_buscar)
 {
     FILE *fPtr;
-    char *nombreArchivo;
+    const char *nombreArchivo;
     void *estructuraPtr;
     size_t sizeEstructura;
 
@@ -223,7 +223,7 @@ bool VerificarHayRegistros(int numeroArchivo)
 {
     FILE *archivoAVerificar;
     bool valorEnArchivo = false;
-    char *nombreArchivo;
+    const char *nombreArchivo;
 
     switch(numeroArchivo)
     {

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "Header_files/Reportes.h"
+
 main()
 {
 	int opcionMenuPrincipal;
@@ -10,7 +11,7 @@ main()
 
 	do
 	{
-		printf("\n\n\t\033[1;33mMEN%c PRINCIPAL\n\n", 233);
+		printf("\n\n\tMENU PRINCIPAL\n\n");
 		printf("1 - Art%cculos\n", 161);
 		printf("2 - Insumos\n");
 		printf("3 - Mercados\n");
@@ -21,7 +22,7 @@ main()
 		printf("8 - Control de Inventario\n");
 		printf("9 - Reportes\n");
 		printf("10 - SALIR\n");
-		printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+		printf("[ Ingresa una opci%cn ] ~ ", 162);
 		
 		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
@@ -35,7 +36,7 @@ main()
 	
 	while (opcionMenuPrincipal != 10)
 	{
-		switch (opcionMenuPrincipal)
+		switch(opcionMenuPrincipal)
 		{
 			case 1:	//Articulos
 				
@@ -379,16 +380,16 @@ main()
 
 				do
 				{
-					printf("\n\n\t\033[1;33mMEN%c DE REPORTES\n\n", 233);
+					printf("\n\n\tMENU DE REPORTES\n\n");
 					printf("a - Listado de art%cculos\n", 161);
 					printf("b - Total de venta por fecha\n");
 					printf("c - Total de venta por art%cculo\n", 161);
-					printf("d - Listado de artículos a solicitar\n");
+					printf("d - Listado de art%cculos a solicitar\n", 161);
 					printf("e - Saldos por pagar\n");
 					printf("f - C%clculo de comisiones\n", 131);
 					printf("g - Compras pendientes de recepci%cn\n", 162);
 					printf("h - Salir\n");
-					printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+					printf("[ Ingresa una opci%cn ] ~ ", 162);
 					fflush(stdin);
 					isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
 								
@@ -410,16 +411,33 @@ main()
 								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
 							else
 							{
-								ReporteArticulos(filePtr);
+								reporteArticulos(filePtr);
 								fclose(filePtr);
 							}
 							break;
+
 						case 'b':
-
+							if ((filePtr = fopen("./Data_files/Ventas.txt", "r")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
+							else
+							{
+								ventasFecha(filePtr);
+								fclose(filePtr);
+							}
 							break;
+
 						case 'c':
-
+							if(!VerificarHayRegistros(1))
+								printf("Error: No hay articulos registrados.\n");
+							else if ((filePtr = fopen("./Data_files/Ventas.txt", "r")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
+							else
+							{
+								ventasArticulo(filePtr);
+								fclose(filePtr);
+							}
 							break;
+
 						case 'd':
 							if ((filePtr = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Insumos.\n");
@@ -429,21 +447,24 @@ main()
 								fclose(filePtr);
 							}
 							break;
+
 						case 'e':
 
 							break;
+
 						case 'f':
 							if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
-								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
 							else
 							{
 								calculoDeComision(filePtr);
 								fclose(filePtr);
 							}
 							break;
+
 						case 'g':
 						    if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
-								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+								printf("Error al abrir el archivo. No existen registros de Compras.\n");
 							else
 							{
 								comprasConRecepcionPendiente(filePtr);
@@ -456,16 +477,16 @@ main()
 					
 					do
 					{
-						printf("\n\n\t\033[1;33mMEN%c DE REPORTES\n\n", 233);
+						printf("\n\n\tMENU DE REPORTES\n\n");
 						printf("a - Listado de art%cculos\n", 161);
 						printf("b - Total de venta por fecha\n");
 						printf("c - Total de venta por art%cculo\n", 161);
-						printf("d - Listado de artículos a solicitar\n");
+						printf("d - Listado de art%cculos a solicitar\n", 161);
 						printf("e - Saldos por pagar\n");
 						printf("f - C%clculo de comisiones\n", 131);
 						printf("g - Compras pendientes de recepci%cn\n", 162);
 						printf("h - Salir\n");
-						printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+						printf("[ Ingresa una opci%cn ] ~ ", 162);
 						fflush(stdin);
 						isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
 									
@@ -483,7 +504,7 @@ main()
 		
 		do
 		{
-			printf("\n\n\t\033[1;33mMEN%c PRINCIPAL\n\n", 233);
+			printf("\n\n\tMENU PRINCIPAL\n\n");
 			printf("1 - Art%cculos\n", 161);
 			printf("2 - Insumos\n");
 			printf("3 - Mercados\n");
@@ -494,7 +515,7 @@ main()
 			printf("8 - Control de Inventario\n");
 			printf("9 - Reportes\n");
 			printf("10 - SALIR\n");
-			printf("[ Ingresa una opci%cn ] ~ \033[0m", 162);
+			printf("[ Ingresa una opci%cn ] ~ ", 162);
 
 			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		

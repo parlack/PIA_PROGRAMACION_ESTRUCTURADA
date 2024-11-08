@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "Lecturas.h"
-void ReporteArticulos(FILE *archivoArticulos)
+
+void reporteArticulos(FILE *archivoArticulos)
 {
-    int i, articulosimpresos = 0;
+    int i, j, articulosimpresos = 0;
     struct infoArticulo DatosArticulo;
 
     printf("LISTA DE ARTICULOS:\n");
@@ -27,7 +28,7 @@ void ReporteArticulos(FILE *archivoArticulos)
             printf("%-21d", DatosArticulo.clavesMercados[0]);
             printf("%-5d \n", DatosArticulo.clavesInsumos[0]);
 
-            for (int j = 1; j < 10; j++) 
+            for (j = 1; j < 10; j++) 
             {
                 if ((DatosArticulo.clavesMercados[j] != 0) || (DatosArticulo.clavesInsumos[j] != 0)) 
                 {
@@ -222,4 +223,111 @@ void comprasConRecepcionPendiente(FILE *archivoCompras)
         printf("\nResultados: %d\n", resultados);
     else
         printf("\nNo hay resultados para esta busqueda. \n");
+}
+
+void ventasFecha(FILE *archivoVentas)
+{
+    int anioBuscado, mesBuscado, diaBuscado, diaRegistro, mesRegistro, anioRegistro;
+    float venta, total = 0;
+    bool isInvalid;
+
+    do
+    {
+        do
+        {
+            printf("Dia de venta ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &diaBuscado) != 1)
+            {
+                printf("\nERROR: Dia invalido.\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+
+        } while(isInvalid);
+
+        do
+        {
+            printf("Mes de venta ~ ");
+            fflush(stdin);
+
+            if(scanf("%d", &mesBuscado) != 1)
+            {
+                printf("\nERROR: Mes invalido.\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+
+        } while(isInvalid);
+
+        do
+        {
+            printf("A%co de venta ~ ", 164);
+            fflush(stdin);
+
+            if(scanf("%d", &anioBuscado) != 1)
+            {
+                printf("\nERROR: A%co invalido.\n", 164);
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+
+        } while(isInvalid);
+
+        isInvalid = !validarFecha(&diaBuscado, &mesBuscado, &anioBuscado);
+
+        if (isInvalid)
+            printf("\nERROR: Fecha invalida.\n");
+
+    } while(isInvalid);
+
+    while(fscanf(archivoVentas, "%*[^-]-%*[^-]-%d-%d-%d%*[^*]*%f", &diaRegistro, &mesRegistro, &anioRegistro, &venta) == 4)
+    {
+        if(diaRegistro == diaBuscado && mesRegistro == mesBuscado && anioRegistro == anioBuscado)
+            total += venta;
+    }
+
+    printf("\nTotal de ventas de la fecha %d/%d/%d: $%.2f\n", anioBuscado, mesBuscado, anioBuscado, total);
+}
+
+void ventasArticulo(FILE *archivoVentas)
+{
+    int articuloBuscado, articuloRegistro;
+    float venta, total = 0;
+    bool isInvalid;
+
+    do
+    {        
+        printf("Clave del articulo a buscar ~ ");
+        fflush(stdin);
+
+        if(scanf("%d", &articuloBuscado) != 1)
+        {
+            printf("ERROR: Articulo invalido.\n\n");
+            isInvalid = true;
+        }
+        else if(!existeClave(1, &articuloBuscado))
+        {
+            printf("ERROR: Articulo buscado no esta registrado.\n\n");
+            isInvalid = true;
+        }
+        else
+            isInvalid = false;
+
+    } while(isInvalid);
+
+    while(fscanf(archivoVentas, "%*[^#]#%d", &articuloRegistro) == 1)
+    {
+        if(articuloRegistro == articuloBuscado)
+        {
+            fscanf(archivoVentas, "%*[^*]*%f", &venta);
+            total += venta;
+        }
+    }
+
+    printf("\nTotal de ventas del articulo con clave %d: $%.2f\n", articuloBuscado, total);
 }

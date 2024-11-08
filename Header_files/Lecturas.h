@@ -550,11 +550,13 @@ void lecturaMercado(FILE *archivoMercados)
 
             if (isInvalid)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+            
         } while (isInvalid);
 
         distanciaCaracteres = stringLength(DatosMercado.datosPersonales.nombres) +
                               stringLength(DatosMercado.datosPersonales.apellidoMaterno) +
                               stringLength(DatosMercado.datosPersonales.apellidoPaterno) + 2;
+        
         isInvalid = distanciaCaracteres <= 20;
 
         if (isInvalid)
@@ -579,11 +581,12 @@ void lecturaMercado(FILE *archivoMercados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
         {
-            printf("Mes [1- 12] ~ ");
+            printf("Mes [1 - 12] ~ ");
             fflush(stdin);
 
             if (scanf("%d", &DatosMercado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.monthBirth, 1, 12))
@@ -767,7 +770,7 @@ void lecturaMercado(FILE *archivoMercados)
         }
         else
             isInvalid = false;
-            
+
     } while (isInvalid);
 
     fseek(archivoMercados, (DatosMercado.clave - 1) * sizeof(DatosMercado), SEEK_SET);
@@ -853,6 +856,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (isInvalid)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+
         } while (isInvalid);
 
         distanciaCaracteres = stringLength(DatosEmpleado.datosPersonales.nombres) +
@@ -883,6 +887,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -897,6 +902,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -911,6 +917,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.monthBirth, &DatosEmpleado.datosPersonales.yearBirth);
@@ -964,6 +971,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -978,6 +986,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -992,6 +1001,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         fechaInvalida = !validarFecha(&DatosEmpleado.dayContratacion, &DatosEmpleado.monthContratacion, &DatosEmpleado.yearContratacion);
@@ -1019,6 +1029,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (isInvalid)
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1033,6 +1044,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     do
@@ -1050,6 +1062,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (isInvalid)
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1067,6 +1080,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (isInvalid)
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1102,6 +1116,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (isInvalid)
             printf("\nERROR: Correo electronico invalido.\n");
+
     } while (isInvalid);
 
     do
@@ -1116,6 +1131,7 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     fseek(archivoEmpleados, (DatosEmpleado.clave - 1) * sizeof(DatosEmpleado), SEEK_SET);
@@ -1201,6 +1217,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
             if (isInvalid)
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+
         } while (isInvalid);
 
         distanciaCaracteres = stringLength(DatosProveedor.datosPersonales.nombres) +
@@ -1229,6 +1246,7 @@ void lecturaProveedor(FILE *archivoProveedores)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -1243,6 +1261,7 @@ void lecturaProveedor(FILE *archivoProveedores)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         do
@@ -1257,6 +1276,7 @@ void lecturaProveedor(FILE *archivoProveedores)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
 
         fechaInvalida = !validarFecha(&DatosProveedor.datosPersonales.dayBirth, &DatosProveedor.datosPersonales.monthBirth, &DatosProveedor.datosPersonales.yearBirth);
@@ -1311,6 +1331,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (isInvalid)
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1325,6 +1346,7 @@ void lecturaProveedor(FILE *archivoProveedores)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     do
@@ -1342,6 +1364,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (isInvalid)
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1359,6 +1382,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (isInvalid)
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -1396,6 +1420,7 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (isInvalid)
             printf("\nERROR: Correo electronico invalido.\n");
+
     } while (isInvalid);
 
     do
@@ -1410,6 +1435,7 @@ void lecturaProveedor(FILE *archivoProveedores)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     fseek(archivoProveedores, (DatosProveedor.clave - 1) * sizeof(DatosProveedor), SEEK_SET);
@@ -1597,7 +1623,7 @@ void lecturaVentas(FILE *archivoVentas)
                 isInvalid = true;
                 printf("\nEl inventario actual de este articulo esta vacio.\n");
             }
-            else    
+            else
                 isInvalid = false;
 
         } while (isInvalid);
@@ -1686,6 +1712,7 @@ void lecturaVentas(FILE *archivoVentas)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     //FALTA FUNCION PARA GENERAR FACTURA
