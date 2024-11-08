@@ -16,16 +16,16 @@ struct infoDatosPersonales
     
 struct infoArticulo
 {
-	int clave, clavesMercados[11], clavesInsumos[11], inventario;
+	int clave, clavesMercados[10], clavesInsumos[10], inventario;
 	char descripcion[51], temporadaSiembra[21], temporadaCosecha[21];
 	float costoProduccion, precioVenta;
 };
 
 struct infoInsumo
 {
-	int clave, clavesProveedores[11], puntoReorden, inventario;
+	int clave, clavesProveedores[10], puntoReorden, inventario;
 	char descripcion[51];
-	float precioSurtido[11];
+	float precioSurtido[10];
 };
 
 struct infoProveedor
