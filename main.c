@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "Header_files/Reportes.h"
+#include "Header_files/extras.h"
 
 main()
 {
@@ -11,6 +12,7 @@ main()
 
 	do
 	{
+		setColor(11);
 		printf("\n\n\tMENU PRINCIPAL\n\n");
 		printf("1 - Art%cculos\n", 161);
 		printf("2 - Insumos\n");
@@ -23,6 +25,7 @@ main()
 		printf("9 - Reportes\n");
 		printf("10 - SALIR\n");
 		printf("[ Ingresa una opci%cn ] ~ ", 162);
+		setColor(7);
 		
 		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
