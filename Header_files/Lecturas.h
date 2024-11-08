@@ -13,15 +13,13 @@ void lecturaProveedor(FILE *);
 void lecturaArticulo(FILE *archivoArticulos)
 {
     FILE *archivo_NuevoRegistro;
-    struct infoArticulo voidArticulo = {0, {0}, {0}, 0, "", "", "", 0, 0};
-    struct infoArticulo DatosArticulo;
+    struct infoArticulo DatosArticulo = {0, {0}, {0}, 0, "", "", "", 0, 0};
     bool isInvalid, opcionRegistrarInvalida;
     char ingresarMas, opcionRegistrar;
     int i, mercados = 0, insumos = 0, numeroTemporada;
 
     do
     {
-        DatosArticulo = voidArticulo;
         printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
         fflush(stdin);
 
@@ -181,7 +179,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
                     {
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n] ");
+                        printf("ERROR. Respuesta invalida [s/n].\n");
                     }
                     else
                         opcionRegistrarInvalida = false;
@@ -252,7 +250,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                     if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
                     {
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n] ");
+                        printf("ERROR. Respuesta invalida [s/n].\n");
                     }
                     else
                         opcionRegistrarInvalida = false;
@@ -266,6 +264,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                     else
                     {
                         lecturaInsumo(archivo_NuevoRegistro);
+                        
                         fclose(archivo_NuevoRegistro);
 
                         if(existeClave(2, &DatosArticulo.clavesInsumos[insumos]))
@@ -627,8 +626,10 @@ void lecturaMercado(FILE *archivoMercados)
         if (fgets(DatosMercado.datosPersonales.RFC, sizeof(DatosMercado.datosPersonales.RFC), stdin) != NULL)
         {
             retirarSaltoLinea(DatosMercado.datosPersonales.RFC);
+
             for (i = 0; i < strlen(DatosMercado.datosPersonales.RFC); i++) 
                 DatosMercado.datosPersonales.RFC[i] = toupper(DatosMercado.datosPersonales.RFC[i]);
+                
             if(validarRFC(&DatosMercado.datosPersonales))
                 isInvalid = false;
             else
@@ -662,6 +663,7 @@ void lecturaMercado(FILE *archivoMercados)
 
         if (isInvalid)
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+        
     } while (isInvalid);
 
     do
@@ -676,6 +678,7 @@ void lecturaMercado(FILE *archivoMercados)
         }
         else
             isInvalid = false;
+
     } while (isInvalid);
 
     do
@@ -693,6 +696,7 @@ void lecturaMercado(FILE *archivoMercados)
 
         if (isInvalid)
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -710,6 +714,7 @@ void lecturaMercado(FILE *archivoMercados)
 
         if (isInvalid)
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+
     } while (isInvalid);
 
     do
@@ -762,6 +767,7 @@ void lecturaMercado(FILE *archivoMercados)
         }
         else
             isInvalid = false;
+            
     } while (isInvalid);
 
     fseek(archivoMercados, (DatosMercado.clave - 1) * sizeof(DatosMercado), SEEK_SET);

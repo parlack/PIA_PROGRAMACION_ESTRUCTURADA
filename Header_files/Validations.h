@@ -283,7 +283,7 @@ bool validarRFC(struct infoDatosPersonales *datos)
     bool vocal_encontrada, es_valido;
 
     i = 10;
-    while(i < 14 )
+    while(i < 14)
     {
         if(!(((*(datos->RFC + i) >= 'A' && *(datos->RFC + i) <= 'Z')   || 
 				(*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9')   || 
@@ -349,38 +349,33 @@ bool validarRFC(struct infoDatosPersonales *datos)
 
 bool esCorreoElectronico(char *correo)
 {
-    int i = 0;
+    int i = 1;
     bool arrobaEncontrada = false;
-    bool puntoEncontradoDespuesDeArroba = false;
+    bool puntoEncontrado = false;
 
-    if (!((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))) 
+    if((*(correo) < 'A' || *(correo) > 'Z') && (*(correo) < 'a' || *(correo) > 'z')) 
         return false;
 
-    while (correo[i] != '\0')
+    while (correo[i] != '\0' && !arrobaEncontrada)
     {
         if (correo[i] == '@')
-        {
-            if (arrobaEncontrada)
-                return false;
-            
             arrobaEncontrada = true;
-
-            if (correo[i + 1] == '\0' || !((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
-                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z')))
-                return false;
-        }
-
-        if (arrobaEncontrada && correo[i] == '.')
-        {
-            if (correo[i + 1] == '\0' || !((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || 
-                (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z')))
-                return false;
-            
-            puntoEncontradoDespuesDeArroba = true;
-        }
-
+        
         i++;
     }
 
-    return arrobaEncontrada && puntoEncontradoDespuesDeArroba;
+    if(arrobaEncontrada && ((*(correo + i) >= 'A' && *(correo + i) <= 'Z') || (*(correo + i) >= 'a' && *(correo + i) <= 'z')))
+    {
+        i++;
+
+        if(correo[i] == '.')
+        {
+            if((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
+                return true;
+            else
+                return false;
+        }
+    }
+    else
+        return false;
 }
