@@ -176,13 +176,16 @@ void lecturaArticulo(FILE *archivoArticulos)
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n] ~ ");
                     fflush(stdin);
 
-                    if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                    {
-                        opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n].\n");
-                    }
+                    if(scanf("%c", &opcionRegistrar) != 1)
+                        isInvalid = true;
                     else
-                        opcionRegistrarInvalida = false;
+                    {
+                        opcionRegistrar = tolower(opcionRegistrar);
+                        isInvalid = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                    }
+                    
+                    if (isInvalid)
+                        printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while(opcionRegistrarInvalida);
                 
@@ -214,14 +217,17 @@ void lecturaArticulo(FILE *archivoArticulos)
         {
             printf("\nIngresar informaci%cn de otro mercado? [ %d/10 mercados guardados ] [s/n] ~ ", 162, mercados);
             fflush(stdin);
-            
-            if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
-            {
+
+            if(scanf("%c", &ingresarMas) != 1)
                 isInvalid = true;
-                printf("ERROR. Respuesta invalida [s/n] ");
-            }
             else
-                isInvalid = false;
+            {
+                ingresarMas = tolower(ingresarMas);
+                isInvalid = ingresarMas != 's' && ingresarMas != 'n';
+            }
+            
+            if (isInvalid)
+                printf("ERROR. Respuesta invalida [s/n].\n");
 
         } while (isInvalid);
         
@@ -248,13 +254,16 @@ void lecturaArticulo(FILE *archivoArticulos)
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
                     fflush(stdin);
 
-                    if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                    {
+                    if(scanf("%c", &opcionRegistrar) != 1)
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n].\n");
-                    }
                     else
-                        opcionRegistrarInvalida = false;
+                    {
+                        opcionRegistrar = tolower(opcionRegistrar);
+                        opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                    }
+                    
+                    if (opcionRegistrarInvalida)
+                        printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while(opcionRegistrarInvalida);
                 
@@ -287,13 +296,16 @@ void lecturaArticulo(FILE *archivoArticulos)
             printf("\nIngresar informaci%cn de otro insumo? [ %d/10 insumos guardados ] [s/n] ~ ", 162, insumos);
             fflush(stdin);
 
-            if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
-            {
+            if(scanf("%c", &ingresarMas) != 1)
                 isInvalid = true;
-                printf("ERROR. Respuesta invalida [s/n] ");
-            }
             else
-                isInvalid = false;
+            {
+                ingresarMas = tolower(ingresarMas);
+                isInvalid = ingresarMas != 's' && ingresarMas != 'n';
+            }
+            
+            if (isInvalid)
+                printf("ERROR. Respuesta invalida [s/n].\n");
             
         } while (isInvalid);
         
@@ -398,13 +410,16 @@ void lecturaInsumo(FILE *archivoInsumos)
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n] ~ ");
                     fflush(stdin);
 
-                    if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                    {
+                    if(scanf("%c", &opcionRegistrar) != 1)
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n] ");
-                    }
                     else
-                        opcionRegistrarInvalida = false;
+                    {
+                        opcionRegistrar = tolower(opcionRegistrar);
+                        opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                    }
+                    
+                    if (opcionRegistrarInvalida)
+                        printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while (opcionRegistrarInvalida);
                 
@@ -436,13 +451,17 @@ void lecturaInsumo(FILE *archivoInsumos)
             printf("\nIngresar informacion de otro proveedor? [ %d/10 proveedores guardados ] (s/n) ~ ", proveedores);
             fflush(stdin);
 
-            if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
-            {
+            if(scanf("%c", &ingresarMas) != 1)
                 isInvalid = true;
-                printf("ERROR. Respuesta invalida [s/n] ");
-            }
             else
-                isInvalid = false;
+            {
+                ingresarMas = tolower(ingresarMas);
+                isInvalid = ingresarMas != 's' && ingresarMas != 'n';
+            }
+            
+            if (isInvalid)
+                printf("ERROR. Respuesta invalida [s/n].\n");
+            
         } while (isInvalid);
         
     } while (proveedores < 10 && ingresarMas == 's');
@@ -1479,13 +1498,16 @@ void lecturaVentas(FILE *archivoVentas)
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el empleado? [s/n]");
                 fflush(stdin);
 
-                if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                {
+                if(scanf("%c", &opcionRegistrar) != 1)
                     opcionRegistrarInvalida = true;
-                    printf("ERROR. Respuesta invalida [s/n] ");
-                }
                 else
-                    opcionRegistrarInvalida = false;
+                {
+                    opcionRegistrar = tolower(opcionRegistrar);
+                    opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                }
+                
+                if (opcionRegistrarInvalida)
+                    printf("ERROR. Respuesta invalida [s/n].\n");
 
             } while(opcionRegistrarInvalida);
             
@@ -1530,13 +1552,16 @@ void lecturaVentas(FILE *archivoVentas)
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
                 fflush(stdin);
 
-                if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                {
+                if(scanf("%c", &opcionRegistrar) != 1)
                     opcionRegistrarInvalida = true;
-                    printf("ERROR. Respuesta invalida [s/n] ");
-                }
                 else
-                    opcionRegistrarInvalida = false;
+                {
+                    opcionRegistrar = tolower(opcionRegistrar);
+                    opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                }
+                
+                if (opcionRegistrarInvalida)
+                    printf("ERROR. Respuesta invalida [s/n].\n");
 
             } while(opcionRegistrarInvalida);
             
@@ -1592,13 +1617,16 @@ void lecturaVentas(FILE *archivoVentas)
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el articulo? [s/n]");
                     fflush(stdin);
 
-                    if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                    {
+                    if(scanf("%c", &opcionRegistrar) != 1)
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n] ");
-                    }
                     else
-                        opcionRegistrarInvalida = false;
+                    {
+                        opcionRegistrar = tolower(opcionRegistrar);
+                        opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                    }
+                    
+                    if (opcionRegistrarInvalida)
+                        printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while(opcionRegistrarInvalida);
                 
@@ -1670,13 +1698,16 @@ void lecturaVentas(FILE *archivoVentas)
             printf("\nDesea agregar mas articulos a la venta? [s/n] ~ ");
             fflush(stdin);
 
-            if(scanf("%c", &agregarMasArticulos) != 1 || (agregarMasArticulos != 's' && agregarMasArticulos != 'n'))
-            {
-                printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+            if(scanf("%c", &agregarMasArticulos) != 1)
                 isInvalid = true;
-            }
             else
-                isInvalid = false;
+            {
+                agregarMasArticulos = tolower(agregarMasArticulos);
+                isInvalid = agregarMasArticulos != 's' && agregarMasArticulos != 'n';
+            }
+            
+            if (isInvalid)
+                printf("ERROR. Respuesta invalida [s/n].\n");
 
         } while (isInvalid);
 
@@ -1706,13 +1737,16 @@ void lecturaVentas(FILE *archivoVentas)
         printf("\nDesea generar factura? [s/n] ~ ");
         fflush(stdin);
 
-        if(scanf("%c", &generarFactura) != 1 || (generarFactura != 's' && generarFactura != 'n'))
-        {
-            printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+        if(scanf("%c", &generarFactura) != 1)
             isInvalid = true;
-        }
         else
-            isInvalid = false;
+        {
+            generarFactura = tolower(generarFactura);
+            isInvalid = generarFactura != 's' && generarFactura != 'n';
+        }
+        
+        if (isInvalid)
+            printf("ERROR. Respuesta invalida [s/n].\n");
 
     } while (isInvalid);
 
@@ -1747,13 +1781,16 @@ void lecturaCompras(FILE *archivoCompras)
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n]");
                 fflush(stdin);
 
-                if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                {
+                if(scanf("%c", &opcionRegistrar) != 1)
                     opcionRegistrarInvalida = true;
-                    printf("ERROR. Respuesta invalida [s/n] ");
-                }
                 else
-                    opcionRegistrarInvalida = false;
+                {
+                    opcionRegistrar = tolower(opcionRegistrar);
+                    opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                }
+                
+                if (opcionRegistrarInvalida)
+                    printf("ERROR. Respuesta invalida [s/n].\n");
 
             } while (opcionRegistrarInvalida);
             
@@ -1803,13 +1840,16 @@ void lecturaCompras(FILE *archivoCompras)
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
                     fflush(stdin);
                     
-                    if (scanf("%c", &opcionRegistrar) != 1 || (opcionRegistrar != 's' && opcionRegistrar != 'n'))
-                    {
+                    if(scanf("%c", &opcionRegistrar) != 1)
                         opcionRegistrarInvalida = true;
-                        printf("ERROR. Respuesta invalida [s/n] ");
-                    }
                     else
-                        opcionRegistrarInvalida = false;
+                    {
+                        opcionRegistrar = tolower(opcionRegistrar);
+                        opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                    }
+                    
+                    if (opcionRegistrarInvalida)
+                        printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while(opcionRegistrarInvalida);
                 
@@ -1873,13 +1913,16 @@ void lecturaCompras(FILE *archivoCompras)
             printf("\nDesea agregar mas insumos a la compra? [s/n]");
             fflush(stdin);
 
-            if(scanf("%c", &agregarMasInsumos) != 1 || (agregarMasInsumos != 's' && agregarMasInsumos != 'n'))
-            {
+            if(scanf("%c", &agregarMasInsumos) != 1)
                 isInvalid = true;
-                printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
-            }
             else
-                isInvalid = false;
+            {
+                agregarMasInsumos = tolower(agregarMasInsumos);
+                isInvalid = agregarMasInsumos != 's' && agregarMasInsumos != 'n';
+            }
+            
+            if (isInvalid)
+                printf("ERROR. Respuesta invalida [s/n].\n");
 
         } while (isInvalid);
 

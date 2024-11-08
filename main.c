@@ -62,11 +62,14 @@ main()
 							{
 								printf("Ingresar otro articulo? [s/n] ~ ");
 								fflush(stdin);
-								scanf("%c", &agregarMas);
 
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								if(scanf("%c", &agregarMas) != 1)
+									isInvalid = true;
+								else
+								{
+									agregarMas = tolower(agregarMas);
+									isInvalid = agregarMas != 's' && agregarMas != 'n';
+								}
 								
 								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
@@ -112,11 +115,14 @@ main()
 							{
 								printf("Ingresar m%cs insumos? [s/n] ~ ", 160);
 								fflush(stdin);
-								scanf("%c", &agregarMas);
 
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								if(scanf("%c", &agregarMas) != 1)
+									isInvalid = true;
+								else
+								{
+									agregarMas = tolower(agregarMas);
+									isInvalid = agregarMas != 's' && agregarMas != 'n';
+								}
 								
 								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
@@ -156,11 +162,14 @@ main()
 							{
 								printf("Ingresar m%cs mercados? [s/n] ~ ", 160);
 								fflush(stdin);
-								scanf("%c", &agregarMas);
-
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								
+								if(scanf("%c", &agregarMas) != 1)
+									isInvalid = true;
+								else
+								{
+									agregarMas = tolower(agregarMas);
+									isInvalid = agregarMas != 's' && agregarMas != 'n';
+								}
 								
 								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
@@ -194,11 +203,14 @@ main()
 							{
 								printf("Ingresar m%cs empleados? [s/n] ~ ", 160);
 								fflush(stdin);
-								scanf("%c", &agregarMas);
-
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								
+								if(scanf("%c", &agregarMas) != 1)
+									isInvalid = true;
+								else
+								{
+									agregarMas = tolower(agregarMas);
+									isInvalid = agregarMas != 's' && agregarMas != 'n';
+								}
 								
 								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
@@ -232,11 +244,14 @@ main()
 							{
 								printf("Ingresar m%cs proveedores? [s/n] ~ ", 160);
 								fflush(stdin);
-								scanf("%c", &agregarMas);
-
-								agregarMas = tolower(agregarMas);
-
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
+								
+								if(scanf("%c", &agregarMas) != 1)
+									isInvalid = true;
+								else
+								{
+									agregarMas = tolower(agregarMas);
+									isInvalid = agregarMas != 's' && agregarMas != 'n';
+								}
 								
 								if (isInvalid)
 									printf("Respuesta invalida [s/n].\n");
@@ -276,14 +291,16 @@ main()
 							printf("Realizar otra venta? [s/n] ~ ");
 							fflush(stdin);
 
-							if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
-							{
-								printf("Respuesta invalida [s/n].\n");
+							if(scanf("%c", &agregarMas) != 1)
 								isInvalid = true;
-							}
 							else
-								isInvalid = false;
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
 							
+							if (isInvalid)
+								printf("Respuesta invalida [s/n].\n");
 							
 						} while (isInvalid);
 					
@@ -326,13 +343,16 @@ main()
 							printf("Realizar otra compra? [s/n] ~ ");
 							fflush(stdin);
 
-							if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
-							{
-								printf("Respuesta invalida [s/n].\n");
+							if(scanf("%c", &agregarMas) != 1)
 								isInvalid = true;
-							}
 							else
-								isInvalid = false;
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+								printf("Respuesta invalida [s/n].\n");
 							
 						} while (isInvalid);
 					
@@ -366,13 +386,16 @@ main()
 						printf("Agregar otra recepcion? [s/n] ~ ");
 						fflush(stdin);
 
-						if(scanf("%c", &agregarMas) != 1 || (agregarMas != 's' && agregarMas != 'n'))
-						{
-							printf("Respuesta invalida [s/n].\n");
+						if(scanf("%c", &agregarMas) != 1)
 							isInvalid = true;
-						}
 						else
-							isInvalid = false;
+						{
+							agregarMas = tolower(agregarMas);
+							isInvalid = agregarMas != 's' && agregarMas != 'n';
+						}
+						
+						if (isInvalid)
+							printf("Respuesta invalida [s/n].\n");
 						
 					} while (isInvalid);
 				
