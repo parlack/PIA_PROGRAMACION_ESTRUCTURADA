@@ -78,7 +78,6 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                             &separador) == 3 
                             && insumoEncontrado == false)
                 {
-                    //printf(" %15d | %15d |\n", DatosCompra.claveProveedor, DatosCompra.entregado);
                     if (DatosCompra.entregado == 0)
                     {   
                         while (separador == '#')

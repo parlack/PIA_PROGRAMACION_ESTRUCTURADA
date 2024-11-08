@@ -350,7 +350,7 @@ main()
 				
 				do
 				{
-					if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
+					if ((filePtr = fopen("./Data_files/Compras.txt", "r+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{

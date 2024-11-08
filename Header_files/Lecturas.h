@@ -445,7 +445,7 @@ void lecturaInsumo(FILE *archivoInsumos)
                 isInvalid = false;
         } while (isInvalid);
         
-    } while (proveedores < 10 && ingresarMas == 'S');
+    } while (proveedores < 10 && ingresarMas == 's');
 
 
     printf("\n\tLECTURA DE PRECIOS POR PROVEEDOR\n");
@@ -1906,9 +1906,9 @@ void lecturaCompras(FILE *archivoCompras)
 
 void controlInventario(FILE *archivoCompras)
 {
+    rewind(archivoCompras);
     struct infoCompra DatosCompra;
-    int i = 0;
-    int claveProveedorBuscado;
+    int i = 0, claveProveedorBuscado, claveCompraBuscada;
     bool isInvalid, letreroImpreso = false;
     char separador;
 
@@ -1963,8 +1963,48 @@ void controlInventario(FILE *archivoCompras)
                 printf(" -----------------------------------------------------------------------------------------------------------\n");
             }
         }
+        else
+        {
+            fscanf(archivoCompras, "%*[^$]$");
+        }
         i++;
     }
 
-    //FALTA PEDIR AL CLIENTE LA CLAVE DE LA COMPRA DE LA CUAL QUIERE SEÑALAR LA ENTREGA
+    do
+    {
+        printf("\nIngrese la clave de la compra [1 - %d] ~ ", i);
+        fflush(stdin);
+        
+        if(scanf("%d", &claveCompraBuscada) != 1 || !isInIntRange(&claveCompraBuscada, 1, i))
+        {
+            isInvalid = true;
+            printf("\nERROR: Clave de compra fuera del rango.\n");
+        }
+        else    
+            isInvalid = false;
+
+    } while (isInvalid);
+    
+
+    rewind(archivoCompras);
+
+    for (i = 0; i < claveCompraBuscada - 1; i++)
+    {
+        fscanf(archivoCompras, "%*[^$]$");
+    }
+
+    
+    fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
+
+    
+    if (DatosCompra.entregado == 0)
+    {
+        fseek(archivoCompras, -1, SEEK_CUR);
+        fprintf(archivoCompras, "1");
+        printf("\nENTREGA DE COMPRA REGISTRADA.\n");
+    }
+    else
+        printf("\nCLAVE INVALIDA. Esta compra ya se ha entregado.\n");
+
+    //PENDIENTE DE PREGUNTAR AL USUARIO SI DESEA REGISTRAR ESTA ENTREGA
 }
