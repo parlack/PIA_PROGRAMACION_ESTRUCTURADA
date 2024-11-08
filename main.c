@@ -449,8 +449,15 @@ main()
 							break;
 
 						case 'e':
-
+							if ((filePtr = fopen("./Data_files/Proveedores.dat", "rb")) == NULL)
+								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
+							else
+							{
+								SaldosPendientes(filePtr);
+								fclose(filePtr);
+							}
 							break;
+							
 
 						case 'f':
 							if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)

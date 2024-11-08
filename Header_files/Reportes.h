@@ -327,3 +327,52 @@ void ventasArticulo(FILE *archivoVentas)
 
     printf("\nTotal de ventas del articulo con clave %d: $%.2f\n", articuloBuscado, total);
 }
+
+void SaldosPendientes(FILE *ArchivoProv)
+{
+    struct infoProveedor infoProv;
+    int CantidadSaldos = 0;
+    char nombreCompleto[80]; // Cadena temporal para nombre completo
+
+    while (fread(&infoProv, sizeof(struct infoProveedor), 1, ArchivoProv))
+    {
+        if (infoProv.saldo != 0)
+        {
+            if (CantidadSaldos == 0)
+            {
+                printf("\tINFORMACION DE PROVEEDORES CON SALDOS PENDIENTES:\n\n");
+                printf("%-10s %-60s %-40s %s\n", "CLAVE", "NOMBRE CLIENTE", "SALDO PENDIENTE", "DIRECCION");
+                printf("-------------------------------------------------------------------------------------------------------------\n");
+            }
+
+            // Concatenar nombre completo en una sola cadena
+            snprintf(nombreCompleto, sizeof(nombreCompleto), "%s %s %s",
+                     infoProv.datosPersonales.nombres,
+                     infoProv.datosPersonales.apellidoPaterno,
+                     infoProv.datosPersonales.apellidoMaterno);
+
+            // Información básica de cada proveedor
+            printf("%-10d %-60s %8.2f %40s %d,\n",
+                   infoProv.clave,
+                   nombreCompleto,
+                   infoProv.saldo,
+                   infoProv.datosPersonales.calle,
+                   infoProv.datosPersonales.numeroDomicilio);
+
+            // Imprimir las partes de la dirección alineadas debajo de la columna "DIRECCION"
+            printf("%114s%s,\n", "", infoProv.datosPersonales.colonia);
+            printf("%114s%s,\n", "", infoProv.datosPersonales.municipio);
+            printf("%114s%s.\n\n", "", infoProv.datosPersonales.estado);
+
+            CantidadSaldos++;
+        }
+    }
+
+    if (CantidadSaldos == 0)
+        printf("No existen cuentas con saldos pendientes.");
+}
+
+
+
+
+
