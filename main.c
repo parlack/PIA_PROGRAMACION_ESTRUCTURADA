@@ -370,36 +370,36 @@ main()
 				
 				break;
 			case 8:	//Control de Inventario
-				
-				do
+				if ((filePtr = fopen("./Data_files/Compras.txt", "r+")) == NULL)
+					printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+				else
 				{
-					if ((filePtr = fopen("./Data_files/Compras.txt", "r+")) == NULL)
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-					else
+					do
 					{
 						controlInventario(filePtr);
 						fclose(filePtr);
-					}
-						
-					do
-					{
-						printf("Agregar otra recepcion? [s/n] ~ ");
-						fflush(stdin);
-
-						if(scanf("%c", &agregarMas) != 1)
-							isInvalid = true;
-						else
+							
+						do
 						{
-							agregarMas = tolower(agregarMas);
-							isInvalid = agregarMas != 's' && agregarMas != 'n';
-						}
-						
-						if (isInvalid)
-							printf("Respuesta invalida [s/n].\n");
-						
-					} while (isInvalid);
+							printf("Agregar otra recepcion? [s/n] ~ ");
+							fflush(stdin);
+
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+								printf("Respuesta invalida [s/n].\n");
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
+				}
 				
-				} while (agregarMas == 's');
 				
 				break;
 			case 9: //Reportes
@@ -429,7 +429,6 @@ main()
 
 				while(opcionMenuReporte != 'h')
 				{
-					
 					switch(opcionMenuReporte)
 					{
 						case 'a':

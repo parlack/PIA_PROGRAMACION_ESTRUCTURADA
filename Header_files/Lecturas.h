@@ -2027,6 +2027,7 @@ void controlInventario(FILE *archivoCompras)
             isInvalid = false;
 
     } while (isInvalid);
+    //validar que la compra sea del proveedor que se indico?
     
 
     rewind(archivoCompras);
