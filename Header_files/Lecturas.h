@@ -212,7 +212,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
         do
         {
-            printf("\nIngresar información de otro mercado? [ %d/10 mercados guardados ] ~ ", mercados);
+            printf("\nIngresar informaci%cn de otro mercado? [ %d/10 mercados guardados ] [s/n] ~ ", 162, mercados);
             fflush(stdin);
             
             if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))
@@ -222,6 +222,7 @@ void lecturaArticulo(FILE *archivoArticulos)
             }
             else
                 isInvalid = false;
+
         } while (isInvalid);
         
     } while (mercados < 10 && ingresarMas == 's');
@@ -283,7 +284,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
         do
         {
-            printf("\nIngresar información de otro insumo? [ %d/10 insumos guardados ] ~ ", insumos);
+            printf("\nIngresar informaci%cn de otro insumo? [ %d/10 insumos guardados ] [s/n] ~ ", 162, insumos);
             fflush(stdin);
 
             if (scanf("%c", &ingresarMas) != 1 || (ingresarMas != 's' && ingresarMas != 'n'))

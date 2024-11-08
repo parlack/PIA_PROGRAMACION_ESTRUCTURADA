@@ -57,7 +57,7 @@ main()
 							
                             do
 							{
-								printf("Ingresar articulos? [s/n] ~ ");
+								printf("Ingresar otro articulo? [s/n] ~ ");
 								fflush(stdin);
 								scanf("%c", &agregarMas);
 
