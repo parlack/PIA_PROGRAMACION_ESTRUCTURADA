@@ -7,7 +7,7 @@ main()
 {
 	int opcionMenuPrincipal;
 	FILE *filePtr;
-	char agregarMas, opcionMenuReporte;
+	char agregarMas, opcionMenuReporte, opcionGenerarFactura;
 	bool isInvalid, existeArchivo, hayInsumos, hayMercados, hayProveedores, hayArticulos, hayEmpleados;
 
 	do
@@ -283,7 +283,29 @@ main()
 						else
 						{
 							lecturaVentas(filePtr);
+
+							do
+							{
+								printf("\nDesea generar factura? [s/n] ~ ");
+								fflush(stdin);
+
+								if(scanf("%c", &opcionGenerarFactura) != 1 || (opcionGenerarFactura != 's' && opcionGenerarFactura != 'n'))
+								{
+									printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+									isInvalid = true;
+								}
+								else
+									isInvalid = false;
+
+							} while (isInvalid);
+
+							if(opcionGenerarFactura == 's')
+							{
+								generarFactura(filePtr);	
+							}
+
 							fclose(filePtr);
+
 						}
 						
 						do
