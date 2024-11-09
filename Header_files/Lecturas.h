@@ -2045,8 +2045,6 @@ void controlInventario(FILE *archivoCompras)
 
     }
     while(isInvalid);
-    
-    fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
 
     if (DatosCompra.entregado == 0)
     {
@@ -2067,7 +2065,7 @@ void controlInventario(FILE *archivoCompras)
 
         if (marcarEntrega == 's')
         {
-            fseek(archivoCompras, -1, SEEK_CUR);
+            fseek(archivoCompras, -sizeof(int), SEEK_CUR);
             fprintf(archivoCompras, "1");
             printf("\nENTREGA DE COMPRA REGISTRADA.\n");
         }
