@@ -2041,6 +2041,8 @@ void controlInventario(FILE *archivoCompras)
                 isInvalid = true
                 printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
             }
+            else
+                isInvalid = false;
         }
 
     }
