@@ -372,7 +372,18 @@ void SaldosPendientes(FILE *ArchivoProv)
         printf("No existen cuentas con saldos pendientes.");
 }
 
+void generarFactura(FILE *archivoVentas)
+{
+    struct infoVenta ventaActual;
+    rewind(archivoVentas);
 
-
-
-
+    while (fscanf(archivoVentas, "%d-%d-%d-%d-%d#", 
+                            DatosVentas.claveMercado, 
+                            DatosVentas.claveEmpleado,
+                            DatosVentas.day, 
+                            DatosVentas.month, 
+                            DatosVentas.year) == 5)
+    {
+        fscanf(archivoVentas, "%*[^$]$");
+    }
+}

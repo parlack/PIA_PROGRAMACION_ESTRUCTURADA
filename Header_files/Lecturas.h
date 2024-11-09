@@ -1468,16 +1468,16 @@ void lecturaVentas(FILE *archivoVentas)
     int inventarioActual;
     struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
-    char agregarMasArticulos, opcionRegistrar, generarFactura;
+    char agregarMasArticulos, opcionRegistrar;
     float precioUnitario, subtotalPorArticulo, porcentajeComision;
     DatosVentas.precioTotal = 0;
 
     time_t t = time(NULL);
     struct tm *fechaActual = localtime(&t);
 
-    int anioActual = fechaActual->tm_year + 1900;
-    int mesActual = fechaActual->tm_mon + 1;
-    int diaActual = fechaActual->tm_mday;
+    DatosVentas.year = fechaActual->tm_year + 1900;
+    DatosVentas.month = fechaActual->tm_mon + 1;
+    DatosVentas.day = fechaActual->tm_mday;
 
     do
     {
@@ -1591,7 +1591,9 @@ void lecturaVentas(FILE *archivoVentas)
     fprintf(archivoVentas, "%d-%d-%d-%d-%d#", 
                             DatosVentas.claveMercado, 
                             DatosVentas.claveEmpleado,
-                            diaActual, mesActual, anioActual);
+                            DatosVentas.day, 
+                            DatosVentas.month, 
+                            DatosVentas.year);
 
     do
     {
@@ -1657,6 +1659,7 @@ void lecturaVentas(FILE *archivoVentas)
 
         } while (isInvalid);
 
+        
         do
         {
             printf("\nCantidad del producto [Mayor a 0] ~ ");
@@ -1952,7 +1955,7 @@ void controlInventario(FILE *archivoCompras)
     struct infoCompra DatosCompra;
     int i = 0, claveProveedorBuscado, claveCompraBuscada;
     bool isInvalid, letreroImpreso = false;
-    char separador;
+    char separador, marcarEntrega;
 
     printf("\t----- CONTROL DE INVENTARIO ----- \n\n");
 
@@ -2043,15 +2046,36 @@ void controlInventario(FILE *archivoCompras)
     }
     while(isInvalid);
     
-    
+    fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
+
     if (DatosCompra.entregado == 0)
     {
-        fseek(archivoCompras, sizeof(int), SEEK_CUR);
-        fprintf(archivoCompras, "1");
-        printf("\nENTREGA DE COMPRA REGISTRADA.\n");
+        do
+        {
+            printf("Marcar como entregada? [s/n] ~ ");
+            fflush(stdin);
+
+            if(scanf("%c", &marcarEntrega) != 1 || (marcarEntrega != 's' && marcarEntrega != 'n'))
+            {
+                printf("Respuesta invalida [s/n].\n");
+                isInvalid = true;
+            }
+            else
+                isInvalid = false;
+            
+        } while (isInvalid);
+
+        if (marcarEntrega == 's')
+        {
+            fseek(archivoCompras, -1, SEEK_CUR);
+            fprintf(archivoCompras, "1");
+            printf("\nENTREGA DE COMPRA REGISTRADA.\n");
+        }
+        else
+        {
+            printf("\nRegresando al menu de reportes ...\n");
+        }
     }
     else
         printf("\nCLAVE INVALIDA. Esta compra ya se ha entregado.\n");
-
-    //PENDIENTE DE PREGUNTAR AL USUARIO SI DESEA REGISTRAR ESTA ENTREGA
 }
