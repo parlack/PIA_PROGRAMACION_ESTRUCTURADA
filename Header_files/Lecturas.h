@@ -1657,7 +1657,6 @@ void lecturaVentas(FILE *archivoVentas)
 
         } while (isInvalid);
 
-        //TOTAL DE VENTAS POR ARTICULO
         do
         {
             printf("\nCantidad del producto [Mayor a 0] ~ ");
@@ -2021,29 +2020,33 @@ void controlInventario(FILE *archivoCompras)
         if(scanf("%d", &claveCompraBuscada) != 1 || !isInIntRange(&claveCompraBuscada, 1, i))
         {
             isInvalid = true;
-            printf("\nERROR: Clave de compra fuera del rango.\n");
+            printf("ERROR: Clave de compra fuera del rango.\n\n");
         }
         else    
-            isInvalid = false;
+        {
+            rewind(archivoCompras);
 
-    } while (isInvalid);
-    //validar que la compra sea del proveedor que se indico?
-    
+            for (i = 0; i < claveCompraBuscada - 1; i++)
+            {
+                fscanf(archivoCompras, "%*[^$]$");
+            }
+            
+            fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
 
-    rewind(archivoCompras);
+            if(DatosCompra.claveProveedor != claveProveedorBuscado)
+            {
+                isInvalid = true
+                printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
+            }
+        }
 
-    for (i = 0; i < claveCompraBuscada - 1; i++)
-    {
-        fscanf(archivoCompras, "%*[^$]$");
     }
-
+    while(isInvalid);
     
-    fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
-
     
     if (DatosCompra.entregado == 0)
     {
-        fseek(archivoCompras, -1, SEEK_CUR);
+        fseek(archivoCompras, sizeof(int), SEEK_CUR);
         fprintf(archivoCompras, "1");
         printf("\nENTREGA DE COMPRA REGISTRADA.\n");
     }

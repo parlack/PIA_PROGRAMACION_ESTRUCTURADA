@@ -377,7 +377,6 @@ main()
 					do
 					{
 						controlInventario(filePtr);
-						fclose(filePtr);
 							
 						do
 						{
@@ -398,6 +397,8 @@ main()
 						} while (isInvalid);
 					
 					} while (agregarMas == 's');
+
+					fclose(filePtr);
 				}
 				
 				
