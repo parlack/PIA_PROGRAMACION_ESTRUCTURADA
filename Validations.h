@@ -149,7 +149,7 @@ bool existeMercado(int *key)
     struct infoMercado mercadoActual;
     bool existe;
 
-    if ((archivoMercados = fopen("./Data_files/Mercados.dat", "rb")) == NULL)
+    if ((archivoMercados = fopen("Mercados.dat", "rb")) == NULL)
         return false;
     else
     {
@@ -172,7 +172,7 @@ bool existeInsumo(int *key)
     struct infoInsumo insumoActual;
     bool existe;
 
-    if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    if ((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
         return false;
     else
     {
