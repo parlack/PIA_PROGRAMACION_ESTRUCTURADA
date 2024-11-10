@@ -77,7 +77,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 1:
 		{
 			n_registros = 1000;
-			nombreArchivo = "./Data_files/Articulos.dat";
+			nombreArchivo = "Articulos.dat";
             struct infoArticulo articuloVacio = {0, {0}, {0}, 0, 0, 0, "", 0, 0};
             estructuraVacia = &articuloVacio;
             sizeEstructura = sizeof(articuloVacio);
@@ -86,7 +86,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 2:
 		{
 			n_registros = 100;
-			nombreArchivo = "./Data_files/Insumos.dat";
+			nombreArchivo = "Insumos.dat";
             struct infoInsumo insumoVacio = {0, {0}, 0, 0, "", {0}};
             estructuraVacia = &insumoVacio;
             sizeEstructura = sizeof(insumoVacio);
@@ -95,7 +95,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 3:
 		{
 			n_registros = 100;
-			nombreArchivo = "./Data_files/Mercados.dat";
+			nombreArchivo = "Mercados.dat";
             struct infoMercado mercadoVacio = {0, datosVacios, 0};
             estructuraVacia = &mercadoVacio;
             sizeEstructura = sizeof(mercadoVacio);
@@ -104,7 +104,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 4:
 		{
 			n_registros = 1000;
-			nombreArchivo = "./Data_files/Empleados.dat";
+			nombreArchivo = "Empleados.dat";
             struct infoEmpleado empleadoVacio = {0, 0, 0, 0, datosVacios, 0};
             estructuraVacia = &empleadoVacio;
             sizeEstructura = sizeof(empleadoVacio);
@@ -113,7 +113,7 @@ bool inicializarArchivo(int numeroArchivo)
         case 5:
 		{
 			n_registros = 100;
-			nombreArchivo = "./Data_files/Proveedores.dat";
+			nombreArchivo = "Proveedores.dat";
             struct infoProveedor proveedorVacio = {0, datosVacios, 0};
             estructuraVacia = &proveedorVacio;
             sizeEstructura = sizeof(proveedorVacio);
@@ -154,7 +154,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 		{
             struct infoArticulo articulo;
             estructuraPtr = &articulo;
-			nombreArchivo = "./Data_files/Articulos.dat";
+			nombreArchivo = "Articulos.dat";
             sizeEstructura = sizeof(struct infoArticulo);
             break;
         }
@@ -162,7 +162,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 		{
             struct infoInsumo insumo;
             estructuraPtr = &insumo;
-			nombreArchivo = "./Data_files/Insumos.dat";
+			nombreArchivo = "Insumos.dat";
             sizeEstructura = sizeof(struct infoInsumo);
             break;
         }
@@ -170,7 +170,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 		{
             struct infoMercado mercado;
             estructuraPtr = &mercado;
-			nombreArchivo = "./Data_files/Mercados.dat";
+			nombreArchivo = "Mercados.dat";
             sizeEstructura = sizeof(struct infoMercado);
             break;
         }
@@ -178,7 +178,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 		{
             struct infoEmpleado empleado;
             estructuraPtr = &empleado;
-			nombreArchivo = "./Data_files/Empleados.dat";
+			nombreArchivo = "Empleados.dat";
             sizeEstructura = sizeof(struct infoEmpleado);
             break;
         }
@@ -186,7 +186,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
 		{
             struct infoProveedor proveedor;
             estructuraPtr = &proveedor;
-			nombreArchivo = "./Data_files/Proveedores.dat";
+			nombreArchivo = "Proveedores.dat";
             sizeEstructura = sizeof(struct infoProveedor);
             break;
         }
@@ -230,19 +230,19 @@ bool VerificarHayRegistros(int numeroArchivo)
     switch(numeroArchivo)
     {
         case 1:
-            nombreArchivo = "./Data_files/Articulos.dat";
+            nombreArchivo = "Articulos.dat";
             break;
         case 2:
-            nombreArchivo = "./Data_files/Insumos.dat";
+            nombreArchivo = "Insumos.dat";
             break;
         case 3:
-            nombreArchivo = "./Data_files/Mercados.dat";
+            nombreArchivo = "Mercados.dat";
             break;
         case 4:
-            nombreArchivo = "./Data_files/Empleados.dat";
+            nombreArchivo = "Empleados.dat";
             break;
         case 5:
-            nombreArchivo = "./Data_files/Proveedores.dat";
+            nombreArchivo = "Proveedores.dat";
             break;
     }
     
@@ -262,7 +262,7 @@ float obtenerCosto(int *Insumos, int *numeroInsumos)
     int i = 0, j;
     float costoTotal = 0, promedioCostoInsumo;
 
-    if ((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    if ((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
         return 0;
     
     while (i < *numeroInsumos)
@@ -296,7 +296,7 @@ int inventarioRestante(int *claveArticulo)
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
     
-    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
+    if((archivoArticulos = fopen("Articulos.dat", "rb")) == NULL)
     {
         printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
         return 0;
@@ -318,7 +318,7 @@ bool verificarProveedorInsumo(int *claveProveedor, int *claveInsumo)
     int i;
     struct infoInsumo insumoActual;
 
-    if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    if((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
     {
         printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
         return false;
@@ -352,7 +352,7 @@ void obtenerDatosInsumo(int *claveProveedor, int *claveInsumo, float *precioUnit
     int i;
     struct infoInsumo insumoActual;
 
-    if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+    if((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
     {
         printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
     }
@@ -386,7 +386,7 @@ void modificarSaldo(int *claveProveedor, float *monto, const char modo)
     struct infoProveedor proveedorActual;
     FILE *filePtr;
 
-    if((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
+    if((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
     {
         printf("Error al abrir el archivo de proveedores. El saldo no se pudo reflejar.\n");
     }
@@ -417,12 +417,12 @@ float obtenerDescuento(int *clave, int numeroArchivo)
 
     if (numeroArchivo == 1)
     {
-        filename = "./Data_files/Proveedores.dat";
+        filename = "Proveedores.dat";
         structSize = sizeof(struct infoProveedor);
     }
     else if (numeroArchivo == 2)
     {
-        filename = "./Data_files/Mercados.dat";
+        filename = "Mercados.dat";
         structSize = sizeof(struct infoMercado);
     }
     else
@@ -462,7 +462,7 @@ float obtenerComision(int *claveEmpleado)
     struct infoEmpleado empleadoActual;
     FILE *filePtr;
 
-    if((filePtr = fopen("./Data_files/Empleados.dat", "rb+")) == NULL)
+    if((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
     {
         printf("Error al abrir el archivo de empleados. No se pudo obtener la informacion.\n");
         return 0;
@@ -482,7 +482,7 @@ void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
     
-    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
+    if((archivoArticulos = fopen("Articulos.dat", "rb")) == NULL)
         printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
     else
     {
@@ -501,7 +501,7 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     FILE *archivoArticulos;
     struct infoArticulo articuloActual;
     
-    if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
+    if((archivoArticulos = fopen("Articulos.dat", "rb+")) == NULL)
         printf("Error al abrir el archivo de articulos. No fue posible actualizar el inventario.\n");
     else
     {

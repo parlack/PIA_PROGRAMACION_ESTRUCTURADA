@@ -1,15 +1,4 @@
 {
-  "files.associations": {
-    "lecturas.h": "c",
-    "validations.h": "c",
-    "estructuras_granja.h": "c",
-    "regex.h": "c",
-    "stdio.h": "c",
-    "random": "c",
-    "time.h": "c",
-    "reportes.h": "c",
-    "extras.h": "c"
-  },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",

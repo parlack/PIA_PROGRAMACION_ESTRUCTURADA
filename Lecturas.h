@@ -159,7 +159,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("Data_files/Mercados.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Mercados.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -237,7 +237,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("Data_files/Insumos.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Insumos.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -393,7 +393,7 @@ void lecturaInsumo(FILE *archivoInsumos)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("Data_files/Proveedores.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Proveedores.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -1481,7 +1481,7 @@ void lecturaVentas(FILE *archivoVentas)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("Data_files/Empleados.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Empleados.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1535,7 +1535,7 @@ void lecturaVentas(FILE *archivoVentas)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("Data_files/Mercados.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Mercados.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1602,7 +1602,7 @@ void lecturaVentas(FILE *archivoVentas)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("Data_files/Articulos.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Articulos.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {
@@ -1747,7 +1747,7 @@ void lecturaCompras(FILE *archivoCompras)
             
             if(opcionRegistrar == 's')
             {
-                if((archivo_NuevoRegistro = fopen("Data_files/Proveedores.dat","rb+")) == NULL)
+                if((archivo_NuevoRegistro = fopen("Proveedores.dat","rb+")) == NULL)
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                 else
                 {
@@ -1806,7 +1806,7 @@ void lecturaCompras(FILE *archivoCompras)
                 
                 if(opcionRegistrar == 's')
                 {
-                    if((archivo_NuevoRegistro = fopen("Data_files/Insumos.dat","rb+")) == NULL)
+                    if((archivo_NuevoRegistro = fopen("Insumos.dat","rb+")) == NULL)
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
                     else
                     {

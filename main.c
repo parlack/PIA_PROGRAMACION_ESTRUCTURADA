@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "Header_files/Reportes.h"
-#include "Header_files/extras.h"
+#include "Reportes.h"
+#include "extras.h"
 
 main()
 {
@@ -50,7 +50,7 @@ main()
 
 				if(existeArchivo && hayInsumos && hayMercados)
 				{
-					if ((filePtr = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
+					if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{
@@ -103,7 +103,7 @@ main()
 				
 				if(existeArchivo && hayProveedores)
 				{
-					if ((filePtr = fopen("./Data_files/Insumos.dat", "rb+")) == NULL)
+					if ((filePtr = fopen("Insumos.dat", "rb+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{
@@ -150,7 +150,7 @@ main()
 			
 				if(inicializarArchivo(3))
 				{
-					if ((filePtr = fopen("./Data_files/Mercados.dat", "rb+")) == NULL)
+					if ((filePtr = fopen("Mercados.dat", "rb+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{
@@ -191,7 +191,7 @@ main()
 
 				if(inicializarArchivo(4))
 				{
-					if ((filePtr = fopen("./Data_files/Empleados.dat", "rb+")) == NULL)
+					if ((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{
@@ -232,7 +232,7 @@ main()
 
 				if(inicializarArchivo(5))
 				{
-					if ((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
+					if ((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 					else
 					{
@@ -278,7 +278,7 @@ main()
 				{
 					do
 					{
-						if ((filePtr = fopen("./Data_files/Ventas.txt", "a+")) == NULL)
+						if ((filePtr = fopen("Ventas.txt", "a+")) == NULL)
 							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 						else
 						{
@@ -352,7 +352,7 @@ main()
 				{
 					do
 					{
-						if ((filePtr = fopen("./Data_files/Compras.txt", "a+")) == NULL)
+						if ((filePtr = fopen("Compras.txt", "a+")) == NULL)
 							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 						else
 						{
@@ -392,7 +392,7 @@ main()
 				
 				break;
 			case 8:	//Control de Inventario
-				if ((filePtr = fopen("./Data_files/Compras.txt", "r+")) == NULL)
+				if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
 					printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
 				else
 				{
@@ -455,7 +455,7 @@ main()
 					switch(opcionMenuReporte)
 					{
 						case 'a':
-							if ((filePtr = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
+							if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
 							else
 							{
@@ -465,7 +465,7 @@ main()
 							break;
 
 						case 'b':
-							if ((filePtr = fopen("./Data_files/Ventas.txt", "r")) == NULL)
+							if ((filePtr = fopen("Ventas.txt", "r")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
 							else
 							{
@@ -477,7 +477,7 @@ main()
 						case 'c':
 							if(!VerificarHayRegistros(1))
 								printf("Error: No hay articulos registrados.\n");
-							else if ((filePtr = fopen("./Data_files/Ventas.txt", "r")) == NULL)
+							else if ((filePtr = fopen("Ventas.txt", "r")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
 							else
 							{
@@ -487,7 +487,7 @@ main()
 							break;
 
 						case 'd':
-							if ((filePtr = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
+							if ((filePtr = fopen("Insumos.dat", "rb")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Insumos.\n");
 							else
 							{
@@ -497,7 +497,7 @@ main()
 							break;
 
 						case 'e':
-							if ((filePtr = fopen("./Data_files/Proveedores.dat", "rb")) == NULL)
+							if ((filePtr = fopen("Proveedores.dat", "rb")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
 							else
 							{
@@ -508,7 +508,7 @@ main()
 							
 
 						case 'f':
-							if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
+							if ((filePtr = fopen("Empleados.dat", "rb")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
 							else
 							{
@@ -518,7 +518,7 @@ main()
 							break;
 
 						case 'g':
-						    if ((filePtr = fopen("./Data_files/Compras.txt", "r")) == NULL)
+						    if ((filePtr = fopen("Compras.txt", "r")) == NULL)
 								printf("Error al abrir el archivo. No existen registros de Compras.\n");
 							else
 							{
