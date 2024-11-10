@@ -26,7 +26,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         if (scanf("%d", &DatosArticulo.clave) != 1 || !isInIntRange(&DatosArticulo.clave, 1, 1000))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de articulo invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -47,7 +49,11 @@ void lecturaArticulo(FILE *archivoArticulos)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Descripcion invalida, [10 - 50 caracteres].\n");
+            setColor(7);
+        }
         
     } while (isInvalid);
 
@@ -65,7 +71,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         if (scanf("%d", &DatosArticulo.temporadaSiembra) != 1 || !isInIntRange(&DatosArticulo.temporadaSiembra, 1, 4))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Numero invalido.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -86,7 +94,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         if (scanf("%d", &DatosArticulo.temporadaCosecha) != 1 || !isInIntRange(&DatosArticulo.temporadaCosecha, 1, 4))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Numero invalido.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -101,7 +111,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         if (scanf("%d", &DatosArticulo.inventario) != 1 || !intMoreThanZero(&DatosArticulo.inventario, true))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Cantidad invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -116,7 +128,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         if (scanf("%f", &DatosArticulo.precioVenta) != 1 || !floatMoreThanZero(&DatosArticulo.precioVenta, false))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Precio invalido.\n");
+            setColor(7);
         }
         else
             isInvalid = false;          
@@ -133,7 +147,9 @@ void lecturaArticulo(FILE *archivoArticulos)
             if(scanf("%d", &DatosArticulo.clavesMercados[mercados]) != 1 || !isInIntRange(&DatosArticulo.clavesMercados[mercados], 1, 100))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Clave de mercado invalida.\n");
+                setColor(7);
             }
             else if (!existeClave(3, &DatosArticulo.clavesMercados[mercados]))
             {
@@ -141,7 +157,11 @@ void lecturaArticulo(FILE *archivoArticulos)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n] ~ ");
+                    setColor(4);
+                    printf("\nERROR: La clave ingresada no esta registrada.\n");
+                    setColor(7);
+                    printf("Desea registrar el mercado? [s/n] ~ ");
+                    
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -152,15 +172,23 @@ void lecturaArticulo(FILE *archivoArticulos)
                         opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
                     }
                     
-                    if (opcionRegistrarInvalida)
+                    if (isInvalid)
+                    {
+                        setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
+                        setColor(7);
+                    }
 
                 } while(opcionRegistrarInvalida);
                 
                 if(opcionRegistrar == 's')
                 {
                     if((archivo_NuevoRegistro = fopen("Mercados.dat","rb+")) == NULL)
+                    {
+                        setColor(4);
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                        setColor(7);
+                    }
                     else
                     {
                         lecturaMercado(archivo_NuevoRegistro);
@@ -170,12 +198,30 @@ void lecturaArticulo(FILE *archivoArticulos)
                         if(existeClave(3, &DatosArticulo.clavesMercados[mercados]))
                             isInvalid = false;
                         else
+                        {
+                            setColor(4);
                             printf("\nLa clave ingresada y el mercado registrado no coinciden.\n");
+                            setColor(7);
+                        }
                     }
                 }
             }
-            else    
+            else
+            {
                 isInvalid = false;
+                i = 0;
+                while(i < mercados && !isInvalid)
+                {
+                    if(DatosArticulo.clavesMercados[mercados] == DatosArticulo.clavesMercados[i])
+                    {
+                        setColor(4);
+                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                        setColor(7);
+                        isInvalid = true;
+                    }
+                    i++;
+                }
+            }
 
         } while (isInvalid);
         
@@ -195,7 +241,11 @@ void lecturaArticulo(FILE *archivoArticulos)
             }
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR. Respuesta invalida [s/n].\n");
+                setColor(7);
+            }
 
         } while (isInvalid);
         
@@ -211,7 +261,9 @@ void lecturaArticulo(FILE *archivoArticulos)
             if(scanf("%d", &DatosArticulo.clavesInsumos[insumos]) != 1 || !isInIntRange(&DatosArticulo.clavesInsumos[insumos], 1, 100))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Clave de insumo invalida.\n");
+                setColor(7);
             }
             else if (!existeClave(2, &DatosArticulo.clavesInsumos[insumos]))
             {
@@ -219,7 +271,9 @@ void lecturaArticulo(FILE *archivoArticulos)
 
                 do
                 {
+                    setColor(4);
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
+                    setColor(7);
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -231,14 +285,22 @@ void lecturaArticulo(FILE *archivoArticulos)
                     }
                     
                     if (opcionRegistrarInvalida)
+                    {
+                        setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
+                        setColor(7);
+                    }
 
                 } while(opcionRegistrarInvalida);
                 
                 if(opcionRegistrar == 's')
                 {
                     if((archivo_NuevoRegistro = fopen("Insumos.dat","rb+")) == NULL)
+                    {
+                        setColor(4);
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                        setColor(7);
+                    }
                     else
                     {
                         lecturaInsumo(archivo_NuevoRegistro);
@@ -248,12 +310,30 @@ void lecturaArticulo(FILE *archivoArticulos)
                         if(existeClave(2, &DatosArticulo.clavesInsumos[insumos]))
                             isInvalid = false;
                         else
+                        {
+                            setColor(4);
                             printf("\nLa clave ingresada y el insumo registrado no coinciden.\n");
+                            setColor(7);
+                        }
                     }
                 }
             }
             else
+            {
                 isInvalid = false;
+                i = 0;
+                while(i < insumos && !isInvalid)
+                {
+                    if(DatosArticulo.clavesInsumos[insumos] == DatosArticulo.clavesInsumos[i])
+                    {
+                        setColor(4);
+                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                        setColor(7);
+                        isInvalid = true;
+                    }
+                    i++;
+                }
+            }
                 
         } while (isInvalid);
 
@@ -273,7 +353,11 @@ void lecturaArticulo(FILE *archivoArticulos)
             }
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR. Respuesta invalida [s/n].\n");
+                setColor(7);
+            }
             
         } while (isInvalid);
         
@@ -302,7 +386,9 @@ void lecturaInsumo(FILE *archivoInsumos)
         if (scanf("%d", &DatosInsumo.clave) != 1 || !isInIntRange(&DatosInsumo.clave, 1, 100))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de insumo invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -323,7 +409,11 @@ void lecturaInsumo(FILE *archivoInsumos)
             isInvalid = true;
         
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Descripcion invalida, [10 - 50 caracteres].\n");
+            setColor(7);
+        }
         
     } while (isInvalid);
 
@@ -335,7 +425,9 @@ void lecturaInsumo(FILE *archivoInsumos)
         if (scanf("%d", &DatosInsumo.puntoReorden) != 1 || !intMoreThanZero(&DatosInsumo.puntoReorden, false))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Cantidad invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -350,7 +442,9 @@ void lecturaInsumo(FILE *archivoInsumos)
         if (scanf("%d", &DatosInsumo.inventario) != 1 || !intMoreThanZero(&DatosInsumo.inventario, true))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Cantidad invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -367,7 +461,9 @@ void lecturaInsumo(FILE *archivoInsumos)
             if(scanf("%d", &DatosInsumo.clavesProveedores[proveedores]) != 1 || !isInIntRange(&DatosInsumo.clavesProveedores[proveedores], 1, 100))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Clave de proveedor invalida.\n");
+                setColor(7);
             }
             else if (!existeClave(5, &DatosInsumo.clavesProveedores[proveedores]))
             {
@@ -375,7 +471,9 @@ void lecturaInsumo(FILE *archivoInsumos)
 
                 do
                 {
+                    setColor(4);
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n] ~ ");
+                    setColor(7);
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -387,14 +485,22 @@ void lecturaInsumo(FILE *archivoInsumos)
                     }
                     
                     if (opcionRegistrarInvalida)
+                    {
+                        setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
+                        setColor(7);
+                    }
 
                 } while (opcionRegistrarInvalida);
                 
                 if(opcionRegistrar == 's')
                 {
                     if((archivo_NuevoRegistro = fopen("Proveedores.dat","rb+")) == NULL)
+                    {
+                        setColor(4);
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                        setColor(7);
+                    }
                     else
                     {
                         lecturaProveedor(archivo_NuevoRegistro);
@@ -403,12 +509,30 @@ void lecturaInsumo(FILE *archivoInsumos)
                         if (existeClave(5, &DatosInsumo.clavesProveedores[proveedores]))
                             isInvalid = false;
                         else
+                        {
+                            setColor(4);
                             printf("\nLa clave ingresada y el proveedor registrado no coinciden.\n");
+                            setColor(7);
+                        }
                     }
                 }
             }
-            else    
+            else
+            {
                 isInvalid = false;
+                i = 0;
+                while(i < proveedores && !isInvalid)
+                {
+                    if(DatosInsumo.clavesProveedores[proveedores] == DatosInsumo.clavesProveedores[i])
+                    {
+                        setColor(4);
+                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                        setColor(7);
+                        isInvalid = true;
+                    }
+                    i++;
+                }
+            }
 
         } while (isInvalid);
         
@@ -428,7 +552,11 @@ void lecturaInsumo(FILE *archivoInsumos)
             }
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR. Respuesta invalida [s/n].\n");
+                setColor(7);
+            }
             
         } while (isInvalid);
         
@@ -447,7 +575,9 @@ void lecturaInsumo(FILE *archivoInsumos)
             if (scanf("%f", &DatosInsumo.precioSurtido[i]) != 1 || !floatMoreThanZero(&DatosInsumo.precioSurtido[i], false))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Precio invalido.\n");
+                setColor(7);
             }
             else
                 isInvalid = false;
@@ -474,8 +604,10 @@ void lecturaMercado(FILE *archivoMercados)
 
         if (scanf("%d", &DatosMercado.clave) != 1 || !isInIntRange(&DatosMercado.clave, 1, 100))
         {
-            printf("\nERROR: Clave de mercado invalida.\n");
             isInvalid = true;
+            setColor(4);
+            printf("\nERROR: Clave de mercado invalida.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -501,7 +633,11 @@ void lecturaMercado(FILE *archivoMercados)
                 isInvalid = true;
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Nombre invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -519,7 +655,11 @@ void lecturaMercado(FILE *archivoMercados)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido paterno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -537,7 +677,11 @@ void lecturaMercado(FILE *archivoMercados)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
             
         } while (isInvalid);
 
@@ -548,7 +692,11 @@ void lecturaMercado(FILE *archivoMercados)
         isInvalid = distanciaCaracteres <= 20;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("ERROR: La distancia de caracteres es MENOR o IGUAL a 20. \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -564,7 +712,9 @@ void lecturaMercado(FILE *archivoMercados)
 
             if (scanf("%d", &DatosMercado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.yearBirth, 1950, 2006))
             {
+                setColor(4);
                 printf("\nERROR: A%co invalido.\n", 164);
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -579,7 +729,9 @@ void lecturaMercado(FILE *archivoMercados)
 
             if (scanf("%d", &DatosMercado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.monthBirth, 1, 12))
             {
+                setColor(4);
                 printf("\nERROR: Mes invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -593,7 +745,9 @@ void lecturaMercado(FILE *archivoMercados)
 
             if (scanf("%d", &DatosMercado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosMercado.datosPersonales.dayBirth, 1, 31))
             {
+                setColor(4);
                 printf("\nERROR: Dia invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -603,7 +757,11 @@ void lecturaMercado(FILE *archivoMercados)
         fechaInvalida = !validarFecha(&DatosMercado.datosPersonales.dayBirth, &DatosMercado.datosPersonales.monthBirth, &DatosMercado.datosPersonales.yearBirth);
 
         if (fechaInvalida)
+        {
+            setColor(4);
             printf("\nERROR: Fecha invalida.\n");
+            setColor(7);
+        }
 
     } while (fechaInvalida);
     
@@ -625,13 +783,17 @@ void lecturaMercado(FILE *archivoMercados)
                 isInvalid = false;
             else
             {
+                setColor(4);
                 printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+                setColor(7);
                 isInvalid = true;
             }
         }
         else
         {
+            setColor(4);
             printf("\nERROR: RFC INVALIDO.\n");
+            setColor(7);
             isInvalid = true;
         }
 
@@ -653,7 +815,11 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
         
     } while (isInvalid);
 
@@ -665,7 +831,9 @@ void lecturaMercado(FILE *archivoMercados)
         if (scanf("%d", &DatosMercado.datosPersonales.numeroDomicilio) != 1 || !intMoreThanZero(&DatosMercado.datosPersonales.numeroDomicilio, false))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Numero invalido.(Entero mayor a 0) \n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -686,7 +854,11 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -704,7 +876,11 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -722,7 +898,11 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Estado invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -742,7 +922,11 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Correo electronico invalido.\n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -753,7 +937,9 @@ void lecturaMercado(FILE *archivoMercados)
 
         if (scanf("%f", &DatosMercado.descuento) != 1 || !isInFloatRange(&DatosMercado.descuento, 0, 1))
         {
+            setColor(4);
             printf("\nERROR: Valor invalido para el descuento.\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -780,7 +966,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (scanf("%d", &DatosEmpleado.clave) != 1 || !isInIntRange(&DatosEmpleado.clave, 1, 1000))
         {
+            setColor(4);
             printf("\nERROR: Clave de empleado invalida.\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -807,7 +995,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = true;
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Nombre invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -825,7 +1017,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido paterno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -843,7 +1039,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -854,7 +1054,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         isInvalid = distanciaCaracteres <= 20;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("ERROR: La distancia de caracteres es MENOR o IGUAL a 20. \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -870,7 +1074,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.yearBirth, 1950, 2006))
             {
+                setColor(4);
                 printf("\nERROR: A%co invalido.\n", 164);
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -885,7 +1091,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.monthBirth, 1, 12))
             {
+                setColor(4);
                 printf("\nERROR: Mes invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -900,7 +1108,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosEmpleado.datosPersonales.dayBirth, 1, 31))
             {
+                setColor(4);
                 printf("\nERROR: Dia invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -911,7 +1121,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         fechaInvalida = !validarFecha(&DatosEmpleado.datosPersonales.dayBirth, &DatosEmpleado.datosPersonales.monthBirth, &DatosEmpleado.datosPersonales.yearBirth);
 
         if (fechaInvalida)
+        {
+            setColor(4);
             printf("\nERROR: Fecha invalida.\n");
+            setColor(7);
+        }
 
     } while (fechaInvalida);
     
@@ -931,13 +1145,17 @@ void lecturaEmpleado(FILE *archivoEmpleados)
                 isInvalid = false;
             else
             {
+                setColor(4);
                 printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+                setColor(7);
                 isInvalid = true;
             }
         }
         else
         {
+            setColor(4);
             printf("\nERROR: RFC INVALIDO.\n");
+            setColor(7);
             isInvalid = true;
         }
 
@@ -954,7 +1172,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.yearContratacion) != 1 || !isInIntRange(&DatosEmpleado.yearContratacion, 1990, 2024))
             {
+                setColor(4);
                 printf("\nERROR: A%co invalido.\n", 164);
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -969,7 +1189,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.monthContratacion) != 1 || !isInIntRange(&DatosEmpleado.monthContratacion, 1, 12))
             {
+                setColor(4);
                 printf("\nERROR: Mes invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -984,7 +1206,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
             if (scanf("%d", &DatosEmpleado.dayContratacion) != 1 || !isInIntRange(&DatosEmpleado.dayContratacion, 1, 31))
             {
+                setColor(4);
                 printf("\nERROR: Dia invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -995,7 +1219,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         fechaInvalida = !validarFecha(&DatosEmpleado.dayContratacion, &DatosEmpleado.monthContratacion, &DatosEmpleado.yearContratacion);
 
         if (fechaInvalida)
+        {
+            setColor(4);
             printf("\nERROR: Fecha invalida.\n");
+            setColor(7);
+        }
 
     } while (fechaInvalida);
 
@@ -1016,7 +1244,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1028,7 +1260,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
         if (scanf("%d", &DatosEmpleado.datosPersonales.numeroDomicilio) != 1 || !intMoreThanZero(&DatosEmpleado.datosPersonales.numeroDomicilio, false))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Numero invalido.(Entero mayor a 0) \n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -1049,7 +1283,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1067,7 +1305,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1085,7 +1327,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Estado invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1103,7 +1349,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Correo electronico invalido.\n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1114,7 +1364,9 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (scanf("%f", &DatosEmpleado.comision) != 1 || !isInFloatRange(&DatosEmpleado.comision, 0, 1))
         {
+            setColor(4);
             printf("\nERROR: Valor invalido para la comision.\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -1141,7 +1393,9 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (scanf("%d", &DatosProveedor.clave) != 1 || !isInIntRange(&DatosProveedor.clave, 1, 100))
         {
+            setColor(4);
             printf("\nERROR: Clave de proveedor invalida.\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -1168,7 +1422,11 @@ void lecturaProveedor(FILE *archivoProveedores)
                 isInvalid = true;
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Nombre invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -1186,7 +1444,11 @@ void lecturaProveedor(FILE *archivoProveedores)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido paterno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -1204,7 +1466,11 @@ void lecturaProveedor(FILE *archivoProveedores)
                 isInvalid = true;
 
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR: Apellido materno invalido.(No ingresar caracteres especiales) \n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -1215,7 +1481,11 @@ void lecturaProveedor(FILE *archivoProveedores)
         isInvalid = distanciaCaracteres <= 20;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("ERROR: La distancia de caracteres es MENOR o IGUAL a 20. \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1229,7 +1499,9 @@ void lecturaProveedor(FILE *archivoProveedores)
 
             if (scanf("%d", &DatosProveedor.datosPersonales.yearBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.yearBirth, 1950, 2006))
             {
+                setColor(4);
                 printf("\nERROR: A%co invalido.\n", 164);
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -1244,7 +1516,9 @@ void lecturaProveedor(FILE *archivoProveedores)
 
             if (scanf("%d", &DatosProveedor.datosPersonales.monthBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.monthBirth, 1, 12))
             {
+                setColor(4);
                 printf("\nERROR: Mes invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -1259,7 +1533,9 @@ void lecturaProveedor(FILE *archivoProveedores)
 
             if (scanf("%d", &DatosProveedor.datosPersonales.dayBirth) != 1 || !isInIntRange(&DatosProveedor.datosPersonales.dayBirth, 1, 31))
             {
+                setColor(4);
                 printf("\nERROR: Dia invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -1270,7 +1546,11 @@ void lecturaProveedor(FILE *archivoProveedores)
         fechaInvalida = !validarFecha(&DatosProveedor.datosPersonales.dayBirth, &DatosProveedor.datosPersonales.monthBirth, &DatosProveedor.datosPersonales.yearBirth);
 
         if (fechaInvalida)
+        {
+            setColor(4);
             printf("\nERROR: Fecha invalida.\n");
+            setColor(7);
+        }
 
     } while (fechaInvalida);
     
@@ -1290,13 +1570,17 @@ void lecturaProveedor(FILE *archivoProveedores)
                 isInvalid = false;
             else
             {
+                setColor(4);
                 printf("\nERROR: EL RFC NO COINCIDE CON LOS DATOS PROPORCIONADOS.\n");
+                setColor(7);
                 isInvalid = true;
             }
         }
         else
         {
+            setColor(4);
             printf("\nERROR: RFC INVALIDO.\n");
+            setColor(7);
             isInvalid = true;
         }
 
@@ -1318,7 +1602,11 @@ void lecturaProveedor(FILE *archivoProveedores)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Calle invalida.(No ingresar caracteres especiales) \n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1330,7 +1618,9 @@ void lecturaProveedor(FILE *archivoProveedores)
         if (scanf("%d", &DatosProveedor.datosPersonales.numeroDomicilio) != 1 || !intMoreThanZero(&DatosProveedor.datosPersonales.numeroDomicilio, false))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Numero invalido.(Entero mayor a 0) \n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -1351,7 +1641,12 @@ void lecturaProveedor(FILE *archivoProveedores)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Colonia invalida (No ingresar caracteres especiales) \n");
+            setColor(7);
+
+        }
 
     } while (isInvalid);
 
@@ -1369,7 +1664,12 @@ void lecturaProveedor(FILE *archivoProveedores)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Municipio invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);
+
+        }
 
     } while (isInvalid);
 
@@ -1387,7 +1687,11 @@ void lecturaProveedor(FILE *archivoProveedores)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Estado invalido.(No ingresar caracteres especiales) \n");
+            setColor(7);   
+        }
 
     } while (isInvalid);
 
@@ -1407,7 +1711,11 @@ void lecturaProveedor(FILE *archivoProveedores)
             isInvalid = true;
 
         if (isInvalid)
+        {
+            setColor(4);
             printf("\nERROR: Correo electronico invalido.\n");
+            setColor(7);
+        }
 
     } while (isInvalid);
 
@@ -1418,7 +1726,9 @@ void lecturaProveedor(FILE *archivoProveedores)
 
         if (scanf("%f", &DatosProveedor.descuento) != 1 || !isInFloatRange(&DatosProveedor.descuento, 0, 1))
         {
+            setColor(4);
             printf("\nERROR: Valor invalido para el descuento.\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -1455,7 +1765,9 @@ void lecturaVentas(FILE *archivoVentas)
         if(scanf("%d", &DatosVentas.claveEmpleado) != 1 || !isInIntRange(&DatosVentas.claveEmpleado, 1, 1000))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de empleado invalida.\n");
+            setColor(7);
         }
         else if (!existeClave(4, &DatosVentas.claveEmpleado))
         {
@@ -1463,7 +1775,9 @@ void lecturaVentas(FILE *archivoVentas)
 
             do
             {
+                setColor(4);
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el empleado? [s/n]");
+                setColor(7);
                 fflush(stdin);
 
                 if(scanf("%c", &opcionRegistrar) != 1)
@@ -1475,14 +1789,22 @@ void lecturaVentas(FILE *archivoVentas)
                 }
                 
                 if (opcionRegistrarInvalida)
+                {
+                    setColor(4);
                     printf("ERROR. Respuesta invalida [s/n].\n");
+                    setColor(7);   
+                }
 
             } while(opcionRegistrarInvalida);
             
             if(opcionRegistrar == 's')
             {
                 if((archivo_NuevoRegistro = fopen("Empleados.dat","rb+")) == NULL)
+                {
+                    setColor(4);
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    setColor(7);
+                }
                 else
                 {
                     lecturaEmpleado(archivo_NuevoRegistro);
@@ -1492,7 +1814,12 @@ void lecturaVentas(FILE *archivoVentas)
                     if(existeClave(4, &DatosVentas.claveEmpleado))
                         isInvalid = false;
                     else
+                    {
+                        setColor(4);
                         printf("\nLa clave ingresada y el empleado registrado no coinciden, ingresala de nuevo.\n");
+                        setColor(7);
+
+                    }
                 }
             }
         }
@@ -1509,7 +1836,9 @@ void lecturaVentas(FILE *archivoVentas)
         if(scanf("%d", &DatosVentas.claveMercado) != 1 || !isInIntRange(&DatosVentas.claveMercado, 1, 100))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de mercado invalida.\n");
+            setColor(7);
         }
         else if (!existeClave(3, &DatosVentas.claveMercado))
         {
@@ -1517,7 +1846,9 @@ void lecturaVentas(FILE *archivoVentas)
 
             do
             {
+                setColor(4);
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el mercado? [s/n]");
+                setColor(7);
                 fflush(stdin);
 
                 if(scanf("%c", &opcionRegistrar) != 1)
@@ -1529,14 +1860,22 @@ void lecturaVentas(FILE *archivoVentas)
                 }
                 
                 if (opcionRegistrarInvalida)
+                {
+                    setColor(4);
                     printf("ERROR. Respuesta invalida [s/n].\n");
+                    setColor(7);
+                }
 
             } while(opcionRegistrarInvalida);
             
             if(opcionRegistrar == 's')
             {
                 if((archivo_NuevoRegistro = fopen("Mercados.dat","rb+")) == NULL)
+                {   
+                    setColor(4);
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    setColor(7);
+                }
                 else
                 {
                     lecturaMercado(archivo_NuevoRegistro);
@@ -1546,7 +1885,12 @@ void lecturaVentas(FILE *archivoVentas)
                     if(existeClave(3, &DatosVentas.claveMercado))
                         isInvalid = false;
                     else
+                    {
+                        setColor(4);
                         printf("\nLa clave ingresada y el mercado registrado no coinciden, ingresala de nuevo.\n");
+                        setColor(7);
+
+                    }
                 }
             }
         }
@@ -1576,7 +1920,9 @@ void lecturaVentas(FILE *archivoVentas)
             if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 100))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Clave de articulo invalida.\n");
+                setColor(7);
             }
             else if (!existeClave(1, &DatosVentas.claveArticulo))
             {
@@ -1584,7 +1930,9 @@ void lecturaVentas(FILE *archivoVentas)
 
                 do
                 {
+                    setColor(4);
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el articulo? [s/n]\n");
+                    setColor(7);
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -1596,14 +1944,24 @@ void lecturaVentas(FILE *archivoVentas)
                     }
                     
                     if (opcionRegistrarInvalida)
+                    {
+                        setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
+                        setColor(7);
+
+                    }
 
                 } while(opcionRegistrarInvalida);
                 
                 if(opcionRegistrar == 's')
                 {
                     if((archivo_NuevoRegistro = fopen("Articulos.dat","rb+")) == NULL)
+                    {
+                        setColor(4);
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                        setColor(7);
+
+                    }
                     else
                     {
                         lecturaArticulo(archivo_NuevoRegistro);
@@ -1613,7 +1971,9 @@ void lecturaVentas(FILE *archivoVentas)
                         if(existeClave(1, &DatosVentas.claveArticulo))
                             isInvalid = false;
                         else
+                            setColor(4);
                             printf("\nLa clave ingresada y el articulo registrado no coinciden, ingresala de nuevo.\n");
+                            setColor(7);
                     }
                 }
             }
@@ -1636,7 +1996,9 @@ void lecturaVentas(FILE *archivoVentas)
             if(scanf("%d", &DatosVentas.cantidad) != 1 || !intMoreThanZero(&DatosVentas.cantidad, false))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Cantidad invalida.\n");
+                setColor(7);
             } 
             else if ((inventarioActual = inventarioRestante(&DatosVentas.claveArticulo)) < DatosVentas.cantidad)
             {
@@ -1677,7 +2039,9 @@ void lecturaVentas(FILE *archivoVentas)
             }
             
             if (isInvalid)
+                setColor(4);
                 printf("ERROR. Respuesta invalida [s/n].\n");
+                setColor(7);
 
         } while (isInvalid);
 
@@ -1721,7 +2085,9 @@ void lecturaCompras(FILE *archivoCompras)
         if(scanf("%d", &DatosCompra.claveProveedor) != 1 || !isInIntRange(&DatosCompra.claveProveedor, 1, 100))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de proveedor invalida.\n");
+            setColor(7);
         }
         else if (!existeClave(5, &DatosCompra.claveProveedor))
         {
@@ -1729,7 +2095,9 @@ void lecturaCompras(FILE *archivoCompras)
 
             do
             {
+                setColor(4);
                 printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n] ~ ");
+                setColor(7);
                 fflush(stdin);
 
                 if(scanf("%c", &opcionRegistrar) != 1)
@@ -1741,14 +2109,23 @@ void lecturaCompras(FILE *archivoCompras)
                 }
                 
                 if (opcionRegistrarInvalida)
+                {
+                    setColor(4);
                     printf("ERROR. Respuesta invalida [s/n].\n");
+                    setColor(7);
+
+                }
 
             } while (opcionRegistrarInvalida);
             
             if(opcionRegistrar == 's')
             {
                 if((archivo_NuevoRegistro = fopen("Proveedores.dat","rb+")) == NULL)
+                {
+                    setColor(4);
                     printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    setColor(7);
+                }
                 else
                 {
                     lecturaProveedor(archivo_NuevoRegistro);
@@ -1757,7 +2134,12 @@ void lecturaCompras(FILE *archivoCompras)
                     if (existeClave(5, &DatosCompra.claveProveedor))
                         isInvalid = false;
                     else
+                    {
+                        setColor(4);
                         printf("\nLa clave ingresada y el proveedor registrado no coinciden.\n");
+                        setColor(7);
+
+                    }
                 }
             }
         }
@@ -1780,15 +2162,19 @@ void lecturaCompras(FILE *archivoCompras)
             if(scanf("%d", &DatosCompra.claveInsumo) != 1 || !isInIntRange(&DatosCompra.claveInsumo, 1, 100))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Clave de insumo invalida.\n");
+                setColor(7);
             }
             else if (!existeClave(2, &DatosCompra.claveInsumo))
             {
                 isInvalid = true;
 
                 do
-                {
+                {   
+                    setColor(4);
                     printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el insumo? [s/n] ~ ");
+                    setColor(7);
                     fflush(stdin);
                     
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -1800,14 +2186,22 @@ void lecturaCompras(FILE *archivoCompras)
                     }
                     
                     if (opcionRegistrarInvalida)
+                    {
+                        setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
+                        setColor(7);
+                    }
 
                 } while(opcionRegistrarInvalida);
                 
                 if(opcionRegistrar == 's')
                 {
                     if((archivo_NuevoRegistro = fopen("Insumos.dat","rb+")) == NULL)
+                    {
+                        setColor(4);
                         printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                        setColor(7);
+                    }
                     else
                     {
                         lecturaInsumo(archivo_NuevoRegistro);
@@ -1817,14 +2211,20 @@ void lecturaCompras(FILE *archivoCompras)
                         if(existeClave(2, &DatosCompra.claveInsumo))
                             isInvalid = false;
                         else
+                        {
+                            setColor(4);
                             printf("\nLa clave ingresada y el insumo registrado no coinciden, ingresala de nuevo.\n");
+                            setColor(7);
+                        }
                     }
                 }
             }
             else if (!verificarProveedorInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nEste insumo no tiene a este proveedor registrado.\n");
+                setColor(7);
             }
             else
                 isInvalid = false;
@@ -1839,7 +2239,9 @@ void lecturaCompras(FILE *archivoCompras)
             if(scanf("%d", &DatosCompra.cantidad) != 1 || !intMoreThanZero(&DatosCompra.cantidad, false))
             {
                 isInvalid = true;
+                setColor(4);
                 printf("\nERROR: Cantidad invalida.\n");
+                setColor(7);
             } 
             else
                 isInvalid = false;
@@ -1873,7 +2275,11 @@ void lecturaCompras(FILE *archivoCompras)
             }
             
             if (isInvalid)
+            {
+                setColor(4);
                 printf("ERROR. Respuesta invalida [s/n].\n");
+                setColor(7);
+            }
 
         } while (isInvalid);
 
@@ -1916,12 +2322,17 @@ void controlInventario(FILE *archivoCompras)
         if(scanf("%d", &claveProveedorBuscado) != 1 || !isInIntRange(&claveProveedorBuscado, 1, 100))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: Clave de proveedor invalida.\n");
+            setColor(7);
+
         }
         else if (!existeClave(5, &claveProveedorBuscado))
         {
             isInvalid = true;
+            setColor(4);
             printf("\nERROR: La clave ingresada no esta registrada.\n");
+            setColor(7);
         }
         else    
             isInvalid = false;
@@ -1972,7 +2383,10 @@ void controlInventario(FILE *archivoCompras)
         if(scanf("%d", &claveCompraBuscada) != 1 || !isInIntRange(&claveCompraBuscada, 1, i))
         {
             isInvalid = true;
+            setColor(4);
             printf("ERROR: Clave de compra fuera del rango.\n\n");
+            setColor(7);
+
         }
         else    
         {
@@ -1988,7 +2402,9 @@ void controlInventario(FILE *archivoCompras)
             if(DatosCompra.claveProveedor != claveProveedorBuscado)
             {
                 isInvalid = true;
+                setColor(4);
                 printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
+                setColor(7);
             }
             else
                 isInvalid = false;
@@ -2006,7 +2422,9 @@ void controlInventario(FILE *archivoCompras)
 
             if(scanf("%c", &marcarEntrega) != 1 || (marcarEntrega != 's' && marcarEntrega != 'n'))
             {
+                setColor(4);
                 printf("Respuesta invalida [s/n].\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -2026,5 +2444,9 @@ void controlInventario(FILE *archivoCompras)
         }
     }
     else
+    {
+        setColor(4);
         printf("\nCLAVE INVALIDA. Esta compra ya se ha entregado.\n");
+        setColor(7);
+    }
 }

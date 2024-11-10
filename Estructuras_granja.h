@@ -4,6 +4,20 @@
 #include <stdbool.h>
 #include <windows.h>
 
+void setColor(int color) 
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+
+
+    /*
+    1 BLUE 
+    2 GREEN  
+    4 RED  
+    7 WHITE  
+    */
+}
+
 struct infoDatosPersonales
 {
 	int yearBirth, monthBirth, dayBirth, numeroDomicilio;
@@ -18,14 +32,14 @@ struct infoDatosPersonales
 struct infoArticulo
 {
 	int clave, clavesMercados[10], clavesInsumos[10], inventario, temporadaSiembra, temporadaCosecha;
-	char descripcion[51];
+	char descripcion[52];
 	float costoProduccion, precioVenta;
 };
 
 struct infoInsumo
 {
 	int clave, clavesProveedores[10], puntoReorden, inventario;
-	char descripcion[51];
+	char descripcion[52];
 	float precioSurtido[10];
 };
 
@@ -54,14 +68,14 @@ struct infoVenta
 {
 	int claveMercado, claveArticulo, claveEmpleado, cantidad, year, month, day;
 	float precioTotal, descuento, comision;
-    char descripcion[51];
+    char descripcion[52];
 };
 
 struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad, entregado;
 	float totalDeCompra, descuento;
-    char descripcion[51];
+    char descripcion[52];
 };
 
 bool inicializarArchivo(int numeroArchivo)
@@ -215,8 +229,9 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
                 return ((struct infoProveedor *)estructuraPtr)->clave != 0;
         }
     }
-
+    setColor(4);
     printf("Error al verificar registros.\n");
+    setColor(7);
     
     fclose(fPtr);
     return false;
@@ -299,7 +314,9 @@ int inventarioRestante(int *claveArticulo)
     
     if((archivoArticulos = fopen("Articulos.dat", "rb")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
+        setColor(7);
         return 0;
     }
     else
@@ -321,7 +338,9 @@ bool verificarProveedorInsumo(int *claveProveedor, int *claveInsumo)
 
     if((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
+        setColor(7);
         return false;
     }
     else
@@ -355,7 +374,9 @@ void obtenerDatosInsumo(int *claveProveedor, int *claveInsumo, float *precioUnit
 
     if((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
+        setColor(7);
     }
     else
     {
@@ -389,7 +410,9 @@ void modificarSaldo(int *claveProveedor, float *monto, const char modo)
 
     if((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo de proveedores. El saldo no se pudo reflejar.\n");
+        setColor(7);
     }
     else
     {
@@ -428,14 +451,18 @@ float obtenerDescuento(int *clave, int numeroArchivo)
     }
     else
     {
+        setColor(4);
         printf("Número de archivo no válido.\n");
+        setColor(7);
         return 0;
     }
 
 
     if ((filePtr = fopen(filename, "rb+")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo. No se pudo obtener la información del descuento.\n");
+        setColor(7);
         return 0;
     }
 
@@ -465,7 +492,9 @@ float obtenerComision(int *claveEmpleado)
 
     if((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
     {
+        setColor(4);
         printf("Error al abrir el archivo de empleados. No se pudo obtener la informacion.\n");
+        setColor(7);
         return 0;
     }
     else
@@ -484,7 +513,12 @@ void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
     struct infoArticulo articuloActual;
     
     if((archivoArticulos = fopen("Articulos.dat", "rb")) == NULL)
+    {
+        setColor(4);
         printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
+        setColor(7);
+        
+    }
     else
     {
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
@@ -503,7 +537,11 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     struct infoArticulo articuloActual;
     
     if((archivoArticulos = fopen("Articulos.dat", "rb+")) == NULL)
+    {
+        setColor(4);
         printf("Error al abrir el archivo de articulos. No fue posible actualizar el inventario.\n");
+        setColor(7);
+    }
     else
     {
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
@@ -518,8 +556,3 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     }
 }
 
-void setColor(int color) 
-{
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
-}

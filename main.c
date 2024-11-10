@@ -2,6 +2,8 @@
 #include <ctype.h>
 #include "Reportes.h"
 
+
+
 main()
 {
 	int opcionMenuPrincipal;
@@ -31,7 +33,9 @@ main()
 		if(isInvalid)
 		{
 			fflush(stdin);
+			setColor(4);
 			printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+			setColor(7);
 		}
 		
 	} while(isInvalid);
@@ -50,7 +54,12 @@ main()
 				if(existeArchivo && hayInsumos && hayMercados)
 				{
 					if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
+					{
+						setColor(4);
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    	setColor(7);
+						
+					}
 					else
 					{
 						do
@@ -71,7 +80,11 @@ main()
 								}
 								
 								if (isInvalid)
+								{
+									setColor(4);
 									printf("Respuesta invalida [s/n].\n");
+                    				setColor(7);
+								}
 								
 							} while (isInvalid);
 						
@@ -82,6 +95,7 @@ main()
 				}
 				else
 				{
+					setColor(4);
 					printf("\nNo fue posible abrir el archivo por las siguiente(s) razones:\n");
 					if(!existeArchivo)
 						printf("\t- ERROR EN EL ARCHIVO DE DATOS: \"Articulos.dat\".\n");
@@ -91,6 +105,7 @@ main()
 					
 					if(!hayMercados)
 						printf("\t- No existen MERCADOS guardados.\n");
+                    setColor(7);
 				}
 
 				break;
@@ -103,7 +118,11 @@ main()
 				if(existeArchivo && hayProveedores)
 				{
 					if ((filePtr = fopen("Insumos.dat", "rb+")) == NULL)
+					{
+                    	setColor(4);
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    	setColor(7);
+					}
 					else
 					{
 						do
@@ -124,7 +143,12 @@ main()
 								}
 								
 								if (isInvalid)
+								{
+									setColor(4);
 									printf("Respuesta invalida [s/n].\n");
+                    				setColor(7);
+									
+								}
 								
 							} while (isInvalid);
 						
@@ -137,10 +161,18 @@ main()
 				{
 					printf("\nNo fue posible abrir el archivo por las siguiente(s) razones:\n");
 					if(!existeArchivo)
+					{
+                    	setColor(4);
 						printf("\t- ERROR EN EL ARCHIVO DE DATOS: \"Insumos.dat\".\n");
+                    	setColor(7);
+					}
 					
 					if(!hayProveedores)
+					{
+                   		setColor(4);
 						printf("\t- No existen PROVEEDORES guardados.\n");
+                    	setColor(7);
+					}
 				}
 				//VALIDAR QUE EXISTAN PROVEEDORES
 				
@@ -150,7 +182,12 @@ main()
 				if(inicializarArchivo(3))
 				{
 					if ((filePtr = fopen("Mercados.dat", "rb+")) == NULL)
+					{
+						setColor(4);
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    	setColor(7);
+
+					}
 					else
 					{
 						do
@@ -171,7 +208,11 @@ main()
 								}
 								
 								if (isInvalid)
+								{
+                    				setColor(4);
 									printf("Respuesta invalida [s/n].\n");
+                    				setColor(7);
+								}
 								
 							} while (isInvalid);
 						
@@ -182,7 +223,9 @@ main()
 				}
 				else
 				{
+					setColor(4);
 					printf("\nERROR. No fue posible crear el archivo \"Mercados.dat\".\n");
+                    setColor(7);
 				}
 				
 				break;
@@ -191,7 +234,11 @@ main()
 				if(inicializarArchivo(4))
 				{
 					if ((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
+					{
+                    	setColor(4);
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    	setColor(7);
+					}
 					else
 					{
 						do
@@ -212,7 +259,12 @@ main()
 								}
 								
 								if (isInvalid)
+								{
+									setColor(4);
 									printf("Respuesta invalida [s/n].\n");
+                    				setColor(7);
+
+								}
 								
 							} while (isInvalid);
 						
@@ -223,7 +275,9 @@ main()
 				}
 				else
 				{
+					setColor(4);
 					printf("ERROR. No fue posible crear el archivo \"Empleados.dat\".\n");
+                    setColor(7);
 				}
 
 				break;
@@ -232,7 +286,12 @@ main()
 				if(inicializarArchivo(5))
 				{
 					if ((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
+					{
+                    	setColor(4);
 						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    	setColor(7);
+
+					}
 					else
 					{
 						do
@@ -253,7 +312,12 @@ main()
 								}
 								
 								if (isInvalid)
+								{
+									setColor(4);
 									printf("Respuesta invalida [s/n].\n");
+                    				setColor(7);
+
+								}
 								
 							} while (isInvalid);
 						
@@ -263,7 +327,12 @@ main()
 					}
 				}
 				else
+				{
+					setColor(4);
 					printf("\nERROR. No fue posible crear el archivo \"Proveedores.dat\".\n");
+                    setColor(7);
+
+				}
 
 				break;
 			case 6:	// Ventas 				//TERMINAR FACTURA
@@ -278,7 +347,11 @@ main()
 					do
 					{
 						if ((filePtr = fopen("Ventas.txt", "a+")) == NULL)
+						{
+                    		setColor(4);
 							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                   	 		setColor(7);
+						}
 						else
 						{
 							lecturaVentas(filePtr);
@@ -290,7 +363,9 @@ main()
 
 								if(scanf("%c", &opcionGenerarFactura) != 1 || (opcionGenerarFactura != 's' && opcionGenerarFactura != 'n'))
 								{
+									setColor(4);
 									printf("\nERROR: Opci%cn inv%clida.\n", 162, 160);
+                    				setColor(7);
 									isInvalid = true;
 								}
 								else
@@ -321,7 +396,11 @@ main()
 							}
 							
 							if (isInvalid)
+							{
+								setColor(4);
 								printf("Respuesta invalida [s/n].\n");
+                    			setColor(7);
+							}
 							
 						} while (isInvalid);
 					
@@ -329,6 +408,7 @@ main()
 				}
 				else
 				{
+					setColor(4);
 					printf("\nNo fue posible abrir el archivo debido a:\n");
 					if(!hayArticulos)
 						printf("\t- No existen ARTICULOS guardados.\n");
@@ -338,6 +418,7 @@ main()
 
 					if(!hayEmpleados)
 						printf("\t- No existen EMPLEADOS guardados.\n");
+                	setColor(7);
 				}
 
 				break;
@@ -352,7 +433,11 @@ main()
 					do
 					{
 						if ((filePtr = fopen("Compras.txt", "a+")) == NULL)
+						{
+                   		 	setColor(4);
 							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+                    		setColor(7);
+						}
 						else
 						{
 							lecturaCompras(filePtr);
@@ -373,7 +458,12 @@ main()
 							}
 							
 							if (isInvalid)
+							{
+								setColor(4);
 								printf("Respuesta invalida [s/n].\n");
+                    			setColor(7);
+
+							}
 							
 						} while (isInvalid);
 					
@@ -381,18 +471,24 @@ main()
 				}
 				else
 				{
+					setColor(4);
 					printf("\nNo fue posible abrir el archivo debido a:\n");
 					if(!hayInsumos)
 						printf("\t- No existen INSUMOS guardados.\n");
 					
 					if(!hayProveedores)
 						printf("\t- No existen PROVEEDORES guardados.\n");
+            		setColor(7);
 				}
 				
 				break;
 			case 8:	//Control de Inventario
 				if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
+				{
+					setColor(4);
 					printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+            		setColor(7);
+				}
 				else
 				{
 					do
@@ -413,7 +509,11 @@ main()
 							}
 							
 							if (isInvalid)
+							{
+								setColor(4);
 								printf("Respuesta invalida [s/n].\n");
+            					setColor(7);
+							}
 							
 						} while (isInvalid);
 					
@@ -444,7 +544,9 @@ main()
 					if(isInvalid)
 					{
 						fflush(stdin);
+						setColor(4);
 						printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+            			setColor(7);
 					}
 				
 				} while(isInvalid);
@@ -455,7 +557,11 @@ main()
 					{
 						case 'a':
 							if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
+            					setColor(7);
+							}
 							else
 							{
 								reporteArticulos(filePtr);
@@ -465,7 +571,11 @@ main()
 
 						case 'b':
 							if ((filePtr = fopen("Ventas.txt", "r")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
+            					setColor(7);
+							}
 							else
 							{
 								ventasFecha(filePtr);
@@ -475,9 +585,17 @@ main()
 
 						case 'c':
 							if(!VerificarHayRegistros(1))
+							{
+								setColor(4);
 								printf("Error: No hay articulos registrados.\n");
+            					setColor(7);
+							}
 							else if ((filePtr = fopen("Ventas.txt", "r")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Ventas.\n");
+            					setColor(7);
+							}
 							else
 							{
 								ventasArticulo(filePtr);
@@ -487,7 +605,11 @@ main()
 
 						case 'd':
 							if ((filePtr = fopen("Insumos.dat", "rb")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Insumos.\n");
+            					setColor(7);
+							}
 							else
 							{
 								insumosPorSolicitar(filePtr);
@@ -497,7 +619,11 @@ main()
 
 						case 'e':
 							if ((filePtr = fopen("Proveedores.dat", "rb")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
+            					setColor(7);
+							}
 							else
 							{
 								SaldosPendientes(filePtr);
@@ -508,7 +634,11 @@ main()
 
 						case 'f':
 							if ((filePtr = fopen("Empleados.dat", "rb")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Empleados.\n");
+            					setColor(7);
+							}
 							else
 							{
 								calculoDeComision(filePtr);
@@ -518,7 +648,11 @@ main()
 
 						case 'g':
 						    if ((filePtr = fopen("Compras.txt", "r")) == NULL)
+							{
+								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Compras.\n");
+            					setColor(7);
+							}
 							else
 							{
 								comprasConRecepcionPendiente(filePtr);
@@ -547,7 +681,9 @@ main()
 						if(isInvalid)
 						{
 							fflush(stdin);
+							setColor(4);
 							printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+            				setColor(7);
 						}
 					
 					} while(isInvalid);
@@ -558,6 +694,7 @@ main()
 		
 		do
 		{
+			setColor(11);
 			printf("\n\n\tMENU PRINCIPAL\n\n");
 			printf("1 - Art%cculos\n", 161);
 			printf("2 - Insumos\n");
@@ -570,20 +707,18 @@ main()
 			printf("9 - Reportes\n");
 			printf("10 - SALIR\n");
 			printf("[ Ingresa una opci%cn ] ~ ", 162);
+			setColor(7);
 
 			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
 			if(isInvalid)
 			{
 				fflush(stdin);
+				setColor(4);
 				printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
+                setColor(7);
 			}
 			
 		} while(isInvalid);
 	}
-}
-
-void setColor(int color) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, color);
 }
