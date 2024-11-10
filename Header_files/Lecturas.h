@@ -13,10 +13,10 @@ void lecturaProveedor(FILE *);
 void lecturaArticulo(FILE *archivoArticulos)
 {
     FILE *archivo_NuevoRegistro;
-    struct infoArticulo DatosArticulo = {0, {0}, {0}, 0, "", "", "", 0, 0};
+    struct infoArticulo DatosArticulo = {0, {0}, {0}, 0, 0, 0, "", 0, 0};
     bool isInvalid, opcionRegistrarInvalida;
     char ingresarMas, opcionRegistrar;
-    int i, mercados = 0, insumos = 0, numeroTemporada;
+    int i, mercados = 0, insumos = 0;
 
     do
     {
@@ -62,7 +62,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
         fflush(stdin);
 
-        if (scanf("%d", &numeroTemporada) != 1 || !isInIntRange(&numeroTemporada, 1, 4))
+        if (scanf("%d", &DatosArticulo.temporadaSiembra) != 1 || !isInIntRange(&DatosArticulo.temporadaSiembra, 1, 4))
         {
             isInvalid = true;
             printf("\nERROR: Numero invalido.\n");
@@ -71,22 +71,6 @@ void lecturaArticulo(FILE *archivoArticulos)
             isInvalid = false;
 
     } while (isInvalid);
-    
-    switch (numeroTemporada)
-    {
-        case 1:
-            strcpy(DatosArticulo.temporadaSiembra, "Primavera");
-            break;
-        case 2:
-            strcpy(DatosArticulo.temporadaSiembra, "Verano");
-            break;
-        case 3:
-            strcpy(DatosArticulo.temporadaSiembra, "Otoño");
-            break;
-        case 4:
-            strcpy(DatosArticulo.temporadaSiembra, "Invierno");
-            break;
-    }
     
     do
     {
@@ -99,7 +83,7 @@ void lecturaArticulo(FILE *archivoArticulos)
 
         fflush(stdin);
 
-        if (scanf("%d", &numeroTemporada) != 1 || !isInIntRange(&numeroTemporada, 1, 4))
+        if (scanf("%d", &DatosArticulo.temporadaCosecha) != 1 || !isInIntRange(&DatosArticulo.temporadaCosecha, 1, 4))
         {
             isInvalid = true;
             printf("\nERROR: Numero invalido.\n");
@@ -108,22 +92,6 @@ void lecturaArticulo(FILE *archivoArticulos)
             isInvalid = false;
 
     } while (isInvalid);
-    
-    switch (numeroTemporada)
-    {
-        case 1:
-            strcpy(DatosArticulo.temporadaCosecha, "Primavera");
-            break;
-        case 2:
-            strcpy(DatosArticulo.temporadaCosecha, "Verano");
-            break;
-        case 3:
-            strcpy(DatosArticulo.temporadaCosecha, "Otoño");
-            break;
-        case 4:
-            strcpy(DatosArticulo.temporadaCosecha, "Invierno");
-            break;
-    }
 
     do
     {
@@ -1616,7 +1584,7 @@ void lecturaVentas(FILE *archivoVentas)
 
                 do
                 {
-                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el articulo? [s/n]");
+                    printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el articulo? [s/n]\n");
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
@@ -1761,7 +1729,7 @@ void lecturaCompras(FILE *archivoCompras)
 
             do
             {
-                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n]");
+                printf("\nERROR: La clave ingresada no esta registrada.\nDesea registrar el proveedor? [s/n] ~ ");
                 fflush(stdin);
 
                 if(scanf("%c", &opcionRegistrar) != 1)
@@ -1893,7 +1861,7 @@ void lecturaCompras(FILE *archivoCompras)
 
         do
         {
-            printf("\nDesea agregar mas insumos a la compra? [s/n]");
+            printf("\nDesea agregar mas insumos a la compra? [s/n] ~ ");
             fflush(stdin);
 
             if(scanf("%c", &agregarMasInsumos) != 1)
