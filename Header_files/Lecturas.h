@@ -1468,7 +1468,7 @@ void lecturaVentas(FILE *archivoVentas)
     int inventarioActual;
     struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
-    char agregarMasArticulos, opcionRegistrar;
+    char agregarMasArticulos, opcionRegistrar, generarFactura;
     float precioUnitario, subtotalPorArticulo, porcentajeComision;
     DatosVentas.precioTotal = 0;
 
@@ -2038,7 +2038,7 @@ void controlInventario(FILE *archivoCompras)
 
             if(DatosCompra.claveProveedor != claveProveedorBuscado)
             {
-                isInvalid = true
+                isInvalid = true;
                 printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
             }
             else
@@ -2067,7 +2067,7 @@ void controlInventario(FILE *archivoCompras)
 
         if (marcarEntrega == 's')
         {
-            fseek(archivoCompras, -sizeof(int), SEEK_CUR);
+            fseek(archivoCompras, -1, SEEK_CUR);
             fprintf(archivoCompras, "1");
             printf("\nENTREGA DE COMPRA REGISTRADA.\n");
         }
