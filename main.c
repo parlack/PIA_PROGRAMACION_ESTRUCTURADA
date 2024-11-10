@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "Reportes.h"
-#include "extras.h"
 
 main()
 {
@@ -582,4 +581,9 @@ main()
 			
 		} while(isInvalid);
 	}
+}
+
+void setColor(int color) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
 }

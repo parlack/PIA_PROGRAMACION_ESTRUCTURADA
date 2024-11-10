@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <windows.h>
 
 struct infoDatosPersonales
 {
@@ -515,4 +516,10 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
 
         fclose(archivoArticulos);
     }
+}
+
+void setColor(int color) 
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
 }
