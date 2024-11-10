@@ -338,7 +338,7 @@ void ventasFecha(FILE *archivoVentas)
             total += venta;
     }
 
-    printf("\nTotal de ventas de la fecha %d/%d/%d: $%.2f\n", anioBuscado, mesBuscado, anioBuscado, total);
+    printf("\nTotal de ventas de la fecha %d/%d/%d: $%.2f\n", diaBuscado, mesBuscado, anioBuscado, total);
 }
 
 void ventasArticulo(FILE *archivoVentas)
@@ -387,7 +387,7 @@ void SaldosPendientes(FILE *ArchivoProv)
 {
     struct infoProveedor infoProv;
     int CantidadSaldos = 0;
-    char nombreCompleto[80]; // Cadena temporal para nombre completo
+    char nombreCompleto[80]; 
 
     while (fread(&infoProv, sizeof(struct infoProveedor), 1, ArchivoProv))
     {
@@ -400,13 +400,11 @@ void SaldosPendientes(FILE *ArchivoProv)
                 printf("-------------------------------------------------------------------------------------------------------------\n");
             }
 
-            // Concatenar nombre completo en una sola cadena
             snprintf(nombreCompleto, sizeof(nombreCompleto), "%s %s %s",
                      infoProv.datosPersonales.nombres,
                      infoProv.datosPersonales.apellidoPaterno,
                      infoProv.datosPersonales.apellidoMaterno);
 
-            // Información básica de cada proveedor
             printf("%-10d %-60s %8.2f %40s %d,\n",
                    infoProv.clave,
                    nombreCompleto,
@@ -414,7 +412,6 @@ void SaldosPendientes(FILE *ArchivoProv)
                    infoProv.datosPersonales.calle,
                    infoProv.datosPersonales.numeroDomicilio);
 
-            // Imprimir las partes de la dirección alineadas debajo de la columna "DIRECCION"
             printf("%114s%s,\n", "", infoProv.datosPersonales.colonia);
             printf("%114s%s,\n", "", infoProv.datosPersonales.municipio);
             printf("%114s%s.\n\n", "", infoProv.datosPersonales.estado);
@@ -515,7 +512,7 @@ void generarFactura(FILE *archivoVentas)
                                 empleadoActual.datosPersonales.apellidoMaterno);
     printf("RFC del vendedor: %s\n", empleadoActual.datosPersonales.RFC);
     printf("-------------------------------------\n");
-    printf("%-5s | %-5s | %-20s | %-8s | %-10s\n", "Cant.", "Clave", "Descripción", "P.Unit", "Subtotal");
+    printf("%-5s | %-5s | %-20s | %-8s | %-10s\n", "Cant.", "Clave", "Descripcion", "P.Unit", "Subtotal");
     while (separador == '#')
     {
         fscanf(archivoVentas, "%d-%d%c", &ventaActual.claveArticulo, &ventaActual.cantidad, &separador);
