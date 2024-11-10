@@ -372,6 +372,7 @@ void SaldosPendientes(FILE *ArchivoProv)
         printf("No existen cuentas con saldos pendientes.");
 }
 
+
 void generarFactura(FILE *archivoVentas)
 {
     FILE *filePtr;
@@ -465,4 +466,5 @@ void generarFactura(FILE *archivoVentas)
     printf("%-35s $%-10.2f\n", "IVA (0.16):", ventaActual.precioTotal * 0.16);
     printf("%-35s $%-10.2f\n", "Total:", ventaActual.precioTotal * 1.16);
 }
+
 
