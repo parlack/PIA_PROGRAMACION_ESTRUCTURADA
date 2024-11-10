@@ -1468,7 +1468,7 @@ void lecturaVentas(FILE *archivoVentas)
     int inventarioActual;
     struct infoVenta DatosVentas;
     bool isInvalid, opcionRegistrarInvalida;
-    char agregarMasArticulos, opcionRegistrar, generarFactura;
+    char agregarMasArticulos, opcionRegistrar;
     float precioUnitario, subtotalPorArticulo, porcentajeComision;
     DatosVentas.precioTotal = 0;
 
@@ -1734,25 +1734,6 @@ void lecturaVentas(FILE *archivoVentas)
 
     printf("\n----------------- PAGO TOTAL DE LA VENTA: %.2f\n", DatosVentas.precioTotal);
 
-    do
-    {
-        printf("\nDesea generar factura? [s/n] ~ ");
-        fflush(stdin);
-
-        if(scanf("%c", &generarFactura) != 1)
-            isInvalid = true;
-        else
-        {
-            generarFactura = tolower(generarFactura);
-            isInvalid = generarFactura != 's' && generarFactura != 'n';
-        }
-        
-        if (isInvalid)
-            printf("ERROR. Respuesta invalida [s/n].\n");
-
-    } while (isInvalid);
-
-    //FALTA FUNCION PARA GENERAR FACTURA
 }
 
 void lecturaCompras(FILE *archivoCompras)
