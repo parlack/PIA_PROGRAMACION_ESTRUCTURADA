@@ -230,7 +230,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
         }
     }
     setColor(4);
-    printf("Error al verificar registros.\n");
+    printf("Error al verificar registros en %s.\n",nombreArchivo);
     setColor(7);
     
     fclose(fPtr);

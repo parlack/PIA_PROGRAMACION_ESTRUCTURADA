@@ -92,7 +92,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
     char separador;
 
 
-    if ((archivoCompras = fopen("Data_files/Compras.txt", "r")) == NULL)
+    if ((archivoCompras = fopen("Compras.txt", "r")) == NULL)
     {
         setColor(4);
         printf("Error al calcular las comisiones de los empleados.\n");
@@ -178,7 +178,7 @@ void calculoDeComision(FILE *archivoEmpleados)
     int claveEmpleadoVenta;
     int i;
 
-    if ((archivoVentas = fopen("Data_files/Ventas.txt", "r")) == NULL)
+    if ((archivoVentas = fopen("Ventas.txt", "r")) == NULL)
     {
         setColor(4);
         printf("Error al calcular las comisiones de los empleados.\n");
@@ -472,7 +472,7 @@ void generarFactura(FILE *archivoVentas)
                             &separador);
 
 
-    if ((filePtr = fopen("./Data_files/Mercados.dat", "rb")) == NULL)
+    if ((filePtr = fopen("Mercados.dat", "rb")) == NULL)
     {
         setColor(4);
         printf("No se pudo abrir el archivo de mercados\n");
@@ -485,7 +485,7 @@ void generarFactura(FILE *archivoVentas)
         fclose(filePtr);
     }
 
-    if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
+    if ((filePtr = fopen("Empleados.dat", "rb")) == NULL)
     {
         setColor(4);
         printf("No se pudo abrir el archivo de empleados\n");

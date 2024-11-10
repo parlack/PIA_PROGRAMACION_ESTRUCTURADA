@@ -146,52 +146,6 @@ bool validarFecha(int *day, int *month, int *year)
     return *day >= 1 && *day <= daysInMonth;
 }
 
-bool existeMercado(int *key)
-{
-    FILE *archivoMercados;
-    struct infoMercado mercadoActual;
-    bool existe;
-
-    if ((archivoMercados = fopen("Mercados.dat", "rb")) == NULL)
-        return false;
-    else
-    {
-        fseek(archivoMercados, (*key - 1) * sizeof(mercadoActual), SEEK_SET);
-        fread(&mercadoActual, sizeof(mercadoActual), 1, archivoMercados);
-
-        if(mercadoActual.clave == 0)
-            existe = false;
-        else
-            existe = true;
-        
-        fclose(archivoMercados);
-    }
-    return existe;
-}
-
-bool existeInsumo(int *key)
-{
-    FILE *archivoInsumos;
-    struct infoInsumo insumoActual;
-    bool existe;
-
-    if ((archivoInsumos = fopen("Insumos.dat", "rb")) == NULL)
-        return false;
-    else
-    {
-        fseek(archivoInsumos, (*key - 1) * sizeof(insumoActual), SEEK_SET);
-        fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
-
-        if(insumoActual.clave == 0)
-            existe = false;
-        else
-            existe = true;
-
-        fclose(archivoInsumos);
-    }
-    return existe;
-}
-
 // Función para eliminar prefijos comunes en apellidos compuestos
 void limpiarApellido(char apellido[], char apellidoLimpio[]) 
 {
