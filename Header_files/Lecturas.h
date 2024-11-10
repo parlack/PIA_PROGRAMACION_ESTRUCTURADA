@@ -145,14 +145,14 @@ void lecturaArticulo(FILE *archivoArticulos)
                     fflush(stdin);
 
                     if(scanf("%c", &opcionRegistrar) != 1)
-                        isInvalid = true;
+                        opcionRegistrarInvalida = true;
                     else
                     {
                         opcionRegistrar = tolower(opcionRegistrar);
-                        isInvalid = opcionRegistrar != 's' && opcionRegistrar != 'n';
+                        opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
                     }
                     
-                    if (isInvalid)
+                    if (opcionRegistrarInvalida)
                         printf("ERROR. Respuesta invalida [s/n].\n");
 
                 } while(opcionRegistrarInvalida);
