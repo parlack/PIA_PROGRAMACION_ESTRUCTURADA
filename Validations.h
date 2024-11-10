@@ -19,6 +19,31 @@ bool isInCharRange(char *value, char min, char max)
 	return *value >= min && *value <= max;
 }
 
+bool isCharAlphabetic(char *character, bool isAlphaNumeric)
+{
+    bool isValid = true;
+
+    if(isAlphaNumeric)
+    {
+        if (!((*character >= 'a' && *character <= 'z') || 
+              (*character >= 'A' && *character <= 'Z') || 
+              (*character >= '0' && *character <= '9')))
+        {
+            isValid = false;
+        }
+    }
+    else
+    {
+        if (!((*character >= 'a' && *character <= 'z') || 
+              (*character >= 'A' && *character <= 'Z')))
+        {
+            isValid = false;
+        }
+    }
+    
+    return isValid;
+}
+
 bool isAlphabetic(char *charLine, bool isAlphaNumeric)
 {
 	bool isValid = true;
@@ -35,29 +60,6 @@ bool isAlphabetic(char *charLine, bool isAlphaNumeric)
     }
 	
 	return isValid;
-}
-
-bool isCharAlphabetic(char *char, bool isAlphaNumeric)
-{
-    bool isValid = true;
-
-    if(isAlphaNumeric)
-    {
-        if (!((*char >= 'a' && *char <= 'z') || 
-              (*char >= 'A' && *char <= 'Z') || 
-              (*char >= '0' && *char <= '9')))
-        {
-            isValid = false;
-        }
-    }
-    else
-    {
-        if (!((*char >= 'a' && *char <= 'z') || 
-              (*char >= 'A' && *char <= 'Z')))
-        {
-            isValid = false;
-        }
-    }
 }
 
 int stringLength(char *cadena)
@@ -310,7 +312,7 @@ bool esCorreoElectronico(char *correo)
     while (correo[i] != '\0')
     {
         
-        if (correo[i] == ' ' || !(isCharAlphabetic(correo[i], true) || correo[i] == '@' || correo[i] == '.' || correo[i] == '-' || correo[i] == '_'))
+        if (correo[i] == ' ' || !(isCharAlphabetic(correo + i, true) || correo[i] == '@' || correo[i] == '.' || correo[i] == '-' || correo[i] == '_'))
             return false;
 
         if (correo[i] == '@')
@@ -320,14 +322,14 @@ bool esCorreoElectronico(char *correo)
             
             arrobaEncontrada = true;
 
-            if (i == 0 || correo[i + 1] == '\0' || !isCharAlphabetic(correo[i + 1], false))
+            if (i == 0 || correo[i + 1] == '\0' || !isCharAlphabetic(correo + i + 1, false))
                 return false;
         }
 
         if (arrobaEncontrada && correo[i] == '.')
         {
             
-            if (correo[i + 1] == '\0' || !isCharAlphabetic(correo[i + 1], false) || !isCharAlphabetic(correo[i - 1], false))
+            if (correo[i + 1] == '\0' || !isCharAlphabetic(correo + i + 1, false) || !isCharAlphabetic(correo + i - 1, false))
                 return false;
             
             puntoEncontradoDespuesDeArroba = true;
