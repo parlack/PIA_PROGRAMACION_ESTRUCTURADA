@@ -51,7 +51,7 @@ bool isAlphabetic(char *charLine, bool isAlphaNumeric)
 	
     while (*(charLine + i) != '\0' && isValid)
     {
-        if(!isCharAlphabetic(charLine + i, isAlphaNumeric) || *(charLine + i) != ' ')
+        if(!isCharAlphabetic(charLine + i, isAlphaNumeric) && *(charLine + i) != ' ')
         {
             isValid = false;
         }
