@@ -32,14 +32,14 @@ struct infoDatosPersonales
 struct infoArticulo
 {
 	int clave, clavesMercados[10], clavesInsumos[10], inventario, temporadaSiembra, temporadaCosecha;
-	char descripcion[52];
+	char descripcion[51];
 	float costoProduccion, precioVenta;
 };
 
 struct infoInsumo
 {
 	int clave, clavesProveedores[10], puntoReorden, inventario;
-	char descripcion[52];
+	char descripcion[51];
 	float precioSurtido[10];
 };
 
@@ -68,14 +68,14 @@ struct infoVenta
 {
 	int claveMercado, claveArticulo, claveEmpleado, cantidad, year, month, day;
 	float precioTotal, descuento, comision;
-    char descripcion[52];
+    char descripcion[51];
 };
 
 struct infoCompra
 {
 	int claveProveedor, claveInsumo, cantidad, entregado;
 	float totalDeCompra, descuento;
-    char descripcion[52];
+    char descripcion[51];
 };
 
 bool inicializarArchivo(int numeroArchivo)

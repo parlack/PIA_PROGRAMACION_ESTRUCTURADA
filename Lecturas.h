@@ -172,7 +172,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                         opcionRegistrarInvalida = opcionRegistrar != 's' && opcionRegistrar != 'n';
                     }
                     
-                    if (isInvalid)
+                    if (opcionRegistrarInvalida)
                     {
                         setColor(4);
                         printf("ERROR. Respuesta invalida [s/n].\n");
@@ -209,7 +209,9 @@ void lecturaArticulo(FILE *archivoArticulos)
             else
             {
                 isInvalid = false;
+
                 i = 0;
+
                 while(i < mercados && !isInvalid)
                 {
                     if(DatosArticulo.clavesMercados[mercados] == DatosArticulo.clavesMercados[i])
@@ -217,6 +219,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                         setColor(4);
                         printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
                         setColor(7);
+
                         isInvalid = true;
                     }
                     i++;
@@ -321,7 +324,9 @@ void lecturaArticulo(FILE *archivoArticulos)
             else
             {
                 isInvalid = false;
+
                 i = 0;
+                
                 while(i < insumos && !isInvalid)
                 {
                     if(DatosArticulo.clavesInsumos[insumos] == DatosArticulo.clavesInsumos[i])
@@ -329,6 +334,7 @@ void lecturaArticulo(FILE *archivoArticulos)
                         setColor(4);
                         printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
                         setColor(7);
+                        
                         isInvalid = true;
                     }
                     i++;
@@ -520,7 +526,9 @@ void lecturaInsumo(FILE *archivoInsumos)
             else
             {
                 isInvalid = false;
+
                 i = 0;
+
                 while(i < proveedores && !isInvalid)
                 {
                     if(DatosInsumo.clavesProveedores[proveedores] == DatosInsumo.clavesProveedores[i])
@@ -528,6 +536,7 @@ void lecturaInsumo(FILE *archivoInsumos)
                         setColor(4);
                         printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
                         setColor(7);
+
                         isInvalid = true;
                     }
                     i++;
@@ -565,7 +574,7 @@ void lecturaInsumo(FILE *archivoInsumos)
 
     printf("\n\tLECTURA DE PRECIOS POR PROVEEDOR\n");
 
-    for( i = 0; i < proveedores; i++)
+    for(i = 0; i < proveedores; i++)
     {
         printf("\nPrecio del insumo para el proveedor %d: $", DatosInsumo.clavesProveedores[i]);
         
@@ -575,6 +584,7 @@ void lecturaInsumo(FILE *archivoInsumos)
             if (scanf("%f", &DatosInsumo.precioSurtido[i]) != 1 || !floatMoreThanZero(&DatosInsumo.precioSurtido[i], false))
             {
                 isInvalid = true;
+
                 setColor(4);
                 printf("\nERROR: Precio invalido.\n");
                 setColor(7);
@@ -1138,9 +1148,11 @@ void lecturaEmpleado(FILE *archivoEmpleados)
 
         if (fgets(DatosEmpleado.datosPersonales.RFC, sizeof(DatosEmpleado.datosPersonales.RFC), stdin) != NULL)
         {
+            retirarSaltoLinea(DatosEmpleado.datosPersonales.RFC);
             
             for (i = 0; i < strlen(DatosEmpleado.datosPersonales.RFC); i++) 
                 DatosEmpleado.datosPersonales.RFC[i] = toupper(DatosEmpleado.datosPersonales.RFC[i]);
+
             if(validarRFC(&DatosEmpleado.datosPersonales))
                 isInvalid = false;
             else
@@ -1564,8 +1576,10 @@ void lecturaProveedor(FILE *archivoProveedores)
         if (fgets(DatosProveedor.datosPersonales.RFC, sizeof(DatosProveedor.datosPersonales.RFC), stdin) != NULL)
         {
             retirarSaltoLinea(DatosProveedor.datosPersonales.RFC);
+
             for (i = 0; i < strlen(DatosProveedor.datosPersonales.RFC); i++) 
                 DatosProveedor.datosPersonales.RFC[i] = toupper(DatosProveedor.datosPersonales.RFC[i]);
+            
             if(validarRFC(&DatosProveedor.datosPersonales))
                 isInvalid = false;
             else
