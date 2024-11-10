@@ -93,7 +93,11 @@ void insumosPorSolicitar(FILE *archivoInsumos)
 
 
     if ((archivoCompras = fopen("Data_files/Compras.txt", "r")) == NULL)
+    {
+        setColor(4);
         printf("Error al calcular las comisiones de los empleados.\n");
+        setColor(7);
+    }
     else
     {
         for (i = 0; i < 100; i++)
@@ -175,7 +179,12 @@ void calculoDeComision(FILE *archivoEmpleados)
     int i;
 
     if ((archivoVentas = fopen("Data_files/Ventas.txt", "r")) == NULL)
+    {
+        setColor(4);
         printf("Error al calcular las comisiones de los empleados.\n");
+        setColor(7);
+
+    }
     else
     {
         printf("\nTOTAL DE COMISIONES POR EMPLEADO\n\n");
@@ -267,7 +276,9 @@ void ventasFecha(FILE *archivoVentas)
 
             if(scanf("%d", &diaBuscado) != 1)
             {
+                setColor(4);
                 printf("\nERROR: Dia invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -282,7 +293,9 @@ void ventasFecha(FILE *archivoVentas)
 
             if(scanf("%d", &mesBuscado) != 1)
             {
+                setColor(4);
                 printf("\nERROR: Mes invalido.\n");
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -297,7 +310,9 @@ void ventasFecha(FILE *archivoVentas)
 
             if(scanf("%d", &anioBuscado) != 1)
             {
+                setColor(4);
                 printf("\nERROR: A%co invalido.\n", 164);
+                setColor(7);
                 isInvalid = true;
             }
             else
@@ -308,7 +323,12 @@ void ventasFecha(FILE *archivoVentas)
         isInvalid = !validarFecha(&diaBuscado, &mesBuscado, &anioBuscado);
 
         if (isInvalid)
+        {
+
+            setColor(4);
             printf("\nERROR: Fecha invalida.\n");
+            setColor(7);
+        }
 
     } while(isInvalid);
 
@@ -334,12 +354,16 @@ void ventasArticulo(FILE *archivoVentas)
 
         if(scanf("%d", &articuloBuscado) != 1)
         {
+            setColor(4);
             printf("ERROR: Articulo invalido.\n\n");
+            setColor(7);
             isInvalid = true;
         }
         else if(!existeClave(1, &articuloBuscado))
         {
+            setColor(4);
             printf("ERROR: Articulo buscado no esta registrado.\n\n");
+            setColor(7);
             isInvalid = true;
         }
         else
@@ -449,7 +473,11 @@ void generarFactura(FILE *archivoVentas)
 
 
     if ((filePtr = fopen("./Data_files/Mercados.dat", "rb")) == NULL)
+    {
+        setColor(4);
         printf("No se pudo abrir el archivo de mercados\n");
+        setColor(7);   
+    }
     else
     {
         fseek(filePtr, (ventaActual.claveMercado - 1) * sizeof(struct infoMercado), SEEK_SET);
@@ -458,7 +486,11 @@ void generarFactura(FILE *archivoVentas)
     }
 
     if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
+    {
+        setColor(4);
         printf("No se pudo abrir el archivo de empleados\n");
+        setColor(7);
+    }
     else
     {
         fseek(filePtr, (ventaActual.claveEmpleado - 1) * sizeof(struct infoEmpleado), SEEK_SET);

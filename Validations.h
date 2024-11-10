@@ -282,13 +282,12 @@ bool validarRFC(struct infoDatosPersonales *datos)
     int len, i;
     bool vocal_encontrada, es_valido;
 
-    i = 10;
-    while(i < 14)
+    i = 9;
+    while(i < 13)
     {
         if(!(((*(datos->RFC + i) >= 'A' && *(datos->RFC + i) <= 'Z')   || 
-				(*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9')   || 
-				*(datos->RFC + i) == ' ')));
-            
+				(*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9'))))
+                return false;
         i++;
     }
     
@@ -345,35 +344,43 @@ bool validarRFC(struct infoDatosPersonales *datos)
     return es_valido;
 }
 
-bool esCorreoElectronico(char *correo)
-{
-    int i = 1;
+bool esCorreoElectronico(char *correo) {
+    int i = 0;
     bool arrobaEncontrada = false;
-    bool puntoEncontrado = false;
+    bool puntoEncontradoDespuesDeArroba = false;
 
-    if((*(correo) < 'A' || *(correo) > 'Z') && (*(correo) < 'a' || *(correo) > 'z')) 
+    
+    if (!((correo[i] >= 'A' && correo[i] <= 'Z') || (correo[i] >= 'a' && correo[i] <= 'z')))
         return false;
 
-    while (correo[i] != '\0' && !arrobaEncontrada)
+    while (correo[i] != '\0')
     {
-        if (correo[i] == '@')
-            arrobaEncontrada = true;
+        char c = correo[i];
+
         
-        i++;
-    }
+        if (c == ' ' || !(isalnum(c) || c == '@' || c == '.' || c == '-' || c == '_'))
+            return false;
 
-    if(arrobaEncontrada && ((*(correo + i) >= 'A' && *(correo + i) <= 'Z') || (*(correo + i) >= 'a' && *(correo + i) <= 'z')))
-    {
-        i++;
-
-        if(correo[i] == '.')
+        if (c == '@')
         {
-            if((*(correo + i + 1) >= 'A' && *(correo + i + 1) <= 'Z') || (*(correo + i + 1) >= 'a' && *(correo + i + 1) <= 'z'))
-                return true;
-            else
+            if (arrobaEncontrada)
+                return false;
+            arrobaEncontrada = true;
+
+            
+            if (correo[i + 1] == '\0' || !isalpha(correo[i + 1]))
                 return false;
         }
+
+        if (arrobaEncontrada && c == '.')
+        {
+            
+            if (correo[i + 1] == '\0' || !isalpha(correo[i + 1]))
+                return false;
+            puntoEncontradoDespuesDeArroba = true;
+        }
+        i++;
     }
-    else
-        return false;
+
+    return arrobaEncontrada && puntoEncontradoDespuesDeArroba;
 }
