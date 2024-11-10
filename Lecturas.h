@@ -30,6 +30,13 @@ void lecturaArticulo(FILE *archivoArticulos)
             printf("\nERROR: Clave de articulo invalida.\n");
             setColor(7);
         }
+        else if (existeClave(1, &DatosArticulo.clave))
+        {
+            isInvalid = true;
+            setColor(4);
+            printf("\nERROR: Clave de articulo ya existe.\n");
+            setColor(7);
+        }
         else
             isInvalid = false;
 
@@ -396,6 +403,13 @@ void lecturaInsumo(FILE *archivoInsumos)
             printf("\nERROR: Clave de insumo invalida.\n");
             setColor(7);
         }
+        else if(existeClave(2, &DatosInsumo.clave))
+        {
+            isInvalid = true;
+            setColor(4);
+            printf("\nLa clave ingresada ya esta registrada.\n");
+            setColor(7);
+        }
         else
             isInvalid = false;
 
@@ -617,6 +631,13 @@ void lecturaMercado(FILE *archivoMercados)
             isInvalid = true;
             setColor(4);
             printf("\nERROR: Clave de mercado invalida.\n");
+            setColor(7);
+        }
+        else if(existeClave(3, &DatosMercado.clave))
+        {
+            isInvalid = true;
+            setColor(4);
+            printf("\nERROR: La clave ingresada ya esta registrada.\n");
             setColor(7);
         }
         else
@@ -980,6 +1001,13 @@ void lecturaEmpleado(FILE *archivoEmpleados)
             printf("\nERROR: Clave de empleado invalida.\n");
             setColor(7);
             isInvalid = true;
+        }
+        else if(existeClave(4, &DatosEmpleado.clave))
+        {
+            isInvalid = true;
+            setColor(4);
+            printf("\nERROR: La clave ingresada ya esta registrada.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
@@ -1409,6 +1437,13 @@ void lecturaProveedor(FILE *archivoProveedores)
             printf("\nERROR: Clave de proveedor invalida.\n");
             setColor(7);
             isInvalid = true;
+        }
+        else if(existeClave(5, &DatosProveedor.clave))
+        {
+            isInvalid = true;
+            setColor(4);
+            printf("\nERROR: La clave ingresada ya esta registrada.\n");
+            setColor(7);
         }
         else
             isInvalid = false;
