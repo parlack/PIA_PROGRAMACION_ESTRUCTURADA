@@ -381,7 +381,7 @@ void generarFactura(FILE *archivoVentas)
     struct infoEmpleado empleadoActual;
     char c, separador;
     int contador = 0;
-    float precioUnitario;
+    float precioUnitario, total = 0;
 
     fseek(archivoVentas, 0, SEEK_END);
     long pos = ftell(archivoVentas);
@@ -416,19 +416,27 @@ void generarFactura(FILE *archivoVentas)
                             &ventaActual.year, 
                             &separador);
 
-    printf("\n%d-%d\n", ventaActual.claveMercado, ventaActual.claveEmpleado);
 
-    filePtr = fopen("Empleados.dat", "rb");
-    fseek(filePtr, (ventaActual.claveEmpleado - 1) * sizeof(struct infoEmpleado), SEEK_SET);
-    fread(&empleadoActual, sizeof(struct infoEmpleado), 1, filePtr);
-    fclose(filePtr);
+    if ((filePtr = fopen("./Data_files/Mercados.dat", "rb")) == NULL)
+        printf("No se pudo abrir el archivo de mercados\n");
+    else
+    {
+        fseek(filePtr, (ventaActual.claveMercado - 1) * sizeof(struct infoMercado), SEEK_SET);
+        fread(&mercadoActual, sizeof(struct infoMercado), 1, filePtr);
+        fclose(filePtr);
+    }
 
-    filePtr = fopen("Mercados.dat", "rb");
-    fseek(filePtr, (ventaActual.claveMercado - 1) * sizeof(struct infoEmpleado), SEEK_SET);
-    fread(&mercadoActual, sizeof(struct infoEmpleado), 1, filePtr);
-    fclose(filePtr);
+    if ((filePtr = fopen("./Data_files/Empleados.dat", "rb")) == NULL)
+        printf("No se pudo abrir el archivo de empleados\n");
+    else
+    {
+        fseek(filePtr, (ventaActual.claveEmpleado - 1) * sizeof(struct infoEmpleado), SEEK_SET);
+        fread(&empleadoActual, sizeof(struct infoEmpleado), 1, filePtr);
+        fclose(filePtr);
+    }
+
     
-    printf("=====================================\n");
+    printf("\n=====================================\n");
     printf("              FACTURA                \n");
     printf("=====================================\n");
     printf("Negocio: Granja S.A.\n");
@@ -436,13 +444,13 @@ void generarFactura(FILE *archivoVentas)
     printf("Cliente: %s %s %s\n", mercadoActual.datosPersonales.nombres,
                                 mercadoActual.datosPersonales.apellidoPaterno,
                                 mercadoActual.datosPersonales.apellidoMaterno);
-    printf("RFC del cliente: %s", mercadoActual.datosPersonales.RFC);
+    printf("RFC del cliente: %s\n", mercadoActual.datosPersonales.RFC);
     printf("Fecha de venta: %02d/%02d/%d\n", ventaActual.day, ventaActual.month, ventaActual.year);
     printf("-------------------------------------\n");
     printf("Vendedor: %s %s %s\n", empleadoActual.datosPersonales.nombres,
                                 empleadoActual.datosPersonales.apellidoPaterno,
                                 empleadoActual.datosPersonales.apellidoMaterno);
-    printf("RFC del vendedor: %s", empleadoActual.datosPersonales.RFC);
+    printf("RFC del vendedor: %s\n", empleadoActual.datosPersonales.RFC);
     printf("-------------------------------------\n");
     printf("%-5s | %-5s | %-20s | %-8s | %-10s\n", "Cant.", "Clave", "Descripción", "P.Unit", "Subtotal");
     while (separador == '#')
@@ -457,11 +465,12 @@ void generarFactura(FILE *archivoVentas)
                                 ventaActual.descripcion, 
                                 precioUnitario, 
                                 ventaActual.cantidad * precioUnitario);
+        total += ventaActual.cantidad * precioUnitario;
     }
 
     fscanf(archivoVentas, "%f~%f$", &ventaActual.precioTotal, &ventaActual.comision);
     printf("-------------------------------------\n");
-    printf("%-35s $%-10.2f\n", "Subtotal de la compra:", ventaActual.precioTotal + ventaActual.precioTotal * mercadoActual.descuento);
+    printf("%-35s $%-10.2f\n", "Subtotal de la compra:", total);
     printf("%-35s $%-10.2f\n", "Subtotal con descuento aplicado:", ventaActual.precioTotal);
     printf("%-35s $%-10.2f\n", "IVA (0.16):", ventaActual.precioTotal * 0.16);
     printf("%-35s $%-10.2f\n", "Total:", ventaActual.precioTotal * 1.16);
