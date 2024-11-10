@@ -374,16 +374,95 @@ void SaldosPendientes(FILE *ArchivoProv)
 
 void generarFactura(FILE *archivoVentas)
 {
+    FILE *filePtr;
     struct infoVenta ventaActual;
-    rewind(archivoVentas);
+    struct infoMercado mercadoActual;
+    struct infoEmpleado empleadoActual;
+    char c, separador;
+    int contador = 0;
+    float precioUnitario;
 
-    while (fscanf(archivoVentas, "%d-%d-%d-%d-%d#", 
-                            DatosVentas.claveMercado, 
-                            DatosVentas.claveEmpleado,
-                            DatosVentas.day, 
-                            DatosVentas.month, 
-                            DatosVentas.year) == 5)
+    fseek(archivoVentas, 0, SEEK_END);
+    long pos = ftell(archivoVentas);
+
+
+    while (pos > 0 && contador < 2)
     {
-        fscanf(archivoVentas, "%*[^$]$");
+        fseek(archivoVentas, --pos, SEEK_SET);
+        c = fgetc(archivoVentas);
+
+        if (c == '$')
+        {
+            contador++;
+            if (contador == 2)
+            {
+                fseek(archivoVentas, pos + 1, SEEK_SET);
+            }
+        }
     }
+
+    
+    if (contador < 2)
+    {
+        fseek(archivoVentas, 0, SEEK_SET);
+    }
+
+    fscanf(archivoVentas, "%d-%d-%d-%d-%d%c", 
+                            &ventaActual.claveMercado,
+                            &ventaActual.claveEmpleado,
+                            &ventaActual.day, 
+                            &ventaActual.month, 
+                            &ventaActual.year, 
+                            &separador);
+
+    printf("\n%d-%d\n", ventaActual.claveMercado, ventaActual.claveEmpleado);
+
+    filePtr = fopen("Empleados.dat", "rb");
+    fseek(filePtr, (ventaActual.claveEmpleado - 1) * sizeof(struct infoEmpleado), SEEK_SET);
+    fread(&empleadoActual, sizeof(struct infoEmpleado), 1, filePtr);
+    fclose(filePtr);
+
+    filePtr = fopen("Mercados.dat", "rb");
+    fseek(filePtr, (ventaActual.claveMercado - 1) * sizeof(struct infoEmpleado), SEEK_SET);
+    fread(&mercadoActual, sizeof(struct infoEmpleado), 1, filePtr);
+    fclose(filePtr);
+    
+    printf("=====================================\n");
+    printf("              FACTURA                \n");
+    printf("=====================================\n");
+    printf("Negocio: Granja S.A.\n");
+    printf("-------------------------------------\n");
+    printf("Cliente: %s %s %s\n", mercadoActual.datosPersonales.nombres,
+                                mercadoActual.datosPersonales.apellidoPaterno,
+                                mercadoActual.datosPersonales.apellidoMaterno);
+    printf("RFC del cliente: %s", mercadoActual.datosPersonales.RFC);
+    printf("Fecha de venta: %02d/%02d/%d\n", ventaActual.day, ventaActual.month, ventaActual.year);
+    printf("-------------------------------------\n");
+    printf("Vendedor: %s %s %s\n", empleadoActual.datosPersonales.nombres,
+                                empleadoActual.datosPersonales.apellidoPaterno,
+                                empleadoActual.datosPersonales.apellidoMaterno);
+    printf("RFC del vendedor: %s", empleadoActual.datosPersonales.RFC);
+    printf("-------------------------------------\n");
+    printf("%-5s | %-5s | %-20s | %-8s | %-10s\n", "Cant.", "Clave", "Descripción", "P.Unit", "Subtotal");
+    while (separador == '#')
+    {
+        fscanf(archivoVentas, "%d-%d%c", &ventaActual.claveArticulo, &ventaActual.cantidad, &separador);
+        obtenerDatosArticulo(&ventaActual.claveArticulo, 
+                            &precioUnitario, 
+                            ventaActual.descripcion);
+
+        printf("%-5d | %-5d | %-20s | %-8.2f | %-8.2f\n", ventaActual.cantidad,
+                                ventaActual.claveArticulo, 
+                                ventaActual.descripcion, 
+                                precioUnitario, 
+                                ventaActual.cantidad * precioUnitario);
+    }
+
+    fscanf(archivoVentas, "%f~%f$", &ventaActual.precioTotal, &ventaActual.comision);
+    printf("-------------------------------------\n");
+    printf("%-35s $%-10.2f\n", "Subtotal de la compra:", ventaActual.precioTotal + ventaActual.precioTotal * mercadoActual.descuento);
+    printf("%-35s $%-10.2f\n", "Subtotal con descuento aplicado:", ventaActual.precioTotal);
+    printf("%-35s $%-10.2f\n", "IVA (0.16):", ventaActual.precioTotal * 0.16);
+    printf("%-35s $%-10.2f\n", "Total:", ventaActual.precioTotal * 1.16);
 }
+

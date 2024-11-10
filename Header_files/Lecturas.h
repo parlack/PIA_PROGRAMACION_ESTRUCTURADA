@@ -1727,7 +1727,7 @@ void lecturaVentas(FILE *archivoVentas)
     porcentajeComision = obtenerComision(&DatosVentas.claveEmpleado);
     DatosVentas.comision *= porcentajeComision;
 
-    printf("\nDescuento con este proveedor: %.2f", DatosVentas.descuento);
+    printf("\nDescuento para este cliente: %.2f", DatosVentas.descuento);
     printf("\nTotal de la venta: $%.2f", DatosVentas.precioTotal);
 
     fprintf(archivoVentas, "%f~%f$", DatosVentas.precioTotal, DatosVentas.comision);

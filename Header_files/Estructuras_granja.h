@@ -487,7 +487,7 @@ void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
         fread(&articuloActual, sizeof(articuloActual), 1, archivoArticulos);
 
-        *precio = articuloActual.costoProduccion;
+        *precio = articuloActual.precioVenta;
         strcpy(descripcion, articuloActual.descripcion);
 
         fclose(archivoArticulos);
