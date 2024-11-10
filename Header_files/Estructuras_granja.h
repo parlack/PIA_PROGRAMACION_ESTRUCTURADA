@@ -16,8 +16,8 @@ struct infoDatosPersonales
     
 struct infoArticulo
 {
-	int clave, clavesMercados[10], clavesInsumos[10], inventario;
-	char descripcion[51], temporadaSiembra[21], temporadaCosecha[21];
+	int clave, clavesMercados[10], clavesInsumos[10], inventario, temporadaSiembra, temporadaCosecha;
+	char descripcion[51];
 	float costoProduccion, precioVenta;
 };
 
@@ -78,7 +78,7 @@ bool inicializarArchivo(int numeroArchivo)
 		{
 			n_registros = 1000;
 			nombreArchivo = "./Data_files/Articulos.dat";
-            struct infoArticulo articuloVacio = {0, {0}, {0}, 0, "", "", "", 0, 0};
+            struct infoArticulo articuloVacio = {0, {0}, {0}, 0, 0, 0, "", 0, 0};
             estructuraVacia = &articuloVacio;
             sizeEstructura = sizeof(articuloVacio);
             break;

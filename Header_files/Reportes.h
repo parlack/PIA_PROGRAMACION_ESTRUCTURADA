@@ -17,11 +17,42 @@ void reporteArticulos(FILE *archivoArticulos)
     {
         if(DatosArticulo.clave != 0)
         {
-            printf("%-7d %-50s %-20s %-20s %-12d %-18.2f %-18.2f ", 
-               DatosArticulo.clave, DatosArticulo.descripcion, 
-               DatosArticulo.temporadaSiembra, DatosArticulo.temporadaCosecha, 
-               DatosArticulo.inventario, DatosArticulo.costoProduccion, 
-               DatosArticulo.precioVenta);
+            printf("%-7d %-50s ", DatosArticulo.clave, DatosArticulo.descripcion);
+
+            switch(DatosArticulo.temporadaSiembra)
+            {
+                case 1:
+                    printf("Primavera %-11s", " ");
+                    break;
+                case 2:
+                    printf("Verano %-14s", " ");
+                    break;
+                case 3:
+                    printf("Oto%co %-15s",164 , " ");
+                    break;
+                case 4:
+                    printf("Invierno %-12s", " ");
+                    break;
+            }
+
+            switch(DatosArticulo.temporadaCosecha)
+            {
+                case 1:
+                    printf("Primavera %-11s", " ");
+                    break;
+                case 2:
+                    printf("Verano %-14s", " ");
+                    break;
+                case 3:
+                    printf("Oto%co %-15s",164 , " ");
+                    break;
+                case 4:
+                    printf("Invierno %-12s", " ");
+                    break;
+            }
+
+            printf("%-12d %-18.2f %-18.2f ", DatosArticulo.inventario, 
+                    DatosArticulo.costoProduccion, DatosArticulo.precioVenta);
             printf("%-21d", DatosArticulo.clavesMercados[0]);
             printf("%-5d \n", DatosArticulo.clavesInsumos[0]);
 
