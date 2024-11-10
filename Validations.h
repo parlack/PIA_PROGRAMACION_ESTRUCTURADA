@@ -24,37 +24,40 @@ bool isAlphabetic(char *charLine, bool isAlphaNumeric)
 	bool isValid = true;
 	int i = 0;
 	
-	if (isAlphaNumeric)
-	{	
-		while (*(charLine + i) != '\0' && isValid)
-		{
-			if (!((*(charLine + i) >= 'a' && *(charLine + i) <= 'z') || 
-				(*(charLine + i) >= 'A' && *(charLine + i) <= 'Z')   || 
-				(*(charLine + i) >= '0' && *(charLine + i) <= '9')   || 
-				*(charLine + i) == ' '))
-			{
-				isValid = false;
-			}
-				
-			i++;
-		}
-	}
-	else
-	{
-		while (*(charLine + i) != '\0' && isValid)
-		{
-			if (!((*(charLine + i) >= 'a' && *(charLine + i) <= 'z') || 
-				(*(charLine + i) >= 'A' && *(charLine + i) <= 'Z')   || 
-				*(charLine + i) == ' '))
-			{
-				isValid = false;
-			}
-			
-			i++;
-		}
-	}
+    while (*(charLine + i) != '\0' && isValid)
+    {
+        if(!isCharAlphabetic(charLine + i, isAlphaNumeric) || *(charLine + i) != ' ')
+        {
+            isValid = false;
+        }
+            
+        i++;
+    }
 	
 	return isValid;
+}
+
+bool isCharAlphabetic(char *char, bool isAlphaNumeric)
+{
+    bool isValid = true;
+
+    if(isAlphaNumeric)
+    {
+        if (!((*char >= 'a' && *char <= 'z') || 
+              (*char >= 'A' && *char <= 'Z') || 
+              (*char >= '0' && *char <= '9')))
+        {
+            isValid = false;
+        }
+    }
+    else
+    {
+        if (!((*char >= 'a' && *char <= 'z') || 
+              (*char >= 'A' && *char <= 'Z')))
+        {
+            isValid = false;
+        }
+    }
 }
 
 int stringLength(char *cadena)
@@ -286,8 +289,8 @@ bool validarRFC(struct infoDatosPersonales *datos)
     while(i < 13)
     {
         if(!(((*(datos->RFC + i) >= 'A' && *(datos->RFC + i) <= 'Z')   || 
-				(*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9'))))
-                return false;
+			  (*(datos->RFC + i) >= '0' && *(datos->RFC + i) <= '9'))))
+            return false;
         i++;
     }
     
@@ -344,39 +347,35 @@ bool validarRFC(struct infoDatosPersonales *datos)
     return es_valido;
 }
 
-bool esCorreoElectronico(char *correo) {
+bool esCorreoElectronico(char *correo) 
+{
     int i = 0;
     bool arrobaEncontrada = false;
     bool puntoEncontradoDespuesDeArroba = false;
 
-    
-    if (!((correo[i] >= 'A' && correo[i] <= 'Z') || (correo[i] >= 'a' && correo[i] <= 'z')))
-        return false;
-
     while (correo[i] != '\0')
     {
-        char c = correo[i];
-
         
-        if (c == ' ' || !(isalnum(c) || c == '@' || c == '.' || c == '-' || c == '_'))
+        if (correo[i] == ' ' || !(isCharAlphabetic(correo[i], true) || correo[i] == '@' || correo[i] == '.' || correo[i] == '-' || correo[i] == '_'))
             return false;
 
-        if (c == '@')
+        if (correo[i] == '@')
         {
             if (arrobaEncontrada)
                 return false;
+            
             arrobaEncontrada = true;
 
-            
-            if (correo[i + 1] == '\0' || !isalpha(correo[i + 1]))
+            if (i == 0 || correo[i + 1] == '\0' || !isCharAlphabetic(correo[i + 1], false))
                 return false;
         }
 
-        if (arrobaEncontrada && c == '.')
+        if (arrobaEncontrada && correo[i] == '.')
         {
             
-            if (correo[i + 1] == '\0' || !isalpha(correo[i + 1]))
+            if (correo[i + 1] == '\0' || !isCharAlphabetic(correo[i + 1], false) || !isCharAlphabetic(correo[i - 1], false))
                 return false;
+            
             puntoEncontradoDespuesDeArroba = true;
         }
         i++;
