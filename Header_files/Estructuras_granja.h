@@ -192,7 +192,7 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
         }
     }
 
-    if((fPtr = fopen(nombreArchivo,"r")) == NULL)
+    if((fPtr = fopen(nombreArchivo,"rb")) == NULL)
         return false;
     
     fseek(fPtr, (*clave_buscar - 1) * sizeEstructura, SEEK_SET);
@@ -214,6 +214,8 @@ bool existeClave(int numeroArchivo, int *clave_buscar)
                 return ((struct infoProveedor *)estructuraPtr)->clave != 0;
         }
     }
+
+    printf("Error al verificar registros.\n");
     
     fclose(fPtr);
     return false;
@@ -296,7 +298,7 @@ int inventarioRestante(int *claveArticulo)
     
     if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
     {
-        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
         return 0;
     }
     else
@@ -318,7 +320,7 @@ bool verificarProveedorInsumo(int *claveProveedor, int *claveInsumo)
 
     if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
     {
-        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
         return false;
     }
     else
@@ -352,7 +354,7 @@ void obtenerDatosInsumo(int *claveProveedor, int *claveInsumo, float *precioUnit
 
     if((archivoInsumos = fopen("./Data_files/Insumos.dat", "rb")) == NULL)
     {
-        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        printf("Error al abrir el archivo de insumos. Por favor intentalo de nuevo o contacte a soporte.\n");
     }
     else
     {
@@ -386,7 +388,7 @@ void modificarSaldo(int *claveProveedor, float *monto, const char modo)
 
     if((filePtr = fopen("./Data_files/Proveedores.dat", "rb+")) == NULL)
     {
-        printf("Error al abrir el archivo. El saldo no se pudo reflejar.\n");
+        printf("Error al abrir el archivo de proveedores. El saldo no se pudo reflejar.\n");
     }
     else
     {
@@ -432,7 +434,7 @@ float obtenerDescuento(int *clave, int numeroArchivo)
 
     if ((filePtr = fopen(filename, "rb+")) == NULL)
     {
-        printf("Error al abrir el archivo. No se pudo obtener la información.\n");
+        printf("Error al abrir el archivo. No se pudo obtener la información del descuento.\n");
         return 0;
     }
 
@@ -462,7 +464,7 @@ float obtenerComision(int *claveEmpleado)
 
     if((filePtr = fopen("./Data_files/Empleados.dat", "rb+")) == NULL)
     {
-        printf("Error al abrir el archivo. No se pudo obtener la informacion.\n");
+        printf("Error al abrir el archivo de empleados. No se pudo obtener la informacion.\n");
         return 0;
     }
     else
@@ -481,7 +483,7 @@ void obtenerDatosArticulo(int *claveArticulo, float *precio, char *descripcion)
     struct infoArticulo articuloActual;
     
     if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb")) == NULL)
-        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        printf("Error al abrir el archivo de articulos. Por favor intentalo de nuevo o contacte a soporte.\n");
     else
     {
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);
@@ -500,7 +502,7 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     struct infoArticulo articuloActual;
     
     if((archivoArticulos = fopen("./Data_files/Articulos.dat", "rb+")) == NULL)
-        printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+        printf("Error al abrir el archivo de articulos. No fue posible actualizar el inventario.\n");
     else
     {
         fseek(archivoArticulos, (*claveArticulo - 1) * sizeof(articuloActual), SEEK_SET);

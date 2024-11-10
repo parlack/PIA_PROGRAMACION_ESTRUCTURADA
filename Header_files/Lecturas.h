@@ -56,9 +56,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         printf("\nTemporada de siembra \n"
                 "1 - Primavera\n"
                 "2 - Verano\n"
-                "3 - Otoño\n"
+                "3 - Oto%co\n"
                 "4 - Invierno\n"
-                "[Ingresa el numero de la temporada] ~ ");
+                "[Ingresa el numero de la temporada] ~ ",164);
 
         fflush(stdin);
 
@@ -93,9 +93,9 @@ void lecturaArticulo(FILE *archivoArticulos)
         printf("\nTemporada de cosecha \n"
                 "1 - Primavera\n"
                 "2 - Verano\n"
-                "3 - Otoño\n"
+                "3 - Oto%co\n"
                 "4 - Invierno\n"
-                "[Ingresa el numero de la temporada] ~ ");
+                "[Ingresa el numero de la temporada] ~ ",164);
 
         fflush(stdin);
 
@@ -1670,7 +1670,7 @@ void lecturaVentas(FILE *archivoVentas)
                 isInvalid = true;
                 printf("\nERROR: Cantidad invalida.\n");
             } 
-            else if (inventarioActual = inventarioRestante(&DatosVentas.claveArticulo) < DatosVentas.cantidad)
+            else if ((inventarioActual = inventarioRestante(&DatosVentas.claveArticulo)) < DatosVentas.cantidad)
             {
                 isInvalid = true;
                 printf("\nLa cantidad ingresada supera al inventario actual de este articulo, ingresa otra cantidad.\n");
