@@ -42,16 +42,21 @@ main()
 	
 	while (opcionMenuPrincipal != 10)
 	{
+		existeArchivo = false;
 		switch(opcionMenuPrincipal)
 		{
 			case 1:	//Articulos
 				
 				//VALIDAR QUE EXISTAN INSUMOS Y MERCADOS
-				existeArchivo = inicializarArchivo(1);
 				hayInsumos = VerificarHayRegistros(2);
 				hayMercados = VerificarHayRegistros(3);
+				
+				if(hayInsumos && hayMercados)
+					existeArchivo = inicializarArchivo(1);
+				
+				
 
-				if(existeArchivo && hayInsumos && hayMercados)
+				if(existeArchivo)
 				{
 					if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
 					{
@@ -112,10 +117,13 @@ main()
 				
 			case 2: //INSUMOOOS
 
-				existeArchivo = inicializarArchivo(2);
 			    hayProveedores = VerificarHayRegistros(5);
-				
-				if(existeArchivo && hayProveedores)
+			    
+			    if(hayProveedores)
+			    	existeArchivo = inicializarArchivo(2);
+
+			    
+				if(existeArchivo)
 				{
 					if ((filePtr = fopen("Insumos.dat", "rb+")) == NULL)
 					{
