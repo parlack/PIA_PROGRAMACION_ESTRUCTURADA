@@ -214,23 +214,21 @@ void lecturaArticulo(FILE *archivoArticulos)
                 }
             }
             else
-            {
                 isInvalid = false;
 
-                i = 0;
+            i = 0;
 
-                while(i < mercados && !isInvalid)
+            while(i < mercados && !isInvalid)
+            {
+                if(DatosArticulo.clavesMercados[mercados] == DatosArticulo.clavesMercados[i])
                 {
-                    if(DatosArticulo.clavesMercados[mercados] == DatosArticulo.clavesMercados[i])
-                    {
-                        setColor(4);
-                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
-                        setColor(7);
+                    setColor(4);
+                    printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                    setColor(7);
 
-                        isInvalid = true;
-                    }
-                    i++;
+                    isInvalid = true;
                 }
+                i++;
             }
 
         } while (isInvalid);
@@ -329,23 +327,21 @@ void lecturaArticulo(FILE *archivoArticulos)
                 }
             }
             else
-            {
                 isInvalid = false;
 
-                i = 0;
+            i = 0;
                 
-                while(i < insumos && !isInvalid)
+            while(i < insumos && !isInvalid)
+            {
+                if(DatosArticulo.clavesInsumos[insumos] == DatosArticulo.clavesInsumos[i])
                 {
-                    if(DatosArticulo.clavesInsumos[insumos] == DatosArticulo.clavesInsumos[i])
-                    {
-                        setColor(4);
-                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
-                        setColor(7);
-                        
-                        isInvalid = true;
-                    }
-                    i++;
+                    setColor(4);
+                    printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                    setColor(7);
+                    
+                    isInvalid = true;
                 }
+                i++;
             }
                 
         } while (isInvalid);
@@ -538,23 +534,21 @@ void lecturaInsumo(FILE *archivoInsumos)
                 }
             }
             else
-            {
                 isInvalid = false;
 
-                i = 0;
+            i = 0;
 
-                while(i < proveedores && !isInvalid)
+            while(i < proveedores && !isInvalid)
+            {
+                if(DatosInsumo.clavesProveedores[proveedores] == DatosInsumo.clavesProveedores[i])
                 {
-                    if(DatosInsumo.clavesProveedores[proveedores] == DatosInsumo.clavesProveedores[i])
-                    {
-                        setColor(4);
-                        printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
-                        setColor(7);
+                    setColor(4);
+                    printf("\nLa clave ingresada ya esta registrada para este articulo.\n");
+                    setColor(7);
 
-                        isInvalid = true;
-                    }
-                    i++;
+                    isInvalid = true;
                 }
+                i++;
             }
 
         } while (isInvalid);
