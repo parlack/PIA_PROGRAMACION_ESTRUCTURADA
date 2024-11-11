@@ -177,6 +177,7 @@ void calculoDeComision(FILE *archivoEmpleados)
     float totalPorEmpleado, monto;
     int claveEmpleadoVenta;
     int i;
+    bool letreroImpreso = false;
 
     if ((archivoVentas = fopen("Ventas.txt", "r")) == NULL)
     {
@@ -187,9 +188,6 @@ void calculoDeComision(FILE *archivoEmpleados)
     }
     else
     {
-        printf("\nTOTAL DE COMISIONES POR EMPLEADO\n\n");
-        printf("| %15s | %-15s |\n", "ID EMPLEADO", "COMISION");
-        printf("-------------------------------------\n");
 
         for (i = 0; i < 1000; i++)
         {
@@ -204,11 +202,22 @@ void calculoDeComision(FILE *archivoEmpleados)
                 
                 if (totalPorEmpleado != 0)
                 {
+                    if(!letreroImpreso)
+                    {
+                        printf("\nTOTAL DE COMISIONES POR EMPLEADO\n\n");
+                        printf("| %15s | %-15s |\n", "ID EMPLEADO", "COMISION");
+                        printf("-------------------------------------\n");
+                        letreroImpreso = true;
+                    }
+
                     printf("| %15d | $%-15.3f|\n", DatosEmpleado.clave, totalPorEmpleado);
                 }
                 rewind(archivoVentas);
             }
         }
+
+        if(!letreroImpreso)
+            printf("\nNo se encontraron empleados con comisi%cn.\n",162);
 
         fclose(archivoVentas);
     }
