@@ -3,6 +3,22 @@
 #include <time.h>
 #include "Estructuras_granja.h"
 
+bool isInIntRange(int *, int, int);
+bool isInFloatRange(float *, float, float);
+bool isInCharRange(char *, char, char);
+bool isCharAlphabetic(char *, bool);
+bool isAlphabetic(char *, bool);
+int stringLength(char *);
+bool minStringLength(char *, int);
+void retirarSaltoLinea(char *);
+bool intMoreThanZero(int *, bool);
+bool floatMoreThanZero(float *, bool);
+bool validarFecha(int *, int *, int *);
+void limpiarApellido(char [], char []);
+void seleccionarNombre(char [], char []);
+bool validarRFC(struct infoDatosPersonales *);
+bool esCorreoElectronico(char *);
+
 
 bool isInIntRange(int *value, int min, int max)
 {

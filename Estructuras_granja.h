@@ -78,6 +78,21 @@ struct infoCompra
     char descripcion[51];
 };
 
+bool inicializarArchivo(int);
+bool existeClave(int, int *);
+bool VerificarHayRegistros(int);
+float obtenerCosto(int *, int *);
+int inventarioRestante(int *);
+bool verificarProveedorInsumo(int *, int *);
+void obtenerDatosInsumo(int *, int *, float *, char *);
+void modificarSaldo(int *, float *, const char);
+float obtenerDescuento(int *, int);
+float obtenerComision(int *);
+void obtenerDatosArticulo(int *, float *, char *);
+void restarInventarioArticulos(int *, int *);
+void sumarInventarioInsumos(int *, int *);
+
+
 bool inicializarArchivo(int numeroArchivo)
 {
     FILE *fPtr;
@@ -556,3 +571,27 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     }
 }
 
+void sumarInventarioInsumos(int *claveInsumo, int *cantidad)
+{
+    FILE *archivoInsumos;
+    struct infoInsumo insumoActual;
+    
+    if((archivoInsumos = fopen("Insumos.dat", "rb+")) == NULL)
+    {
+        setColor(4);
+        printf("Error al abrir el archivo de insumos. No fue posible actualizar el inventario.\n");
+        setColor(7);
+    }
+    else
+    {
+        fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(insumoActual), SEEK_SET);
+        fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+        insumoActual.inventario -= *cantidad;
+
+        fseek(archivoInsumos, (*claveInsumo - 1) * sizeof(insumoActual), SEEK_SET);
+        fwrite(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+        fclose(archivoInsumos);
+    }
+}
