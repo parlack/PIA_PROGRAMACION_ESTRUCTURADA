@@ -556,3 +556,28 @@ void restarInventarioArticulos(int *claveArticulo, int *cantidad)
     }
 }
 
+void agregarInventarioInsumos(int *claveInsumos, int *cantidad)
+{
+    FILE *archivoInsumos;
+    struct infoInsumo insumoActual;
+    
+    if((archivoInsumos = fopen("Insumos.dat", "rb+")) == NULL)
+    {
+        setColor(4);
+        printf("Error al abrir el archivo de articulos. No fue posible actualizar el inventario.\n");
+        setColor(7);
+    }
+    else
+    {
+        fseek(archivoInsumos, (*claveInsumos - 1) * sizeof(insumoActual), SEEK_SET);
+        fread(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+        insumoActual.inventario += *cantidad;
+
+        fseek(archivoInsumos, (*claveInsumos - 1) * sizeof(insumoActual), SEEK_SET);
+        fwrite(&insumoActual, sizeof(insumoActual), 1, archivoInsumos);
+
+        fclose(archivoInsumos);
+    }
+}
+

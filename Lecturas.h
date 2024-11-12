@@ -2479,6 +2479,20 @@ void controlInventario(FILE *archivoCompras)
         {
             fseek(archivoCompras, -1, SEEK_CUR);
             fprintf(archivoCompras, "1");
+
+            fscanf(archivoCompras, "%c", &separador);
+
+            while (separador == '#')
+            {
+                if (fscanf(archivoCompras, "%*[^-]-%d-%d%c", &DatosCompra.claveInsumo, &DatosCompra.cantidad, &separador) == 4)
+                {
+                    agregarInventarioInsumos(&DatosCompra.claveInsumo, &DatosCompra.cantidad);
+                }
+            }
+
+            fscanf(archivoCompras, "%f$", &DatosCompra.totalDeCompra);
+            modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
+            
             printf("\nENTREGA DE COMPRA REGISTRADA.\n");
         }
         else

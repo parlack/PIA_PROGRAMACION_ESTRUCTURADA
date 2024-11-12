@@ -494,7 +494,7 @@ main()
 				if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
 				{
 					setColor(4);
-					printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+					printf("Error al abrir el archivo de Compras. Por favor intentalo de nuevo o contacte a soporte.\n");
             		setColor(7);
 				}
 				else

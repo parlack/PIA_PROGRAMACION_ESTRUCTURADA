@@ -440,8 +440,6 @@ void SaldosPendientes(FILE *ArchivoProv)
     }
 }
 
-
-
 void generarFactura(FILE *archivoVentas)
 {
     FILE *filePtr;
