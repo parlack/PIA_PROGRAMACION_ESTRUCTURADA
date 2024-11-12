@@ -151,13 +151,15 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                         printf("-------------------------------------------------------\n");
                         letreroImpreso = true;
                     }
-                    printf("| %15s | %15d |", DatosInsumo.descripcion, DatosInsumo.clave);
+                    printf("| %15d | %15s |", DatosInsumo.clave, DatosInsumo.descripcion);
 
-                    j = 0;
+                    printf(" %15d |\n", DatosInsumo.clavesProveedores[0]);
+
+                    j = 1;
                     while(j < 10 && DatosInsumo.clavesProveedores[j] != 0)
                     {
                         if (DatosInsumo.clavesProveedores[j] != 0)
-                            printf(" %15d |", DatosInsumo.clavesProveedores[j]);
+                            printf(" %52d |\n", DatosInsumo.clavesProveedores[j]);
                         else
                             printf(" %15s |", " ");
 

@@ -491,44 +491,44 @@ main()
 				
 				break;
 			case 8:	//Control de Inventario
-				if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
+				do
 				{
-					setColor(4);
-					printf("Error al abrir el archivo de Compras. Por favor intentalo de nuevo o contacte a soporte.\n");
-            		setColor(7);
-				}
-				else
-				{
-					do
+					if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
+					{
+						setColor(4);
+						printf("Error al abrir el archivo de Compras. Por favor intentalo de nuevo o contacte a soporte.\n");
+						setColor(7);
+					}
+					else
 					{
 						controlInventario(filePtr);
 							
-						do
-						{
-							printf("Agregar otra recepcion? [s/n] ~ ");
-							fflush(stdin);
-
-							if(scanf("%c", &agregarMas) != 1)
-								isInvalid = true;
-							else
-							{
-								agregarMas = tolower(agregarMas);
-								isInvalid = agregarMas != 's' && agregarMas != 'n';
-							}
-							
-							if (isInvalid)
-							{
-								setColor(4);
-								printf("Respuesta invalida [s/n].\n");
-            					setColor(7);
-							}
-							
-						} while (isInvalid);
+						fclose(filePtr);
+					}
 					
-					} while (agregarMas == 's');
+					do
+					{
+						printf("Agregar otra recepcion? [s/n] ~ ");
+						fflush(stdin);
 
-					fclose(filePtr);
-				}
+						if(scanf("%c", &agregarMas) != 1)
+							isInvalid = true;
+						else
+						{
+							agregarMas = tolower(agregarMas);
+							isInvalid = agregarMas != 's' && agregarMas != 'n';
+						}
+						
+						if (isInvalid)
+						{
+							setColor(4);
+							printf("Respuesta invalida [s/n].\n");
+							setColor(7);
+						}
+						
+					} while (isInvalid);
+				} while (agregarMas == 's');
+
 				
 				
 				break;

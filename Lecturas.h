@@ -2295,16 +2295,16 @@ void lecturaCompras(FILE *archivoCompras)
 
         } while (isInvalid);
 
-        subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
-
         obtenerDatosInsumo(&DatosCompra.claveProveedor, &DatosCompra.claveInsumo, &precioUnitario, DatosCompra.descripcion);
+
+        subtotalPorInsumo = precioUnitario * DatosCompra.cantidad;
+        DatosCompra.totalDeCompra += subtotalPorInsumo;
 
         printf("\nDescripcion del insumo: %s\n", DatosCompra.descripcion);
         printf("Precio unitario del insumo: %.2f\n", precioUnitario);
         printf("Subtotal de este insumo: %.2f\n", subtotalPorInsumo);
         printf("\nSubtotal actual de la compra: $%.2f\n", DatosCompra.totalDeCompra);
 
-        DatosCompra.totalDeCompra += subtotalPorInsumo;
 
         fprintf(archivoCompras, "%s-%d-%d", DatosCompra.descripcion, DatosCompra.claveInsumo, DatosCompra.cantidad);
 
@@ -2355,7 +2355,7 @@ void controlInventario(FILE *archivoCompras)
 {
     rewind(archivoCompras);
     struct infoCompra DatosCompra;
-    int i = 0, claveProveedorBuscado, claveCompraBuscada, claveInsumo, cantidadInsumo;
+    int i = 0, claveProveedorBuscado, claveCompraBuscada, claveInsumo, cantidadInsumo, resultados = 0;
     bool isInvalid, letreroImpreso = false;
     char separador, marcarEntrega;
 
@@ -2414,6 +2414,8 @@ void controlInventario(FILE *archivoCompras)
                 printf("%80s: $%.2f\n", "TOTAL DE COMPRA", DatosCompra.totalDeCompra);
                 printf(" -----------------------------------------------------------------------------------------------------------\n");
             }
+            
+            resultados ++;
         }
         else
         {
@@ -2422,105 +2424,101 @@ void controlInventario(FILE *archivoCompras)
         i++;
     }
 
-    do
-    {
-        printf("\nIngrese la clave de la compra [1 - %d] ~ ", i);
-        fflush(stdin);
-        
-        if(scanf("%d", &claveCompraBuscada) != 1 || !isInIntRange(&claveCompraBuscada, 1, i))
-        {
-            isInvalid = true;
-            setColor(4);
-            printf("ERROR: Clave de compra fuera del rango.\n\n");
-            setColor(7);
+    printf("\n\tResultados de la busqueda: %d\n", resultados);
 
-        }
-        else    
-        {
-            rewind(archivoCompras);
-
-            for (i = 0; i < claveCompraBuscada - 1; i++)
-            {
-                fscanf(archivoCompras, "%*[^$]$");
-            }
-            
-            fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
-
-            if(DatosCompra.claveProveedor != claveProveedorBuscado)
-            {
-                isInvalid = true;
-                setColor(4);
-                printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
-                setColor(7);
-            }
-            else
-                isInvalid = false;
-        }
-
-    }
-    while(isInvalid);
-
-    if (DatosCompra.entregado == 0)
+    if (resultados > 0)
     {
         do
         {
-            printf("Marcar como entregada? [s/n] ~ ");
+            printf("\nIngrese la clave de la compra ~ ");
             fflush(stdin);
-
-            if(scanf("%c", &marcarEntrega) != 1 || (marcarEntrega != 's' && marcarEntrega != 'n'))
+            
+            if(scanf("%d", &claveCompraBuscada) != 1 || !isInIntRange(&claveCompraBuscada, 1, i))
             {
-                setColor(4);
-                printf("Respuesta invalida [s/n].\n");
-                setColor(7);
                 isInvalid = true;
+                setColor(4);
+                printf("ERROR: Clave de compra fuera del rango.\n\n");
+                setColor(7);
+
             }
-            else
-                isInvalid = false;
-            
-        } while (isInvalid);
-
-        if (marcarEntrega == 's')
-        {
-            fseek(archivoCompras, -1, SEEK_CUR);
-            fprintf(archivoCompras, "1");
-
-            fscanf(archivoCompras, "%c", &separador);
-
-            while (separador == '#')
+            else    
             {
-                if (fscanf(archivoCompras, "%*[^-]-%d-%d%c", &DatosCompra.claveInsumo, &DatosCompra.cantidad, &separador) == 4)
+                rewind(archivoCompras);
+
+                for (i = 0; i < claveCompraBuscada - 1; i++)
                 {
-                    agregarInventarioInsumos(&DatosCompra.claveInsumo, &DatosCompra.cantidad);
+                    fscanf(archivoCompras, "%*[^$]$");
                 }
+                
+                fscanf(archivoCompras, "%d-%d", &DatosCompra.claveProveedor, &DatosCompra.entregado);
+
+                if(DatosCompra.claveProveedor != claveProveedorBuscado)
+                {
+                    isInvalid = true;
+                    setColor(4);
+                    printf("ERROR: Clave de compra no coincide con el proveedor ingresado.\n\n");
+                    setColor(7);
+                }
+                else
+                    isInvalid = false;
             }
 
-            fscanf(archivoCompras, "%f$", &DatosCompra.totalDeCompra);
-            modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
-            
-            printf("\nENTREGA DE COMPRA REGISTRADA.\n");
+        }
+        while(isInvalid);
 
+        if (DatosCompra.entregado == 0)
+        {
             do
             {
-                fscanf(archivoCompras, "%*[^-]-%d-%d-%c", &claveInsumo, &cantidadInsumo, &separador);
+                printf("Marcar como entregada? [s/n] ~ ");
+                fflush(stdin);
 
-                sumarInventarioInsumos(&claveInsumo, &cantidadInsumo);
+                if(scanf("%c", &marcarEntrega) != 1 || (marcarEntrega != 's' && marcarEntrega != 'n'))
+                {
+                    setColor(4);
+                    printf("Respuesta invalida [s/n].\n");
+                    setColor(7);
+                    isInvalid = true;
+                }
+                else
+                    isInvalid = false;
+                
+            } while (isInvalid);
+
+            if (marcarEntrega == 's')
+            {
+                fseek(archivoCompras, -1, SEEK_CUR);
+                fprintf(archivoCompras, "1");
+
+                fflush(archivoCompras);
+                fseek(archivoCompras, 0, SEEK_CUR);
+
+                fscanf(archivoCompras, "%c", &separador);
+
+                while (separador == '#')
+                {
+                    if (fscanf(archivoCompras, "%*[^-]-%d-%d%c", &claveInsumo, &cantidadInsumo, &separador) == 3)
+                    {
+                        agregarInventarioInsumos(&claveInsumo, &cantidadInsumo);
+                    }
+                }
+
+                fscanf(archivoCompras, "%f$", &DatosCompra.totalDeCompra);
+                modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
+                
+
+                printf("\nENTREGA DE COMPRA REGISTRADA.\n");
             }
-            while(separador = '#')
-
-            /*fscanf("%*[^*]*%f", &DatosCompra.totalDeCompra);
-
-            modificarSaldo(&claveProveedorBuscado, &DatosCompra.totalDeCompra, '-')*/
-            //restar saldo?????
+            else
+            {
+                printf("\nRegresando al menu de reportes ...\n");
+            }
         }
         else
         {
-            printf("\nRegresando al menu de reportes ...\n");
+            setColor(4);
+            printf("\nCLAVE INVALIDA. Esta compra ya se ha entregado.\n");
+            setColor(7);
         }
-    }
-    else
-    {
-        setColor(4);
-        printf("\nCLAVE INVALIDA. Esta compra ya se ha entregado.\n");
-        setColor(7);
     }
 }
