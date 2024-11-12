@@ -405,43 +405,51 @@ void ventasArticulo(FILE *archivoVentas)
 void SaldosPendientes(FILE *ArchivoProv)
 {
     struct infoProveedor infoProv;
+    struct infoProveedor proveedoresConSaldos[100];
     int CantidadSaldos = 0;
-    char nombreCompleto[80]; 
+    char nombreCompleto[80];
 
+    
     while (fread(&infoProv, sizeof(struct infoProveedor), 1, ArchivoProv))
     {
         if (infoProv.saldo != 0)
         {
-            if (CantidadSaldos == 0)
-            {
-                printf("\tINFORMACION DE PROVEEDORES CON SALDOS PENDIENTES:\n\n");
-                printf("%-10s %-60s %-40s %s\n", "CLAVE", "NOMBRE CLIENTE", "SALDO PENDIENTE", "DIRECCION");
-                printf("-------------------------------------------------------------------------------------------------------------\n");
-            }
-
-            snprintf(nombreCompleto, sizeof(nombreCompleto), "%s %s %s",
-                     infoProv.datosPersonales.nombres,
-                     infoProv.datosPersonales.apellidoPaterno,
-                     infoProv.datosPersonales.apellidoMaterno);
-
-            printf("%-10d %-60s %8.2f %40s %d,\n",
-                   infoProv.clave,
-                   nombreCompleto,
-                   infoProv.saldo,
-                   infoProv.datosPersonales.calle,
-                   infoProv.datosPersonales.numeroDomicilio);
-
-            printf("%114s%s,\n", "", infoProv.datosPersonales.colonia);
-            printf("%114s%s,\n", "", infoProv.datosPersonales.municipio);
-            printf("%114s%s.\n\n", "", infoProv.datosPersonales.estado);
-
-            CantidadSaldos++;
+            proveedoresConSaldos[CantidadSaldos++] = infoProv;
         }
     }
 
-    if (CantidadSaldos == 0)
+    
+    if (CantidadSaldos > 0)
+    {
+        printf("\tINFORMACION DE PROVEEDORES CON SALDOS PENDIENTES:\n\n");
+        printf("%-10s %-60s %-40s %s\n", "CLAVE", "NOMBRE CLIENTE", "SALDO PENDIENTE", "DIRECCION");
+        printf("-------------------------------------------------------------------------------------------------------------\n");
+
+        for (int i = 0; i < CantidadSaldos; i++)
+        {
+            snprintf(nombreCompleto, sizeof(nombreCompleto), "%s %s %s",
+                     proveedoresConSaldos[i].datosPersonales.nombres,
+                     proveedoresConSaldos[i].datosPersonales.apellidoPaterno,
+                     proveedoresConSaldos[i].datosPersonales.apellidoMaterno);
+
+            printf("%-10d %-60s %8.2f %40s %d,\n",
+                   proveedoresConSaldos[i].clave,
+                   nombreCompleto,
+                   proveedoresConSaldos[i].saldo,
+                   proveedoresConSaldos[i].datosPersonales.calle,
+                   proveedoresConSaldos[i].datosPersonales.numeroDomicilio);
+
+            printf("%114s%s,\n", "", proveedoresConSaldos[i].datosPersonales.colonia);
+            printf("%114s%s,\n", "", proveedoresConSaldos[i].datosPersonales.municipio);
+            printf("%114s%s.\n\n", "", proveedoresConSaldos[i].datosPersonales.estado);
+        }
+    }
+    else
+    {
         printf("No existen cuentas con saldos pendientes.");
+    }
 }
+
 
 
 void generarFactura(FILE *archivoVentas)
