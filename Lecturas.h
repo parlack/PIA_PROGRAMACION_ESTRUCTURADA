@@ -9,6 +9,10 @@ void lecturaInsumo(FILE *);
 void lecturaMercado(FILE *);
 void lecturaEmpleado(FILE *);
 void lecturaProveedor(FILE *);
+void lecturaVentas(FILE *);
+void lecturaCompras(FILE *);
+void controlInventario(FILE *);
+
 
 void lecturaArticulo(FILE *archivoArticulos)
 {
@@ -2351,7 +2355,7 @@ void controlInventario(FILE *archivoCompras)
 {
     rewind(archivoCompras);
     struct infoCompra DatosCompra;
-    int i = 0, claveProveedorBuscado, claveCompraBuscada;
+    int i = 0, claveProveedorBuscado, claveCompraBuscada, claveInsumo, cantidadInsumo;
     bool isInvalid, letreroImpreso = false;
     char separador, marcarEntrega;
 
@@ -2494,6 +2498,19 @@ void controlInventario(FILE *archivoCompras)
             modificarSaldo(&DatosCompra.claveProveedor, &DatosCompra.totalDeCompra, '-');
             
             printf("\nENTREGA DE COMPRA REGISTRADA.\n");
+
+            do
+            {
+                fscanf(archivoCompras, "%*[^-]-%d-%d-%c", &claveInsumo, &cantidadInsumo, &separador);
+
+                sumarInventarioInsumos(&claveInsumo, &cantidadInsumo);
+            }
+            while(separador = '#')
+
+            /*fscanf("%*[^*]*%f", &DatosCompra.totalDeCompra);
+
+            modificarSaldo(&claveProveedorBuscado, &DatosCompra.totalDeCompra, '-')*/
+            //restar saldo?????
         }
         else
         {

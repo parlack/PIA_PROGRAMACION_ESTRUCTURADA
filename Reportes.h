@@ -2,6 +2,16 @@
 #include <stdbool.h>
 #include "Lecturas.h"
 
+void reporteArticulos(FILE *);
+void ventasFecha(FILE *);
+void ventasArticulo(FILE *);
+void insumosPorSolicitar(FILE *);
+void SaldosPendientes(FILE *);
+void calculoDeComision(FILE *);
+void comprasConRecepcionPendiente(FILE *);
+void generarFactura(FILE *);
+
+
 void reporteArticulos(FILE *archivoArticulos)
 {
     int i, articulosimpresos = 0;

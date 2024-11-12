@@ -78,6 +78,21 @@ struct infoCompra
     char descripcion[51];
 };
 
+bool inicializarArchivo(int);
+bool existeClave(int, int *);
+bool VerificarHayRegistros(int);
+float obtenerCosto(int *, int *);
+int inventarioRestante(int *);
+bool verificarProveedorInsumo(int *, int *);
+void obtenerDatosInsumo(int *, int *, float *, char *);
+void modificarSaldo(int *, float *, const char);
+float obtenerDescuento(int *, int);
+float obtenerComision(int *);
+void obtenerDatosArticulo(int *, float *, char *);
+void restarInventarioArticulos(int *, int *);
+void sumarInventarioInsumos(int *, int *);
+
+
 bool inicializarArchivo(int numeroArchivo)
 {
     FILE *fPtr;
