@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "Lecturas.h"
 
@@ -14,8 +15,12 @@ void generarFactura(FILE *);
 
 void reporteArticulos(FILE *archivoArticulos)
 {
-    int i, articulosimpresos = 0;
-    struct infoArticulo DatosArticulo;
+    int i, j, articulosimpresos = 0;
+    struct infoArticulo *DatosArticulo = (struct infoArticulo *) malloc(1000 * sizeof(struct infoArticulo));
+    for(i = 0; i < 1000; i++)
+    {
+        fread(&DatosArticulo[i], sizeof(struct infoArticulo), 1, archivoArticulos);
+    }
 
     printf("LISTA DE ARTICULOS:\n");
     printf("%-7s %-50s %-20s %-20s %-12s %-18s %-18s %-20s %-20s\n", 
@@ -23,13 +28,14 @@ void reporteArticulos(FILE *archivoArticulos)
            "Temporada Cosecha", "Inventario", "Costo Produccion", 
            "Precio Venta", "Claves Mercados", "Claves Insumos");
 
-    while(fread(&DatosArticulo, sizeof(struct infoArticulo), 1, archivoArticulos))
+
+    for(i = 0; i < 1000; i++)
     {
-        if(DatosArticulo.clave != 0)
+        if(DatosArticulo[i].clave != 0)
         {
-            printf("%-7d %-50s ", DatosArticulo.clave, DatosArticulo.descripcion);
+            printf("%-7d %-50s ", DatosArticulo[i].clave, DatosArticulo[i].descripcion);
 
-            switch(DatosArticulo.temporadaSiembra)
+            switch(DatosArticulo[i].temporadaSiembra)
             {
                 case 1:
                     printf("Primavera %-11s", " ");
@@ -45,7 +51,7 @@ void reporteArticulos(FILE *archivoArticulos)
                     break;
             }
 
-            switch(DatosArticulo.temporadaCosecha)
+            switch(DatosArticulo[i].temporadaCosecha)
             {
                 case 1:
                     printf("Primavera %-11s", " ");
@@ -61,35 +67,34 @@ void reporteArticulos(FILE *archivoArticulos)
                     break;
             }
 
-            printf("%-12d %-18.2f %-18.2f ", DatosArticulo.inventario, 
-                    DatosArticulo.costoProduccion, DatosArticulo.precioVenta);
-            printf("%-21d", DatosArticulo.clavesMercados[0]);
-            printf("%-5d \n", DatosArticulo.clavesInsumos[0]);
+            printf("%-12d %-18.2f %-18.2f ", DatosArticulo[i].inventario, 
+                    DatosArticulo[i].costoProduccion, DatosArticulo[i].precioVenta);
+            printf("%-21d", DatosArticulo[i].clavesMercados[0]);
+            printf("%-5d \n", DatosArticulo[i].clavesInsumos[0]);
 
-            for (i = 1; i < 10; i++) 
+            for (j = 1; j < 10; j++) 
             {
-                if ((DatosArticulo.clavesMercados[i] != 0) || (DatosArticulo.clavesInsumos[i] != 0)) 
+                if ((DatosArticulo[i].clavesMercados[j] != 0) || (DatosArticulo[i].clavesInsumos[j] != 0)) 
                 {
-                    if(DatosArticulo.clavesMercados[i] == 0)
+                    if(DatosArticulo[i].clavesMercados[j] == 0)
                         printf("%153s"," ");
                     else
-                        printf("%153d", DatosArticulo.clavesMercados[i]);
+                        printf("%153d", DatosArticulo[i].clavesMercados[j]);
                     
-                    if(DatosArticulo.clavesInsumos[i] == 0)
+                    if(DatosArticulo[i].clavesInsumos[j] == 0)
                         printf("%21s\n", " ");
                     else
-                        printf("%21d \n", DatosArticulo.clavesInsumos[i]);
+                        printf("%21d\n", DatosArticulo[i].clavesInsumos[j]);
 
                     
                 } 
             }
-            printf("\n");
+            printf("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
             articulosimpresos++;
         }
     }
 
-
-
+    free(DatosArticulo);
 }
 
 void insumosPorSolicitar(FILE *archivoInsumos)
