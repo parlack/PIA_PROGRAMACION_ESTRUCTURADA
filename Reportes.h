@@ -160,7 +160,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                 {
                     if(!letreroImpreso)
                     {
-                        printf("\n##### ARTICULOS A SOLICITAR #####\n\n");
+                        printf("\n##### INSUMOS A SOLICITAR #####\n\n");
                         printf("| %15s | %15s | %15s |\n", "CLAVE INSUMO", "DESCRIPCION", "PROVEEDORES");
                         printf("-------------------------------------------------------\n");
                         letreroImpreso = true;
@@ -189,7 +189,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
         if(!letreroImpreso)
         {
             printf("\n----- Busqueda realizada -----");
-            printf("\n##### NO HAY ARTICULOS A SOLICITAR #####\n");
+            printf("\n##### NO HAY INSUMOS A SOLICITAR #####\n");
         }
 
         fclose(archivoCompras);
