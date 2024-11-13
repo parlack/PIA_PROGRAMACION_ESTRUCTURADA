@@ -111,7 +111,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
     char *descripciones[100];
 
     for (i = 0; i < 100; i++)
-        descripciones[i] = NULL;
+        descripciones[i] = (char *) malloc(51 * sizeof(char));
 
     if ((archivoCompras = fopen("Compras.txt", "r")) == NULL)
     {
@@ -124,12 +124,11 @@ void insumosPorSolicitar(FILE *archivoInsumos)
         for (i = 0; i < 100; i++)
         {
             insumoEncontrado = false;
-            fseek(archivoInsumos, i * sizeof(struct infoInsumo), SEEK_SET);
             fread(&DatosInsumo, sizeof(struct infoInsumo), 1, archivoInsumos);
 
             
             if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
-                descripciones[i] = DatosInsumo.descripcion;
+                strcpy(descripciones[i], DatosInsumo.descripcion)
 
             if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
             {
