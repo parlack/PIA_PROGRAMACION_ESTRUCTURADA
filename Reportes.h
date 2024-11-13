@@ -210,7 +210,7 @@ void calculoDeComision(FILE *archivoEmpleados)
     if ((archivoVentas = fopen("Ventas.txt", "r")) == NULL)
     {
         setColor(4);
-        printf("Error al calcular las comisiones de los empleados.\n");
+        printf("ERROR. No fue posible abrir el archivo de ventas para el calculo de comisiones.\n");
         setColor(7);
 
     }
