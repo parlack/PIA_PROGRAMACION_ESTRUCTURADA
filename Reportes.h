@@ -108,6 +108,10 @@ void insumosPorSolicitar(FILE *archivoInsumos)
     bool insumoEncontrado, letreroImpreso = false;
     char separador;
 
+    char *descripciones[100];
+
+    for (i = 0; i < 100; i++)
+        descripciones[i] = NULL;
 
     if ((archivoCompras = fopen("Compras.txt", "r")) == NULL)
     {
@@ -122,6 +126,11 @@ void insumosPorSolicitar(FILE *archivoInsumos)
             insumoEncontrado = false;
             fseek(archivoInsumos, i * sizeof(struct infoInsumo), SEEK_SET);
             fread(&DatosInsumo, sizeof(struct infoInsumo), 1, archivoInsumos);
+
+            
+            if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
+                descripciones[i] = DatosInsumo.descripcion;
+
             if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
             {
                 while (fscanf(archivoCompras, "%d-%d%c", 
@@ -144,7 +153,6 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                                 insumoEncontrado = true;
                             }
                         }
-
                         fscanf(archivoCompras, "%*f$");
                     }
                 }
@@ -158,7 +166,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                         printf("-------------------------------------------------------\n");
                         letreroImpreso = true;
                     }
-                    printf("| %15d | %15s |", DatosInsumo.clave, DatosInsumo.descripcion);
+                    printf("| %15d | %15s |", DatosInsumo.clave, descripciones[i]);
 
                     printf(" %15d |\n", DatosInsumo.clavesProveedores[0]);
 
@@ -188,6 +196,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
         fclose(archivoCompras);
     }
 }
+
 
 void calculoDeComision(FILE *archivoEmpleados)
 {
