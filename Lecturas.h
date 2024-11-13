@@ -2102,9 +2102,9 @@ void lecturaVentas(FILE *archivoVentas)
     printf("\nSubtotal de la venta: $%.2f", DatosVentas.precioTotal);
 
     DatosVentas.descuento = obtenerDescuento(&DatosVentas.claveMercado, 2);
-    DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
     porcentajeComision = obtenerComision(&DatosVentas.claveEmpleado);
-    DatosVentas.comision *= porcentajeComision;
+    DatosVentas.comision = DatosVentas.precioTotal * porcentajeComision;
+    DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
 
     printf("\nDescuento para este cliente: %.2f", DatosVentas.descuento);
     printf("\nTotal de la venta: $%.2f", DatosVentas.precioTotal);
