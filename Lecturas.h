@@ -1964,7 +1964,7 @@ void lecturaVentas(FILE *archivoVentas)
             printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
             fflush(stdin);
 
-            if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 100))
+            if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 1000))
             {
                 isInvalid = true;
                 setColor(4);

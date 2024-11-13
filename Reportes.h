@@ -469,23 +469,27 @@ void generarFactura(FILE *archivoVentas)
     int contador = 0;
     float precioUnitario, total = 0;
 
-    fseek(archivoVentas, 0, SEEK_END);
     long pos = ftell(archivoVentas);
+    fseek(archivoVentas, 0, SEEK_END);
 
 
-    while (pos > 0 && contador < 2)
+    if(pos > 0)
     {
-        fseek(archivoVentas, --pos, SEEK_SET);
-        c = fgetc(archivoVentas);
-
-        if (c == '$')
+        do
         {
-            contador++;
-            if (contador == 2)
+            fseek(archivoVentas, --pos, SEEK_SET);
+            c = fgetc(archivoVentas);
+
+            if (c == '$')
             {
-                fseek(archivoVentas, pos + 1, SEEK_SET);
+                contador++;
+                if (contador == 2)
+                {
+                    fseek(archivoVentas, pos + 1, SEEK_SET);
+                }
             }
         }
+        while (contador < 2);
     }
 
     
