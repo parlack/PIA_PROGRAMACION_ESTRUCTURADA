@@ -2509,10 +2509,6 @@ void controlInventario(FILE *archivoCompras)
 
                 printf("\nENTREGA DE COMPRA REGISTRADA.\n");
             }
-            else
-            {
-                printf("\nRegresando al menu de reportes ...\n");
-            }
         }
         else
         {
