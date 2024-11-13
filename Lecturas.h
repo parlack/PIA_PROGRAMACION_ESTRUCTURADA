@@ -1964,7 +1964,7 @@ void lecturaVentas(FILE *archivoVentas)
             printf("\nIngrese la clave del articulo [1 - 1000] ~ ");
             fflush(stdin);
 
-            if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 100))
+            if(scanf("%d", &DatosVentas.claveArticulo) != 1 || !isInIntRange(&DatosVentas.claveArticulo, 1, 1000))
             {
                 isInvalid = true;
                 setColor(4);
@@ -2102,9 +2102,9 @@ void lecturaVentas(FILE *archivoVentas)
     printf("\nSubtotal de la venta: $%.2f", DatosVentas.precioTotal);
 
     DatosVentas.descuento = obtenerDescuento(&DatosVentas.claveMercado, 2);
-    DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
     porcentajeComision = obtenerComision(&DatosVentas.claveEmpleado);
-    DatosVentas.comision *= porcentajeComision;
+    DatosVentas.comision = DatosVentas.precioTotal * porcentajeComision;
+    DatosVentas.precioTotal *= 1 - DatosVentas.descuento;
 
     printf("\nDescuento para este cliente: %.2f", DatosVentas.descuento);
     printf("\nTotal de la venta: $%.2f", DatosVentas.precioTotal);
