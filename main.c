@@ -27,12 +27,13 @@ main()
 		printf("10 - SALIR\n");
 		printf("[ Ingresa una opci%cn ] ~ ", 162);
 		setColor(7);
+
+		fflush(stdin);
 		
 		isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
 		if(isInvalid)
 		{
-			fflush(stdin);
 			setColor(4);
 			printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
 			setColor(7);
@@ -543,12 +544,12 @@ main()
 					printf("g - Compras pendientes de recepci%cn\n", 162);
 					printf("h - Salir\n");
 					printf("[ Ingresa una opci%cn ] ~ ", 162);
+
 					fflush(stdin);
 					isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
 								
 					if(isInvalid)
 					{
-						fflush(stdin);
 						setColor(4);
 						printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
             			setColor(7);
@@ -680,12 +681,13 @@ main()
 						printf("g - Compras pendientes de recepci%cn\n", 162);
 						printf("h - Salir\n");
 						printf("[ Ingresa una opci%cn ] ~ ", 162);
+
 						fflush(stdin);
+						
 						isInvalid = scanf("%c", &opcionMenuReporte) != 1 || !isInCharRange(&opcionMenuReporte, 'a', 'h');
 									
 						if(isInvalid)
 						{
-							fflush(stdin);
 							setColor(4);
 							printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
             				setColor(7);
@@ -714,11 +716,12 @@ main()
 			printf("[ Ingresa una opci%cn ] ~ ", 162);
 			setColor(7);
 
+			fflush(stdin);
+
 			isInvalid = scanf("%d", &opcionMenuPrincipal) != 1 || !isInIntRange(&opcionMenuPrincipal, 1, 10);
 		
 			if(isInvalid)
 			{
-				fflush(stdin);
 				setColor(4);
 				printf("\nERROR: Opci%cn inv%clida.\n\n", 162, 160);
                 setColor(7);
