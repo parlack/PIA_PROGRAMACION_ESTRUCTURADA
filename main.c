@@ -538,7 +538,7 @@ main()
 					printf("a - Listado de art%cculos\n", 161);
 					printf("b - Total de venta por fecha\n");
 					printf("c - Total de venta por art%cculo\n", 161);
-					printf("d - Listado de art%cculos a solicitar\n", 161);
+					printf("d - Listado de insumos a solicitar\n");
 					printf("e - Saldos por pagar\n");
 					printf("f - C%clculo de comisiones\n", 160);
 					printf("g - Compras pendientes de recepci%cn\n", 162);

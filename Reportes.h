@@ -161,11 +161,11 @@ void insumosPorSolicitar(FILE *archivoInsumos)
                     if(!letreroImpreso)
                     {
                         printf("\n##### INSUMOS A SOLICITAR #####\n\n");
-                        printf("| %15s | %15s | %15s |\n", "CLAVE INSUMO", "DESCRIPCION", "PROVEEDORES");
-                        printf("-------------------------------------------------------\n");
+                        printf("| %15s | %50s | %15s |\n", "CLAVE INSUMO", "DESCRIPCION", "PROVEEDORES");
+                        printf("------------------------------------------------------------------------------------------\n");
                         letreroImpreso = true;
                     }
-                    printf("| %15d | %15s |", DatosInsumo.clave, descripciones[i]);
+                    printf("| %15d | %50s |", DatosInsumo.clave, descripciones[i]);
 
                     printf(" %15d |\n", DatosInsumo.clavesProveedores[0]);
 
