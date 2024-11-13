@@ -468,9 +468,10 @@ void generarFactura(FILE *archivoVentas)
     char c, separador;
     int contador = 0;
     float precioUnitario, total = 0;
+    long pos;
 
-    long pos = ftell(archivoVentas);
     fseek(archivoVentas, 0, SEEK_END);
+    pos = ftell(archivoVentas);
 
 
     while(pos > 0 && contador < 2)
