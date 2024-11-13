@@ -94,6 +94,8 @@ void reporteArticulos(FILE *archivoArticulos)
         }
     }
 
+    printf("\nResultados de la busqueda: %d\n", articulosimpresos);
+
     free(DatosArticulo);
 }
 
@@ -110,7 +112,7 @@ void insumosPorSolicitar(FILE *archivoInsumos)
     if ((archivoCompras = fopen("Compras.txt", "r")) == NULL)
     {
         setColor(4);
-        printf("Error al calcular las comisiones de los empleados.\n");
+        printf("Error al abrir el archivo de compras.\n");
         setColor(7);
     }
     else

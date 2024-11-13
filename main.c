@@ -45,58 +45,55 @@ main()
 		existeArchivo = false;
 		switch(opcionMenuPrincipal)
 		{
-			case 1:	//Articulos
-				
-				//VALIDAR QUE EXISTAN INSUMOS Y MERCADOS
+			case 1:
 				hayInsumos = VerificarHayRegistros(2);
 				hayMercados = VerificarHayRegistros(3);
 				
 				if(hayInsumos && hayMercados)
 					existeArchivo = inicializarArchivo(1);
 				
-				
-
+		
 				if(existeArchivo)
 				{
-					if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
+					do
 					{
-						setColor(4);
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    	setColor(7);
-						
-					}
-					else
-					{
-						do
+						if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
+						{
+							setColor(4);
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+							setColor(7);
+							
+						}
+						else
 						{
 							lecturaArticulo(filePtr);
 							
-                            do
-							{
-								printf("Ingresar otro articulo? [s/n] ~ ");
-								fflush(stdin);
+							fclose(filePtr);
+						}
 
-								if(scanf("%c", &agregarMas) != 1)
-									isInvalid = true;
-								else
-								{
-									agregarMas = tolower(agregarMas);
-									isInvalid = agregarMas != 's' && agregarMas != 'n';
-								}
-								
-								if (isInvalid)
-								{
-									setColor(4);
-									printf("Respuesta invalida [s/n].\n");
-                    				setColor(7);
-								}
-								
-							} while (isInvalid);
-						
-						} while (agregarMas == 's');
-						
-						fclose(filePtr);
-					}
+						do
+						{
+							printf("Ingresar otro articulo? [s/n] ~ ");
+							fflush(stdin);
+
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+							{
+								setColor(4);
+								printf("Respuesta invalida [s/n].\n");
+								setColor(7);
+							}
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -115,7 +112,7 @@ main()
 
 				break;
 				
-			case 2: //INSUMOOOS
+			case 2:
 
 			    hayProveedores = VerificarHayRegistros(5);
 			    
@@ -125,45 +122,44 @@ main()
 			    
 				if(existeArchivo)
 				{
-					if ((filePtr = fopen("Insumos.dat", "rb+")) == NULL)
+					do
 					{
-                    	setColor(4);
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    	setColor(7);
-					}
-					else
-					{
-						do
+						if ((filePtr = fopen("Insumos.dat", "rb+")) == NULL)
+						{
+							setColor(4);
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+							setColor(7);
+						}
+						else
 						{
 							lecturaInsumo(filePtr);
+							fclose(filePtr);
+						}
 							
-                            do
-							{
-								printf("Ingresar m%cs insumos? [s/n] ~ ", 160);
-								fflush(stdin);
+						do
+						{
+							printf("Ingresar m%cs insumos? [s/n] ~ ", 160);
+							fflush(stdin);
 
-								if(scanf("%c", &agregarMas) != 1)
-									isInvalid = true;
-								else
-								{
-									agregarMas = tolower(agregarMas);
-									isInvalid = agregarMas != 's' && agregarMas != 'n';
-								}
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+							{
+								setColor(4);
+								printf("Respuesta invalida [s/n].\n");
+								setColor(7);
 								
-								if (isInvalid)
-								{
-									setColor(4);
-									printf("Respuesta invalida [s/n].\n");
-                    				setColor(7);
-									
-								}
-								
-							} while (isInvalid);
-						
-						} while (agregarMas == 's');
-						
-						fclose(filePtr);
-					}
+							}
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -182,52 +178,52 @@ main()
                     	setColor(7);
 					}
 				}
-				//VALIDAR QUE EXISTAN PROVEEDORES
 				
 				break;
-			case 3: // MERCADOS
+				
+			case 3:
 			
 				if(inicializarArchivo(3))
 				{
-					if ((filePtr = fopen("Mercados.dat", "rb+")) == NULL)
+					do
 					{
-						setColor(4);
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    	setColor(7);
+						if ((filePtr = fopen("Mercados.dat", "rb+")) == NULL)
+						{
+							setColor(4);
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+							setColor(7);
 
-					}
-					else
-					{
-						do
+						}
+						else
 						{
 							lecturaMercado(filePtr);
 							
-                            do
+							fclose(filePtr);
+						}
+
+						do
+						{
+							printf("Ingresar m%cs mercados? [s/n] ~ ", 160);
+							fflush(stdin);
+							
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
 							{
-								printf("Ingresar m%cs mercados? [s/n] ~ ", 160);
-								fflush(stdin);
-								
-								if(scanf("%c", &agregarMas) != 1)
-									isInvalid = true;
-								else
-								{
-									agregarMas = tolower(agregarMas);
-									isInvalid = agregarMas != 's' && agregarMas != 'n';
-								}
-								
-								if (isInvalid)
-								{
-                    				setColor(4);
-									printf("Respuesta invalida [s/n].\n");
-                    				setColor(7);
-								}
-								
-							} while (isInvalid);
-						
-						} while (agregarMas == 's');
-						
-						fclose(filePtr);
-					}
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+							{
+								setColor(4);
+								printf("Respuesta invalida [s/n].\n");
+								setColor(7);
+							}
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -237,49 +233,49 @@ main()
 				}
 				
 				break;
-			case 4: // EMPLEADOS
+			case 4:
 
 				if(inicializarArchivo(4))
 				{
-					if ((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
+					do
 					{
-                    	setColor(4);
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    	setColor(7);
-					}
-					else
-					{
-						do
+						if ((filePtr = fopen("Empleados.dat", "rb+")) == NULL)
+						{
+							setColor(4);
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+							setColor(7);
+						}
+						else
 						{
 							lecturaEmpleado(filePtr);
 							
-                            do
-							{
-								printf("Ingresar m%cs empleados? [s/n] ~ ", 160);
-								fflush(stdin);
-								
-								if(scanf("%c", &agregarMas) != 1)
-									isInvalid = true;
-								else
-								{
-									agregarMas = tolower(agregarMas);
-									isInvalid = agregarMas != 's' && agregarMas != 'n';
-								}
-								
-								if (isInvalid)
-								{
-									setColor(4);
-									printf("Respuesta invalida [s/n].\n");
-                    				setColor(7);
+							fclose(filePtr);
+						}
 
-								}
-								
-							} while (isInvalid);
-						
-						} while (agregarMas == 's');
-						
-						fclose(filePtr);
-					}
+						do
+						{
+							printf("Ingresar m%cs empleados? [s/n] ~ ", 160);
+							fflush(stdin);
+							
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+							{
+								setColor(4);
+								printf("Respuesta invalida [s/n].\n");
+								setColor(7);
+
+							}
+							
+						} while (isInvalid);
+					
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -289,50 +285,50 @@ main()
 				}
 
 				break;
-			case 5: // PROVEEDORES
+			case 5:
 
 				if(inicializarArchivo(5))
 				{
-					if ((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
+					do
 					{
-                    	setColor(4);
-						printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
-                    	setColor(7);
+						if ((filePtr = fopen("Proveedores.dat", "rb+")) == NULL)
+						{
+							setColor(4);
+							printf("Error al abrir el archivo. Por favor intentalo de nuevo o contacte a soporte.\n");
+							setColor(7);
 
-					}
-					else
-					{
-						do
+						}
+						else
 						{
 							lecturaProveedor(filePtr);
 							
-                            do
-							{
-								printf("Ingresar m%cs proveedores? [s/n] ~ ", 160);
-								fflush(stdin);
-								
-								if(scanf("%c", &agregarMas) != 1)
-									isInvalid = true;
-								else
-								{
-									agregarMas = tolower(agregarMas);
-									isInvalid = agregarMas != 's' && agregarMas != 'n';
-								}
-								
-								if (isInvalid)
-								{
-									setColor(4);
-									printf("Respuesta invalida [s/n].\n");
-                    				setColor(7);
+							fclose(filePtr);
+						}
 
-								}
-								
-							} while (isInvalid);
+						do
+						{
+							printf("Ingresar m%cs proveedores? [s/n] ~ ", 160);
+							fflush(stdin);
+							
+							if(scanf("%c", &agregarMas) != 1)
+								isInvalid = true;
+							else
+							{
+								agregarMas = tolower(agregarMas);
+								isInvalid = agregarMas != 's' && agregarMas != 'n';
+							}
+							
+							if (isInvalid)
+							{
+								setColor(4);
+								printf("Respuesta invalida [s/n].\n");
+								setColor(7);
+
+							}
+							
+						} while (isInvalid);
 						
-						} while (agregarMas == 's');
-						
-						fclose(filePtr);
-					}
+					} while (agregarMas == 's');
 				}
 				else
 				{
@@ -343,9 +339,9 @@ main()
 				}
 
 				break;
-			case 6:	// Ventas 				//TERMINAR FACTURA
-				
-				//VALIDAR QUE EXISTAN MERCADOS, ARTICULOS Y EMPLEADOS
+
+			case 6:
+
 				hayArticulos = VerificarHayRegistros(1);
 				hayMercados = VerificarHayRegistros(3);
 				hayEmpleados = VerificarHayRegistros(4);
@@ -430,9 +426,9 @@ main()
 				}
 
 				break;
-			case 7:	//Compras
-				
-				//VALIDAR QUE EXISTAN PROVEEDORES E INSUMOS
+
+			case 7:
+
 				hayInsumos = VerificarHayRegistros(2);
 				hayProveedores = VerificarHayRegistros(5);
 
@@ -490,13 +486,15 @@ main()
 				}
 				
 				break;
-			case 8:	//Control de Inventario
+
+			case 8:
+
 				do
 				{
 					if ((filePtr = fopen("Compras.txt", "r+")) == NULL)
 					{
 						setColor(4);
-						printf("Error al abrir el archivo de Compras. Por favor intentalo de nuevo o contacte a soporte.\n");
+						printf("ERROR. El archivo de compras no existe o no fue posible abrirlo.\n");
 						setColor(7);
 					}
 					else
@@ -529,10 +527,9 @@ main()
 					} while (isInvalid);
 				} while (agregarMas == 's');
 
-				
-				
 				break;
-			case 9: //Reportes
+
+			case 9:
 
 				do
 				{
@@ -564,7 +561,7 @@ main()
 					switch(opcionMenuReporte)
 					{
 						case 'a':
-							if ((filePtr = fopen("Articulos.dat", "rb+")) == NULL)
+							if ((filePtr = fopen("Articulos.dat", "rb")) == NULL)
 							{
 								setColor(4);
 								printf("Error al abrir el archivo. No existen registros de Articulos.\n");
