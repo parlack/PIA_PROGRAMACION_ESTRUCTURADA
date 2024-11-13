@@ -1,1 +1,1 @@
-1-1#Insumo prueba 1-1-2#Insumo prueba 1-1-1*216.000000$1-1#Insumo prueba 2-2-3*216.000000$2-1#Insumo prueba 1-1-50*4500.000000$1-0#Insumo prueba 1-1-10*720.000000$1-0#Insumo prueba 1-1-10#Insumo prueba 2-2-1*792.000000$
+1-0#semilla de Zanahoria-3-120#Semilla de Manzana-1-15*1134.000000$2-0#Semilla de Manzana-1-65*897.000000$1-0#Semilla de Manzana-1-255*2754.000000$
