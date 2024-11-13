@@ -540,7 +540,7 @@ main()
 					printf("c - Total de venta por art%cculo\n", 161);
 					printf("d - Listado de art%cculos a solicitar\n", 161);
 					printf("e - Saldos por pagar\n");
-					printf("f - C%clculo de comisiones\n", 131);
+					printf("f - C%clculo de comisiones\n", 160);
 					printf("g - Compras pendientes de recepci%cn\n", 162);
 					printf("h - Salir\n");
 					printf("[ Ingresa una opci%cn ] ~ ", 162);
@@ -677,7 +677,7 @@ main()
 						printf("c - Total de venta por art%cculo\n", 161);
 						printf("d - Listado de art%cculos a solicitar\n", 161);
 						printf("e - Saldos por pagar\n");
-						printf("f - C%clculo de comisiones\n", 131);
+						printf("f - C%clculo de comisiones\n", 160);
 						printf("g - Compras pendientes de recepci%cn\n", 162);
 						printf("h - Salir\n");
 						printf("[ Ingresa una opci%cn ] ~ ", 162);
