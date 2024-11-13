@@ -1,3 +1,12 @@
+
+/*				CODIGO REALIZADO POR:
+
+ 		ANDRES MONSIVAIS SALAZAR------------2066077
+ 		SERGIO GUILLERMO NAVARRO AYALA------2069392
+ 		DIEGO ELI ALANIS ALEMAN-------------2115188
+
+*/
+
 #include <stdio.h>
 #include <ctype.h>
 #include "Reportes.h"
