@@ -164,7 +164,6 @@ bool validarFecha(int *day, int *month, int *year)
     return *day >= 1 && *day <= daysInMonth;
 }
 
-// Función para eliminar prefijos comunes en apellidos compuestos
 void limpiarApellido(char apellido[], char apellidoLimpio[]) 
 {
     char *prefijos[] = {"DE", "LA", "LAS", "LOS", "Y", "DEL"};
@@ -173,15 +172,12 @@ void limpiarApellido(char apellido[], char apellidoLimpio[])
     char temp[30];
     strcpy(temp, apellido);
 
-    // Convertir a mayúsculas para una comparación uniforme
     for (i = 0; i < stringLength(temp); i++)
         temp[i] = toupper(temp[i]);
     
 
-    // Inicialmente copiar el apellido a apellidoLimpio
     strcpy(apellidoLimpio, apellido);
 
-    // Iterar sobre los prefijos mientras se encuentren en el inicio
     
     do
 	{
@@ -191,26 +187,22 @@ void limpiarApellido(char apellido[], char apellidoLimpio[])
             prefijoLen = stringLength(prefijos[i]);
             if (strncmp(temp, prefijos[i], prefijoLen) == 0) 
 			{
-                // Desplazar el apellido a la izquierda
                 strcpy(apellidoLimpio, apellidoLimpio + prefijoLen);
                 
-                // Eliminar espacio en blanco inicial si queda alguno
                 if (apellidoLimpio[0] == ' ') 
                     memmove(apellidoLimpio, apellidoLimpio + 1, stringLength(apellidoLimpio));
                 
                 
-                // Volver a copiar apellidoLimpio en temp para comparar en mayúsculas
                 strcpy(temp, apellidoLimpio);
                 for (j = 0; j < stringLength(temp); j++) 
                     temp[j] = toupper(temp[j]);
                 
-                cambio = true;  // Indicar que hubo un cambio y repetir
+                cambio = true; 
             }
         }
     } while (cambio);
 }
 
-// Función para seleccionar el nombre correcto ignorando "José" o "María" si es necesario
 void seleccionarNombre(char nombre[], char nombreSeleccionado[]) 
 {
     char *excepciones[] = {"MARIA", "JOSE", "MA.", "JUANA", "JUAN", "DE", "LA", "LAS", "LOS", "Y", "DEL"};
@@ -220,12 +212,10 @@ void seleccionarNombre(char nombre[], char nombreSeleccionado[])
     bool es_excepcion;
     strcpy(temp, nombre);
 
-    // Convertir a mayúsculas para una comparación uniforme
     for (i = 0; i < stringLength(temp); i++) 
         temp[i] = toupper(temp[i]);
 
-    // Dividir nombres si es un nombre compuesto
-    char *token = strtok(temp, " "); //Para dividir los nombre
+    char *token = strtok(temp, " ");
     nombre_seleccionado = false;
 
     while (token != NULL && !nombre_seleccionado) 
@@ -245,7 +235,6 @@ void seleccionarNombre(char nombre[], char nombreSeleccionado[])
         token = strtok(NULL, " ");
     }
 
-    // Si todos los nombres son excepciones, tomar el primer nombre completo
     if (!nombre_seleccionado)
         strcpy(nombreSeleccionado, strtok(nombre, " "));
 }
@@ -267,20 +256,15 @@ bool validarRFC(struct infoDatosPersonales *datos)
     }
     
     
-
-    // Limpiar los apellidos para eliminar prefijos innecesarios
     limpiarApellido(datos->apellidoPaterno, apellidoPLimpio);
     limpiarApellido(datos->apellidoMaterno, apellidoMLimpio);
 
-    // Seleccionar el nombre correcto
     seleccionarNombre(datos->nombres, nombreSeleccionado);
 
-    // 1. Tomar la primera letra y vocal interna del apellido paterno
     rfc[0] = toupper(apellidoPLimpio[0]);
     len = stringLength(apellidoPLimpio);
     vocal_encontrada = false;
     
-    // Asegurarse de que el apellido paterno tiene más de una letra
     if (len > 1) 
 	{
         i = 1;
@@ -296,25 +280,18 @@ bool validarRFC(struct infoDatosPersonales *datos)
         }
     }
     
-    // Si no se encuentra vocal interna o el apellido es muy corto, usar 'X'
     if (!vocal_encontrada)
         rfc[1] = 'X';
 
-    // 2. Tomar la primera letra del apellido materno
     rfc[2] = toupper(apellidoMLimpio[0]);
 
-    // 3. Tomar la primera letra del nombre seleccionado
     rfc[3] = toupper(nombreSeleccionado[0]);
 
-    // 4. Tomar el año, mes y día de nacimiento y añadirlos al RFC
     sprintf(rfc + 4, "%02d%02d%02d", datos->yearBirth % 100, datos->monthBirth, datos->dayBirth);
 
-    // Asegurarse de que el RFC generado tenga una longitud de 10 para comparar
     rfc[10] = '\0';
 
-    // Comparar los primeros 10 caracteres del RFC generado con el RFC original proporcionado
     es_valido = (strncmp(rfc, datos->RFC, 10) == 0);
-    printf("\n%s %s\n", datos->RFC, rfc);
         
     return es_valido;
 }

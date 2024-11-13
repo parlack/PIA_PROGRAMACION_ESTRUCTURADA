@@ -8,14 +8,6 @@ void setColor(int color)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
-
-
-    /*
-    1 BLUE 
-    2 GREEN  
-    4 RED  
-    7 WHITE  
-    */
 }
 
 struct infoDatosPersonales
