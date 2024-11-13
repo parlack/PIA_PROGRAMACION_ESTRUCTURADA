@@ -110,9 +110,6 @@ void insumosPorSolicitar(FILE *archivoInsumos)
 
     char *descripciones[100];
 
-    for (i = 0; i < 100; i++)
-        descripciones[i] = (char *) malloc(51 * sizeof(char));
-
     if ((archivoCompras = fopen("Compras.txt", "r")) == NULL)
     {
         setColor(4);
@@ -128,7 +125,10 @@ void insumosPorSolicitar(FILE *archivoInsumos)
 
             
             if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
-                strcpy(descripciones[i], DatosInsumo.descripcion)
+            {
+                descripciones[i] = (char *) malloc(stringLength(DatosInsumo.descripcion) * sizeof(char));
+                strcpy(descripciones[i], DatosInsumo.descripcion);
+            }
 
             if (DatosInsumo.clave != 0 && DatosInsumo.inventario <= DatosInsumo.puntoReorden)
             {
