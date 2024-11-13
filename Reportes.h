@@ -413,7 +413,7 @@ void SaldosPendientes(FILE *ArchivoProv)
 {
     struct infoProveedor infoProv;
     struct infoProveedor proveedoresConSaldos[100];
-    int CantidadSaldos = 0;
+    int CantidadSaldos = 0, i;
     char nombreCompleto[80];
 
     
@@ -432,7 +432,7 @@ void SaldosPendientes(FILE *ArchivoProv)
         printf("%-10s %-60s %-40s %s\n", "CLAVE", "NOMBRE CLIENTE", "SALDO PENDIENTE", "DIRECCION");
         printf("-------------------------------------------------------------------------------------------------------------\n");
 
-        for (int i = 0; i < CantidadSaldos; i++)
+        for (i = 0; i < CantidadSaldos; i++)
         {
             snprintf(nombreCompleto, sizeof(nombreCompleto), "%s %s %s",
                      proveedoresConSaldos[i].datosPersonales.nombres,
